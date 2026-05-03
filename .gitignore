@@ -12,12 +12,14 @@ output/*.png
 output/*.txt
 
 # 临时配置
-templates/*/config_*.json
-templates/*/temp_*
+*config_*.json
+*config_*.json.bak
+temp_*
 
 # 缓存
 .cache/
 *.cache
+*.db
 
 # 系统
 .DS_Store
@@ -35,8 +37,31 @@ node_modules/
 /gunicorn*.log
 
 # 构建产物
-templates/*/output_final.mp4
-templates/*/raw_output.mp4
-templates/*/output.mp4
-templates/*/index.html
-templates/*/wm_*.png
+*/output_final.mp4
+*/raw_output.mp4
+*/output.mp4
+*/index.html
+*/wm_*.png
+*/voiceover.wav
+*/tts_input.txt
+*/bgm/*.mp3
+*/bgm/*.wav
+*/hyperframes.json
+*/meta.json
+*config_*.json.bak
+*.bak
+
+# 资产
+assets/bg_loops/*.mp4
+assets/bgm/*.mp3
+assets/bgm/*.wav
+
+# 报告
+*_assessment_report.md
+*_analysis_report.md
+
+# 上传
+uploads/
+
+# 音频缓存
+*.wav
