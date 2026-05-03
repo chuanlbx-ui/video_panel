@@ -1,0 +1,17 @@
+{
+  "name": "餐饮推广测试",
+  "description": "测试描述",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "测试场景",
+      "text": "测试文字"
+    }
+  ],
+  "settings": {
+    "fps": 30
+  },
+  "template_id": "tpl_管理员测试模板_58e8",
+  "template_name": "管理员测试模板",
+  "source": "custom"
+}

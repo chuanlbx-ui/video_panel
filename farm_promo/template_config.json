@@ -1,0 +1,280 @@
+{
+  "template_id": "farm_promo_v1",
+  "template_name": "农产品带货·原产地版",
+  "version": "1.0",
+  "description": "20秒竖版农产品带货视频。5场景：原产地亮相→产品展示→种植故事→品质保障→购买方式。深绿渐变+麦穗金，适合文山三七/茶叶/水果/土特产。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian"
+        }
+      ],
+      "speed": 1.0,
+      "text": "来自原产地的天然好物。不打农药，自然成熟，每一口都是大自然的味道。三代匠心种植，从田间到餐桌全程可追溯。品质有保障，回头客都说好。产地直发，新鲜到家。赶快订购吧。"
+    }
+  },
+  "colors": {
+    "scheme": "nature_green",
+    "bg_start": "#0a2e1a",
+    "bg_end": "#051a0e",
+    "primary": "#7ec850",
+    "secondary": "#d4f0c0",
+    "gold": "#e6c84a",
+    "accent": "#5a9e3a"
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "low",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低"
+      },
+      {
+        "id": "medium",
+        "name": "中"
+      },
+      {
+        "id": "high",
+        "name": "高"
+      }
+    ]
+  },
+  "animation": {
+    "style": "scale",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎原产地直供",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 28,
+          "color": "#7ec850"
+        },
+        "line2": {
+          "text": "产品名",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 42,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "来自大自然的馈赠",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 18,
+          "color": "rgba(255,255,255,0.5)"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎天然生长",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 30,
+          "color": "#7ec850"
+        },
+        "line2": {
+          "text": "不打农药·自然成熟",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 24,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "每一口都是自然的味道",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎匠心种植",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 30,
+          "color": "#7ec850"
+        },
+        "line2": {
+          "text": "三代传承·用心耕耘",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 24,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "从田间到餐桌，全程可追溯",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎品质保障",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 30,
+          "color": "#7ec850"
+        },
+        "line2": {
+          "text": "检测合格·放心食用",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 24,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "⭐ 回头客都说好",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s5",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "📞 立即订购",
+          "x": 0.1,
+          "y": 0.3,
+          "size": 32,
+          "color": "#e6c84a"
+        },
+        "line2": {
+          "text": "价格",
+          "x": 0.1,
+          "y": 0.45,
+          "size": 28,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "产地直发·新鲜到家",
+          "x": 0.1,
+          "y": 0.6,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/product_seed/template_config.json"
+}

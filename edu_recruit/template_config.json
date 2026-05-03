@@ -1,0 +1,303 @@
+{
+  "template_id": "edu_recruit_v1",
+  "template_name": "教育培训招生竖版宣传片",
+  "version": "2.0",
+  "description": "32秒竖版教育培训招生推广片，1080×1920，天蓝+白色。5场景结构：教育理念→课程亮点→师资力量→成果展示→报名CTA。专业教育风格。",
+  "settings": {
+    "video_duration": 32,
+    "output_width": 1080,
+    "output_height": 1920,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "particle"
+  },
+  "background": {
+    "type": "particle",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.6
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵舒缓"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技律动"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-XiaoxiaoNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（专业新闻）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（浑厚激情）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "男声·YunXi（阳光活力）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖标准）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "女声·XiaoYi（生动卡通）"
+        },
+        {
+          "id": "zh-CN-YunyeNeural",
+          "name": "男声·YunYe（沉稳自然）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "每一个孩子，都值得最好的教育。我们相信，兴趣是最好的老师。专业师资团队，沉浸式教学环境，让孩子在快乐中成长，在探索中进步。精品小班课程：编程思维训练、创意美术启蒙、英语戏剧表演、科学实验探索。名师一对一辅导，因材施教，激发每一个孩子的潜能。学员成果斐然：全国竞赛获奖86人次，家长满意度98%。现在报名，享限时优惠。首月体验仅需699元，赠送全套学习礼包。立即报名，给孩子一个更好的未来。"
+    }
+  },
+  "colors": {
+    "scheme": "sky_blue_white",
+    "options": [
+      {
+        "id": "sky_blue_white",
+        "name": "天蓝白",
+        "bg_top": "#0b1a3a",
+        "bg_bottom": "#132a50",
+        "white_text": "#ffffff",
+        "gold_text": "#4fc3f7",
+        "cyan_text": "#81d4fa",
+        "subtitle_color": "rgba(79,195,247,0.4)"
+      },
+      {
+        "id": "edu_green",
+        "name": "教育绿",
+        "bg_top": "#0a2e1a",
+        "bg_bottom": "#144a28",
+        "white_text": "#e8f5e9",
+        "gold_text": "#66bb6a",
+        "cyan_text": "#a5d6a7",
+        "subtitle_color": "rgba(102,187,106,0.4)"
+      },
+      {
+        "id": "warm_orange",
+        "name": "温暖橙",
+        "bg_top": "#2e1a0a",
+        "bg_bottom": "#4a2814",
+        "white_text": "#fff3e0",
+        "gold_text": "#ffb74d",
+        "cyan_text": "#ffcc80",
+        "subtitle_color": "rgba(255,183,77,0.4)"
+      },
+      {
+        "id": "purple_edu",
+        "name": "智慧紫",
+        "bg_top": "#1a0a2e",
+        "bg_bottom": "#2a144a",
+        "white_text": "#f3e5f5",
+        "gold_text": "#ce93d8",
+        "cyan_text": "#e1bee7",
+        "subtitle_color": "rgba(206,147,216,0.4)"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（上滑淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（弹入）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 6,
+      "name": "教育理念·最好的教育",
+      "elements": {
+        "line1": {
+          "text": "每一个孩子",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "都值得最好的教育",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "兴趣是最好的老师 · 快乐成长",
+          "style": "subtitle"
+        }
+      },
+      "narration": "每一个孩子，都值得最好的教育。我们相信，兴趣是最好的老师。"
+    },
+    {
+      "id": "s2",
+      "start": 6,
+      "duration": 7,
+      "name": "课程亮点·四大模块",
+      "elements": {
+        "tag1": {
+          "text": "✦ 编程思维训练",
+          "style": "bullet"
+        },
+        "tag2": {
+          "text": "✦ 创意美术启蒙",
+          "style": "bullet"
+        },
+        "tag3": {
+          "text": "✦ 英语戏剧表演",
+          "style": "bullet"
+        },
+        "tag4": {
+          "text": "✦ 科学实验探索",
+          "style": "bullet"
+        }
+      },
+      "narration": "专业师资团队，沉浸式教学环境，让孩子在快乐中成长，在探索中进步。精品小班课程：编程思维训练、创意美术启蒙、英语戏剧表演、科学实验探索。"
+    },
+    {
+      "id": "s3",
+      "start": 13,
+      "duration": 6,
+      "name": "师资力量·名师辅导",
+      "elements": {
+        "line1": {
+          "text": "名师一对一",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "因材施教",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "激发每一个孩子的潜能",
+          "style": "subtitle"
+        }
+      },
+      "narration": "名师一对一辅导，因材施教，激发每一个孩子的潜能。"
+    },
+    {
+      "id": "s4",
+      "start": 19,
+      "duration": 6,
+      "name": "成果展示·斐然成绩",
+      "elements": {
+        "point1": {
+          "text": "🏆 全国竞赛获奖86人次",
+          "style": "info"
+        },
+        "point2": {
+          "text": "⭐ 家长满意度98%",
+          "style": "info"
+        }
+      },
+      "narration": "学员成果斐然：全国竞赛获奖86人次，家长满意度98%。"
+    },
+    {
+      "id": "s5",
+      "start": 25,
+      "duration": 7,
+      "name": "报名CTA·限时优惠",
+      "elements": {
+        "price": {
+          "text": "首月体验 ¥699",
+          "style": "price"
+        },
+        "info": {
+          "text": "限时优惠 · 赠送全套学习礼包",
+          "style": "info"
+        },
+        "phone": {
+          "text": "📞 报名热线：400-888-9999",
+          "style": "phone"
+        }
+      },
+      "narration": "现在报名，享限时优惠。首月体验仅需699元，赠送全套学习礼包。立即报名，给孩子一个更好的未来。"
+    }
+  ]
+}

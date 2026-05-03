@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频配置面板 V3</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Noto Sans SC", sans-serif; background: #0a1628; color: #fff; min-height: 100vh; }
+.container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+.header { text-align: center; padding: 30px 0; }
+.header h1 { font-size: 28px; background: linear-gradient(135deg, #00d4ff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header p { color: rgba(255,255,255,0.5); margin-top: 8px; font-size: 14px; }
+.steps { display: flex; gap: 10px; margin: 20px 0; }
+.step { flex: 1; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); text-align: center; font-size: 13px; border: 1px solid rgba(255,255,255,0.08); }
+.step.active { background: rgba(0,212,255,0.15); border-color: #00d4ff; }
+.step.done { background: rgba(0,255,136,0.1); border-color: #00ff88; }
+.step-num { display: inline-flex; width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); align-items: center; justify-content: center; font-size: 12px; margin-right: 6px; }
+.step.active .step-num { background: #00d4ff; }
+.step.done .step-num { background: #00ff88; }
+.section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.section h3 { font-size: 16px; margin-bottom: 16px; color: #00d4ff; }
+.section h4 { font-size: 14px; margin-bottom: 10px; color: rgba(255,255,255,0.7); }
+.option-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.option-btn { padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: #ccc; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+.option-btn:hover { border-color: #00d4ff; color: #fff; }
+.option-btn.selected { background: rgba(0,212,255,0.2); border-color: #00d4ff; color: #00d4ff; }
+.option-btn.bg-opt { }
+.switch-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.switch { position: relative; width: 44px; height: 24px; display: inline-block; }
+.switch input { display: none; }
+.slider { position: absolute; inset: 0; background: rgba(255,255,255,0.15); border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s; }
+.switch input:checked + .slider { background: #00d4ff; }
+.switch input:checked + .slider:before { transform: translateX(20px); }
+.switch-label { font-size: 14px; color: rgba(255,255,255,0.7); }
+.scene-edit { margin-bottom: 10px; }
+.scene-edit label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.scene-edit textarea, .scene-edit input[type="text"], .param-select { width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #fff; font-size: 13px; resize: vertical; }
+.param-select { height: 38px; }
+hr.divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 16px 0; }
+#templateGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.template-card { padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); cursor: pointer; transition: all 0.2s; }
+.template-card:hover { border-color: rgba(0,212,255,0.3); }
+.template-card.selected { border-color: #00d4ff; background: rgba(0,212,255,0.1); }
+.template-card .name { font-size: 14px; font-weight: 600; }
+.template-card .desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.action-bar { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.btn { padding: 12px 28px; border-radius: 8px; border: none; font-size: 15px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+.btn-primary { background: linear-gradient(135deg, #00d4ff, #0088cc); color: #fff; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,212,255,0.3); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-secondary { background: rgba(255,255,255,0.1); color: #ccc; }
+.btn-secondary:hover { background: rgba(255,255,255,0.15); }
+.btn-success { background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; }
+#statusArea { margin-top: 16px; padding: 12px; border-radius: 8px; font-size: 13px; }
+.status-waiting { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5); }
+.status-rendering { background: rgba(0,212,255,0.1); color: #00d4ff; }
+.status-completed { background: rgba(0,255,136,0.1); color: #00ff88; }
+.status-failed { background: rgba(255,50,50,0.1); color: #ff5050; }
+#progressBar { height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+#progressFill { height: 100%; background: linear-gradient(90deg, #00d4ff, #ffd700); width: 0%; transition: width 0.5s; transition-timing-function: ease-out; }
+#batchArea { margin-top: 12px; }
+.batch-item { padding: 8px; margin-bottom: 6px; background: rgba(255,255,255,0.03); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.hidden { display: none; }
+/* 场景文本编辑 */
+.scene-text-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.scene-text-grid .scene-input { width: 100%; padding: 6px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: #fff; font-size: 12px; }
+@media (max-width: 768px) {
+  .steps { flex-direction: column; }
+  .scene-text-grid { grid-template-columns: 1fr; }
+  #templateGrid { grid-template-columns: 1fr; }
+}
+/* 批量参数 */
+.batch-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.batch-row textarea { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #fff; font-size: 12px; }
+.batch-row .btn-small { padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,50,50,0.3); background: transparent; color: #ff5050; font-size: 11px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🎬 视频配置面板 V3</h1>
+    <p>多模板 · 动态背景 · 字幕 · 批量生成 · 自助配置</p>
+  </div>
+
+  <div class="steps">
+    <div class="step active" id="s1"><span class="step-num">1</span>选模板</div>
+    <div class="step" id="s2"><span class="step-num">2</span>配参数</div>
+    <div class="step" id="s3"><span class="step-num">3</span>生成</div>
+    <div class="step" id="s4"><span class="step-num">4</span>交付</div>
+  </div>
+
+  <!-- Step 1: 选模板 -->
+  <div class="section" id="step1Section">
+    <h3>📋 选择模板</h3>
+    <div id="templateGrid"></div>
+  </div>
+
+  <!-- Step 2: 配参数 -->
+  <div id="configSection" class="hidden">
+    <!-- 配色 -->
+    <div class="section">
+      <h3>🎨 参数配置</h3>
+      <h4>配色方案</h4>
+      <div class="option-grid" id="colorGrid"></div>
+      <hr class="divider">
+
+      <h4>动画风格</h4>
+      <div class="option-grid" id="animGrid"></div>
+      <hr class="divider">
+
+      <h4>背景类型</h4>
+      <div class="option-grid" id="bgTypeGrid"></div>
+      <hr class="divider">
+    </div>
+
+    <!-- 配音 -->
+    <div class="section">
+      <h3>🎙️ 配音</h3>
+      <div class="switch-row">
+        <label class="switch"><input type="checkbox" id="voSwitch" checked><span class="slider"></span></label>
+        <span class="switch-label">开启AI配音</span>
+      </div>
+      <div class="scene-edit">
+        <label>配音人声</label>
+        <select id="voVoice" class="param-select"></select>
+      </div>
+      <div class="scene-edit">
+        <label>配音词</label>
+        <textarea id="voText" rows="3"></textarea>
+      </div>
+      <hr class="divider">
+    </div>
+
+    <!-- 字幕 -->
+    <div class="section">
+      <h3>📝 字幕</h3>
+      <div class="switch-row">
+        <label class="switch"><input type="checkbox" id="subSwitch" checked><span class="slider"></span></label>
+        <span class="switch-label">开启字幕（底部同步显示）</span>
+      </div>
+    </div>
+
+    <!-- BGM -->
+    <div class="section">
+      <h3>🎵 背景音乐</h3>
+      <div class="switch-row">
+        <label class="switch"><input type="checkbox" id="bgmSwitch" checked><span class="slider"></span></label>
+        <span class="switch-label">开启背景音乐</span>
+      </div>
+      <div class="option-grid" id="bgmGrid"></div>
+      <hr class="divider">
+    </div>
+
+    <!-- 素材混剪 -->
+    <div class="section">
+      <h3>📁 素材混剪</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:10px;">上传你自己的视频或图片，混入生成的视频中作为背景或过渡素材。</p>
+      <div style="border:2px dashed rgba(255,255,255,0.15);border-radius:8px;padding:30px;text-align:center;margin-bottom:10px;" id="uploadZone">
+        <div style="font-size:36px;margin-bottom:8px;">📤</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:10px;">点击选择或拖拽文件到这里</p>
+        <input type="file" id="fileInput" accept=".mp4,.mov,.webm,.jpg,.jpeg,.png,.gif" multiple style="display:none;">
+        <button class="btn btn-secondary" style="padding:8px 20px;font-size:13px;" onclick="document.getElementById('fileInput').click()">选择文件</button>
+      </div>
+      <div id="uploadedList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;"></div>
+      <hr class="divider">
+      <div class="scene-edit">
+        <label>素材使用方式</label>
+        <select id="mixMode" class="param-select">
+          <option value="bg_only">仅作为视频背景（循环播放）</option>
+          <option value="interleave">交替插入（场景间过渡）</option>
+          <option value="final">片尾彩蛋</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 质量 -->
+    <div class="section">
+      <h3>⚙️ 输出质量</h3>
+      <div class="option-grid" id="qualityGrid"></div>
+    </div>
+
+    <!-- 场景文案编辑 -->
+    <div class="section" id="sceneTextSection">
+      <h3>📄 场景文案编辑</h3>
+      <div class="scene-text-grid" id="sceneTextGrid"></div>
+    </div>
+  </div>
+
+  <!-- Step 3: 生成 -->
+  <div class="action-bar">
+    <button class="btn btn-secondary" id="previewBtn" disabled>👁 预览（低清快出）</button>
+    <button class="btn btn-primary" id="renderBtn" disabled>🎬 生成视频</button>
+    <button class="btn btn-success" id="batchBtn" disabled>📦 批量生成</button>
+    <button class="btn btn-secondary" id="sendEmailBtn" style="display:none;">📧 发送到QQ邮箱</button>
+  </div>
+
+  <!-- 批量区域 -->
+  <div id="batchArea" class="hidden section">
+    <h3>📦 批量生成</h3>
+    <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:10px;">每条占一行，用文案关键词或完整文案。系统会轮流生成。</p>
+    <div id="batchInputs">
+      <div class="batch-row">
+        <textarea rows="2" placeholder="第一条文案关键词..."></textarea>
+        <button class="btn-small" onclick="removeBatchRow(this)">✕</button>
+      </div>
+    </div>
+    <button class="btn btn-secondary" style="padding:6px 16px;font-size:13px;" onclick="addBatchRow()">+ 添加一条</button>
+  </div>
+
+  <!-- 状态 -->
+  <div id="statusArea" class="status-waiting">选择模板开始配置</div>
+  <div id="progressBar"><div id="progressFill"></div></div>
+</div>
+
+<script>
+const API_BASE = '/video-panel';
+let templates = [];
+let selectedTemplate = null;
+let currentJobId = null;
+let pollTimer = null;
+
+// ===== 初始化 =====
+async function init() {
+  try {
+    const resp = await fetch(API_BASE + '/api/templates');
+    const data = await resp.json();
+    templates = data.templates || [];
+    renderTemplateGrid();
+  } catch(e) {
+    setStatus('failed', '加载模板失败: ' + e.message);
+  }
+}
+
+function renderTemplateGrid() {
+  const grid = document.getElementById('templateGrid');
+  grid.innerHTML = templates.map(t => `
+    <div class="template-card" onclick="selectTemplate('${t.id}')" data-id="${t.id}">
+      <div class="name">${t.name}</div>
+      <div class="desc">${t.description || ''}</div>
+    </div>
+  `).join('');
+}
+
+// ===== 选择模板 =====
+let selected_color = 'tech_blue';
+let selected_anim = 'standard';
+let selected_bg_type = 'gradient';
+let selected_bgm = 'tech_pulse';
+let selected_quality = 'standard';
+
+function selectTemplate(tid) {
+  selectedTemplate = templates.find(t => t.id === tid);
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.template-card[data-id="${tid}"]`).classList.add('selected');
+  document.getElementById('configSection').classList.remove('hidden');
+  document.getElementById('batchArea').classList.add('hidden');
+  document.getElementById('s1').classList.add('done');
+  document.getElementById('s2').classList.add('active');
+  document.getElementById('previewBtn').disabled = false;
+  document.getElementById('renderBtn').disabled = false;
+  document.getElementById('batchBtn').disabled = false;
+  setStatus('waiting', `已选择: ${selectedTemplate.name}，请配置参数`);
+  buildConfigUI();
+}
+
+function buildConfigUI() {
+  if (!selectedTemplate) return;
+  const cfg = selectedTemplate.config;
+
+  // 配色
+  const colorOpts = cfg.colors && cfg.colors.options || [];
+  selected_color = cfg.colors ? (cfg.colors.scheme || 'tech_blue') : 'tech_blue';
+  const cg = document.getElementById('colorGrid');
+  cg.innerHTML = colorOpts.map(o => `<button class="option-btn ${o.id === selected_color ? 'selected' : ''}" onclick="selectColor('${o.id}')">${o.name}</button>`).join('');
+
+  // 动画
+  const animOpts = cfg.animation && cfg.animation.options || [];
+  selected_anim = cfg.animation ? (cfg.animation.style || 'standard') : 'standard';
+  const ag = document.getElementById('animGrid');
+  ag.innerHTML = animOpts.map(o => `<button class="option-btn ${o.id === selected_anim ? 'selected' : ''}" onclick="selectAnim('${o.id}')">${o.name}</button>`).join('');
+
+  // 背景类型
+  const bgOpts = cfg.background && cfg.background.options || [{id:'gradient',name:'渐变背景'},{id:'particle',name:'粒子动效'}];
+  selected_bg_type = cfg.background ? (cfg.background.type || 'gradient') : 'gradient';
+  const bg = document.getElementById('bgTypeGrid');
+  bg.innerHTML = bgOpts.map(o => `<button class="option-btn bg-opt ${o.id === selected_bg_type ? 'selected' : ''}" onclick="selectBgType('${o.id}')">${o.name}</button>`).join('');
+
+  // 配音人声
+  const voOpts = cfg.audio && cfg.audio.voiceover && cfg.audio.voiceover.options || [];
+  const defaultVoice = cfg.audio && cfg.audio.voiceover && (cfg.audio.voiceover.voice || cfg.audio.voiceover.default_voice || 'zh-CN-YunyangNeural');
+  const voSel = document.getElementById('voVoice');
+  voSel.innerHTML = voOpts.map(o => `<option value="${o.id}" ${o.id === defaultVoice ? 'selected' : ''}>${o.name}</option>`).join('');
+
+  // 配音文案
+  const vt = document.getElementById('voText');
+  if (cfg.audio && cfg.audio.voiceover && cfg.audio.voiceover.text) {
+    vt.value = cfg.audio.voiceover.text;
+  }
+
+  // BGM
+  const bgmOpts = cfg.audio && cfg.audio.bgm && cfg.audio.bgm.options || [];
+  selected_bgm = 'tech_pulse';
+  const bgg = document.getElementById('bgmGrid');
+  bgg.innerHTML = bgmOpts.map(o => `<button class="option-btn ${o.id === (selected_bgm || 'none') ? 'selected' : ''}" onclick="selectBGM('${o.id}')">${o.name}</button>`).join('');
+
+  // 质量
+  const qg = document.getElementById('qualityGrid');
+  selected_quality = cfg.settings ? (cfg.settings.quality || 'standard') : 'standard';
+  qg.innerHTML = [
+    {id:'draft', name:'草稿（快出）'},
+    {id:'standard', name:'标准'},
+    {id:'high', name:'高清'}
+  ].map(o => `<button class="option-btn ${o.id === selected_quality ? 'selected' : ''}" onclick="selectQuality('${o.id}')">${o.name}</button>`).join('');
+
+  // 场景文案
+  renderSceneText(cfg);
+}
+
+function renderSceneText(cfg) {
+  const grid = document.getElementById('sceneTextGrid');
+  const scenes = cfg.scenes || [];
+  let html = '';
+  scenes.forEach(s => {
+    const elems = s.elements || {};
+    // 时长输入框
+    html += `<div style="grid-column:1/-1;margin-top:4px;"><label style="font-size:11px;color:#00d4ff">⏱ ${s.name} - 时长(秒)</label>
+      <input class="scene-input" id="dur_${s.id}" data-scene="${s.id}" data-key="__duration" type="number" min="2" max="30" value="${s.duration || 6}" style="width:80px;"></div>`;
+    Object.entries(elems).forEach(([key, val]) => {
+      const fieldId = `${s.id}_${key}`;
+      html += `<div><label style="font-size:11px;color:rgba(255,255,255,0.4)">${s.name} - ${key}</label>
+        <input class="scene-input" id="${fieldId}" data-scene="${s.id}" data-key="${key}" value="${escapeHtml(val.text || '')}"></div>`;
+    });
+  });
+  grid.innerHTML = html;
+}
+
+function escapeHtml(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ===== 选择器 =====
+window.selectColor = function(id) { selected_color = id; document.querySelectorAll('#colorGrid .option-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(id) || b.onclick.toString().includes(id))); };
+window.selectAnim = function(id) { selected_anim = id; document.querySelectorAll('#animGrid .option-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(id) || b.onclick.toString().includes(id))); };
+window.selectBgType = function(id) { selected_bg_type = id; document.querySelectorAll('#bgTypeGrid .option-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(id) || b.onclick.toString().includes(id))); };
+window.selectBGM = function(id) { selected_bgm = id; document.querySelectorAll('#bgmGrid .option-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(id) || b.onclick.toString().includes(id))); };
+window.selectQuality = function(id) { selected_quality = id; document.querySelectorAll('#qualityGrid .option-btn').forEach(b => b.classList.toggle('selected', b.textContent.includes(id) || b.onclick.toString().includes(id))); };
+
+function collectParams() {
+  const textConfig = {};
+  const durations = {};
+  document.querySelectorAll('.scene-input').forEach(inp => {
+    const scene = inp.dataset.scene;
+    const key = inp.dataset.key;
+    if (key === '__duration') {
+      durations[scene] = parseFloat(inp.value) || 6;
+      return;
+    }
+    if (!textConfig[scene]) textConfig[scene] = {};
+    textConfig[scene][key] = inp.value;
+  });
+
+  return {
+    text: textConfig,
+    durations: durations,
+    mix_media: uploadedMedia.map(m => ({
+      filename: m.filename,
+      type: m.type,
+      url: m.url
+    })),
+    mix_mode: document.getElementById('mixMode').value,
+    colors: selected_color,
+    animation: selected_anim,
+    bg_type: selected_bg_type,
+    quality: selected_quality,
+    voiceover: {
+      enabled: document.getElementById('voSwitch').checked,
+      voice: document.getElementById('voVoice').value,
+      text: document.getElementById('voText').value
+    },
+    subtitles: {
+      enabled: document.getElementById('subSwitch').checked
+    },
+    bgm: {
+      enabled: document.getElementById('bgmSwitch').checked,
+      file: selected_bgm || ''
+    }
+  };
+}
+
+// ===== 素材上传 =====
+let uploadedMedia = [];
+
+document.getElementById('fileInput').addEventListener('change', async function(e) {
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
+
+  setStatus('rendering', `正在上传 ${files.length} 个文件...`);
+  for (const file of files) {
+    const fd = new FormData();
+    fd.append('file', file);
+    try {
+      const resp = await fetch(API_BASE + '/api/upload', { method: 'POST', body: fd });
+      const data = await resp.json();
+      if (data.success) {
+        uploadedMedia.push(data);
+      }
+    } catch(e) {
+      console.error('上传失败:', file.name, e);
+    }
+  }
+  renderUploadedList();
+  setStatus('waiting', `已上传 ${uploadedMedia.length} 个素材`);
+});
+
+async function renderUploadedList() {
+  const list = document.getElementById('uploadedList');
+  if (uploadedMedia.length === 0) {
+    list.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,0.3);grid-column:1/-1;">暂无素材</p>';
+    return;
+  }
+  list.innerHTML = uploadedMedia.map(m => `
+    <div style="position:relative;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);">
+      <div style="padding:8px;text-align:center;">
+        <span style="font-size:24px;">${m.type === 'video' ? '🎬' : '🖼️'}</span>
+        <p style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;word-break:break-all;">${m.original_name || m.filename.slice(0,12)}</p>
+        <p style="font-size:9px;color:rgba(255,255,255,0.3);">${m.size_mb}MB</p>
+      </div>
+      <button onclick="deleteUpload('${m.filename}')" style="position:absolute;top:2px;right:2px;border:none;background:rgba(255,50,50,0.8);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;cursor:pointer;">✕</button>
+    </div>
+  `).join('');
+}
+
+async function deleteUpload(filename) {
+  try {
+    await fetch(API_BASE + '/api/upload/delete', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filename})
+    });
+    uploadedMedia = uploadedMedia.filter(m => m.filename !== filename);
+    renderUploadedList();
+  } catch(e) {
+    console.error('删除失败:', e);
+  }
+}
+
+// 加载已有素材
+async function loadUploads() {
+  try {
+    const resp = await fetch(API_BASE + '/api/uploads');
+    const data = await resp.json();
+    uploadedMedia = data.files || [];
+    renderUploadedList();
+  } catch(e) {
+    // 静默失败
+  }
+}
+async function renderVideo(mode) {
+  if (!selectedTemplate) { alert('请先选择模板'); return; }
+
+  const isPreview = mode === 'preview';
+  setStatus('rendering', isPreview ? '正在生成预览...' : '正在渲染视频（含配音+BGM，约2-5分钟）...');
+  showProgress(true);
+
+  try {
+    const resp = await fetch(API_BASE + (isPreview ? '/api/preview' : '/api/generate'), {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        template_id: selectedTemplate.id,
+        params: collectParams()
+      })
+    });
+    const data = await resp.json();
+    currentJobId = data.job_id;
+    pollStatus(data.job_id);
+
+    document.getElementById('s2').classList.add('done');
+    document.getElementById('s3').classList.add('active');
+  } catch(e) {
+    setStatus('failed', '请求失败: ' + e.message);
+    showProgress(false);
+  }
+}
+
+// ===== 批量生成 =====
+function addBatchRow() {
+  const div = document.createElement('div');
+  div.className = 'batch-row';
+  div.innerHTML = `<textarea rows="2" placeholder="文案关键词..."></textarea><button class="btn-small" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('batchInputs').appendChild(div);
+}
+window.addBatchRow = addBatchRow;
+window.removeBatchRow = function(btn) { btn.parentElement.remove(); };
+
+async function startBatch() {
+  if (!selectedTemplate) return;
+  const textareas = document.querySelectorAll('#batchInputs .batch-row textarea');
+  const texts = Array.from(textareas).map(t => t.value.trim()).filter(t => t.length > 0);
+  if (texts.length === 0) { alert('请至少输入一条文案'); return; }
+
+  const baseParams = collectParams();
+  const batchParams = texts.map(t => {
+    const p = JSON.parse(JSON.stringify(baseParams));
+    p.voiceover.text = t;
+    return p;
+  });
+
+  setStatus('rendering', `批量提交 ${batchParams.length} 个任务，排队生成中...`);
+  showProgress(true);
+
+  try {
+    const resp = await fetch(API_BASE + '/api/batch-generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        template_id: selectedTemplate.id,
+        batch_params: batchParams
+      })
+    });
+    const data = await resp.json();
+    setStatus('rendering', `已提交 ${batchParams.length} 个任务 (batch: ${data.batch_id})，排隊处理中`);
+    // 轮询最后一个
+    currentJobId = data.job_ids[data.job_ids.length - 1];
+  } catch(e) {
+    setStatus('failed', '批量提交失败: ' + e.message);
+  }
+}
+
+// ===== 状态轮询 =====
+function pollStatus(jobId) {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    try {
+      const resp = await fetch(API_BASE + `/api/jobs/${jobId}`);
+      const data = await resp.json();
+      if (data.status === 'completed') {
+        clearInterval(pollTimer);
+        setStatus('completed', '✅ 视频生成完成！');
+        showProgress(false);
+        document.getElementById('s3').classList.add('done');
+        document.getElementById('s4').classList.add('active');
+        document.getElementById('sendEmailBtn').style.display = 'inline-block';
+      } else if (data.status === 'failed') {
+        clearInterval(pollTimer);
+        setStatus('failed', '❌ 生成失败: ' + (data.error || '未知错误'));
+        showProgress(false);
+      } else {
+        setStatus('rendering', `正在渲染中... (${data.status})`);
+      }
+    } catch(e) {
+      // ignore polling errors
+    }
+  }, 5000);
+}
+
+async function sendEmail() {
+  if (!currentJobId) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/send-email', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({job_id: currentJobId, to_email: 'chuanlbx@qq.com'})
+    });
+    const data = await resp.json();
+    if (data.success) {
+      setStatus('completed', '✅ 已发送到 chuanlbx@qq.com');
+    } else {
+      setStatus('failed', '发送失败: ' + (data.error || ''));
+    }
+  } catch(e) {
+    setStatus('failed', '发送请求失败: ' + e.message);
+  }
+}
+
+function setStatus(type, msg) {
+  const el = document.getElementById('statusArea');
+  el.textContent = msg;
+  el.className = 'status-' + type;
+}
+
+function showProgress(show) {
+  document.getElementById('progressFill').style.width = show ? '60%' : '0%';
+}
+
+// ===== 事件绑定 =====
+document.getElementById('previewBtn').addEventListener('click', () => renderVideo('preview'));
+document.getElementById('renderBtn').addEventListener('click', () => renderVideo('full'));
+document.getElementById('batchBtn').addEventListener('click', () => {
+  document.getElementById('batchArea').classList.toggle('hidden');
+});
+document.getElementById('sendEmailBtn').addEventListener('click', sendEmail);
+
+// ===== 启动 =====
+init();
+loadUploads();
+</script>
+</body>
+</html>

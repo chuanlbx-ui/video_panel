@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理后台 · 团队版</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, 'Noto Sans SC', sans-serif; background: #060e1e; color: #fff; min-height:100vh; }
+.container { max-width: 1200px; margin:0 auto; padding:24px 20px; }
+h1 { font-size:22px; color:#ffd54f; margin-bottom:4px; letter-spacing:1px; }
+.sub { font-size:12px; color:rgba(255,255,255,0.3); margin-bottom:24px; }
+
+/* 标签导航 */
+.tabs { display:flex; gap:4px; margin-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0; }
+.tab-btn {
+  padding:10px 20px; font-size:13px; cursor:pointer; border:none;
+  background:none; color:rgba(255,255,255,0.3); border-bottom:2px solid transparent;
+  transition:all 0.2s;
+}
+.tab-btn:hover { color:rgba(255,255,255,0.6); }
+.tab-btn.active { color:#ffd54f; border-bottom-color:#ffd54f; }
+
+/* 统计卡片 */
+.stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:24px; }
+.stat-card {
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px; padding:18px 16px; text-align:center;
+}
+.stat-num { font-size:28px; font-weight:800; color:#ffd54f; }
+.stat-label { font-size:11px; color:rgba(255,255,255,0.35); margin-top:4px; letter-spacing:1px; }
+
+/* 表格 */
+.table-wrap { overflow-x:auto; margin-top:16px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; padding:10px 12px; color:rgba(255,255,255,0.35); font-weight:500; border-bottom:1px solid rgba(255,255,255,0.06); font-size:11px; letter-spacing:1px; }
+td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+tr:hover td { background:rgba(255,255,255,0.02); }
+
+/* 徽章 */
+.badge {
+  display:inline-block; font-size:11px; padding:2px 10px; border-radius:10px;
+  font-weight:500;
+}
+.badge-admin { background:rgba(255,213,79,0.15); color:#ffd54f; }
+.badge-vip { background:rgba(156,39,176,0.15); color:#ce93d8; }
+.badge-user { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.4); }
+
+/* 按钮 */
+.btn {
+  font-size:11px; padding:4px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08);
+  background:none; color:rgba(255,255,255,0.5); cursor:pointer; transition:all 0.2s;
+}
+.btn:hover { border-color:rgba(255,255,255,0.2); color:#fff; }
+.btn-sm { padding:3px 10px; font-size:10px; }
+.btn-primary { border-color:rgba(255,213,79,0.2); color:#ffd54f; }
+.btn-primary:hover { background:rgba(255,213,79,0.1); }
+.btn-danger { border-color:rgba(255,82,82,0.2); color:#ff5252; }
+.btn-danger:hover { background:rgba(255,82,82,0.1); }
+.btn-warning { border-color:rgba(255,152,0,0.2); color:#ff9800; }
+.btn-warning:hover { background:rgba(255,152,0,0.1); }
+.btn-success { border-color:rgba(76,175,80,0.2); color:#4caf50; }
+.btn-success:hover { background:rgba(76,175,80,0.1); }
+
+/* 搜索框 */
+.search-box { display:flex; gap:8px; margin-bottom:16px; }
+.search-box input {
+  flex:1; padding:8px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03); color:#fff; font-size:13px; outline:none;
+}
+.search-box input:focus { border-color:rgba(255,213,79,0.3); }
+.search-box input::placeholder { color:rgba(255,255,255,0.2); }
+
+/* 分页 */
+.pagination { display:flex; gap:6px; justify-content:center; margin-top:16px; }
+.page-btn {
+  padding:6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);
+  background:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:12px;
+}
+.page-btn.active { border-color:#ffd54f; color:#ffd54f; }
+.page-btn:hover { border-color:rgba(255,255,255,0.2); }
+
+/* 刷新按钮 */
+.refresh-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 18px; border-radius:10px; border:1px solid rgba(255,213,79,0.12);
+  background:rgba(255,213,79,0.04); color:#ffd54f;
+  font-size:13px; cursor:pointer; margin-bottom:20px;
+  transition:all 0.2s;
+}
+.refresh-btn:hover { background:rgba(255,213,79,0.08); }
+
+/* Toast */
+.toast {
+  position:fixed; top:20px; right:20px; padding:12px 20px; border-radius:10px;
+  background:rgba(0,0,0,0.85); border:1px solid rgba(255,255,255,0.1);
+  color:#fff; font-size:13px; z-index:999; opacity:0; transition:opacity 0.3s;
+  pointer-events:none;
+}
+.toast.show { opacity:1; }
+.toast.success { border-color:#4caf50; }
+.toast.error { border-color:#ff5252; }
+
+/* 模板卡片区（保留原有样式兼容） */
+.tpl-list { margin-top:24px; }
+.tpl-card {
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px; padding:16px 18px; margin-bottom:10px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.tpl-card-left { flex:1; }
+.tpl-card-title { font-size:15px; font-weight:600; }
+.tpl-card-desc { font-size:11px; color:rgba(255,255,255,0.3); margin-top:4px; }
+.tpl-card-id { font-size:10px; color:rgba(255,255,255,0.12); margin-top:2px; }
+.tpl-card-status { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+.status-badge { font-size:11px; padding:4px 12px; border-radius:12px; background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.4); }
+.status-badge.on { background:rgba(255,213,79,0.12); color:#ffd54f; }
+
+/* 角色下拉 */
+.role-select {
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  color:#fff; padding:4px 8px; border-radius:6px; font-size:11px; cursor:pointer; outline:none;
+}
+.role-select:focus { border-color:#ffd54f; }
+
+/* 用量排行 */
+.usage-rank { display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:12px; padding:14px 16px; margin-bottom:8px; }
+.usage-rank-num { font-size:18px; font-weight:700; color:rgba(255,255,255,0.15); width:28px; }
+.usage-rank-name { flex:1; font-size:14px; }
+.usage-rank-count { font-size:13px; color:#ffd54f; font-weight:600; }
+.usage-rank-bar { width:80px; height:6px; border-radius:3px; background:rgba(255,255,255,0.06); overflow:hidden; }
+.usage-rank-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#ffd54f,#e6b800); transition:width 0.5s; }
+
+/* ===== 模板编辑面板 ===== */
+.editor-overlay {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.7); z-index:998;
+  display:none; backdrop-filter:blur(4px);
+}
+.editor-overlay.show { display:block; }
+.editor-panel {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:92%; max-width:780px; max-height:90vh; overflow-y:auto;
+  background:#0b1528; border:1px solid rgba(255,255,255,0.08);
+  border-radius:18px; padding:24px; z-index:999;
+  display:none; box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
+.editor-panel.show { display:block; }
+.editor-panel::-webkit-scrollbar { width:6px; }
+.editor-panel::-webkit-scrollbar-track { background:transparent; }
+.editor-panel::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:3px; }
+.editor-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:20px; padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.editor-title { font-size:18px; font-weight:700; color:#ffd54f; }
+.editor-close {
+  width:32px; height:32px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);
+  background:none; color:rgba(255,255,255,0.3); cursor:pointer;
+  font-size:18px; display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+}
+.editor-close:hover { border-color:rgba(255,255,255,0.2); color:#fff; }
+.editor-section {
+  margin-bottom:20px; padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.editor-section:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.editor-section-title {
+  font-size:13px; font-weight:600; color:rgba(255,255,255,0.5);
+  letter-spacing:1px; margin-bottom:14px; text-transform:uppercase;
+}
+.editor-field { margin-bottom:14px; }
+.editor-field:last-child { margin-bottom:0; }
+.editor-label {
+  font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:6px;
+  display:block; letter-spacing:0.5px;
+}
+.editor-input, .editor-textarea, .editor-select {
+  width:100%; padding:10px 14px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03); color:#fff;
+  font-size:13px; outline:none; font-family:inherit;
+  transition:border-color 0.2s;
+}
+.editor-input:focus, .editor-textarea:focus, .editor-select:focus {
+  border-color:rgba(255,213,79,0.3);
+}
+.editor-input::placeholder, .editor-textarea::placeholder {
+  color:rgba(255,255,255,0.15);
+}
+.editor-textarea { resize:vertical; min-height:60px; line-height:1.5; }
+.editor-select {
+  cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fff' stroke-width='1.5' stroke-opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center;
+  padding-right:32px;
+}
+.editor-row { display:flex; gap:12px; }
+.editor-row .editor-field { flex:1; margin-bottom:0; }
+.editor-checkbox {
+  display:flex; align-items:center; gap:10px; cursor:pointer;
+}
+.editor-checkbox input[type="checkbox"] {
+  width:18px; height:18px; accent-color:#ffd54f; cursor:pointer;
+}
+.editor-checkbox-label { font-size:13px; color:rgba(255,255,255,0.6); cursor:pointer; }
+.editor-actions {
+  display:flex; gap:10px; justify-content:flex-end;
+  margin-top:20px; padding-top:16px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.editor-actions .btn { padding:8px 20px; font-size:13px; }
+
+/* 场景编辑卡片 */
+.scene-card {
+  background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px; padding:16px; margin-bottom:12px;
+}
+.scene-card-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:12px;
+}
+.scene-card-title {
+  font-size:14px; font-weight:600; color:rgba(255,255,255,0.7);
+}
+.scene-card-index {
+  font-size:11px; color:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.04); padding:2px 10px;
+  border-radius:6px;
+}
+.scene-card .editor-row { margin-bottom:10px; }
+.scene-card .editor-row:last-child { margin-bottom:0; }
+
+/* 配色预览 */
+.color-options { display:flex; gap:8px; flex-wrap:wrap; }
+.color-opt {
+  display:flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
+  background:none; color:rgba(255,255,255,0.5); cursor:pointer;
+  font-size:12px; transition:all 0.2s;
+}
+.color-opt:hover { border-color:rgba(255,255,255,0.15); color:#fff; }
+.color-opt.active {
+  border-color:#ffd54f; background:rgba(255,213,79,0.06); color:#ffd54f;
+}
+.color-opt-swatch {
+  width:16px; height:16px; border-radius:50%; flex-shrink:0;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* 响应式 */
+@media(max-width:768px) {
+  .tabs { flex-wrap:wrap; }
+  .tab-btn { font-size:12px; padding:8px 14px; }
+  .editor-panel { width:96%; padding:18px; top:2%; transform:translate(-50%,0); max-height:96vh; }
+  .editor-row { flex-direction:column; gap:10px; }
+  .scene-card .editor-row { flex-direction:column; gap:10px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 登录页 -->
+  <div id="adminLoginScreen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px;text-align:center;">
+    <div style="font-size:28px;font-weight:800;color:#ffd54f;letter-spacing:4px;margin-bottom:8px;">✦ 管理后台</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:32px;">滇边AI · 视频工坊 · 团队版</div>
+    <input class="login-input" id="adminLoginUser" placeholder="管理员账号" style="width:100%;max-width:320px;padding:14px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:#fff;font-size:16px;outline:none;margin-bottom:12px;">
+    <input class="login-input" id="adminLoginPass" type="password" placeholder="密码" style="width:100%;max-width:320px;padding:14px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:#fff;font-size:16px;outline:none;margin-bottom:16px;">
+    <button class="login-btn" id="adminLoginBtn" onclick="adminLogin()" style="width:100%;max-width:320px;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#ffd54f,#e6b800);color:#1a1200;font-size:16px;font-weight:700;cursor:pointer;">🔒 登录管理后台</button>
+    <div id="adminLoginError" style="color:#ff5252;font-size:13px;margin-top:12px;display:none;"></div>
+  </div>
+
+  <!-- 管理后台主内容 -->
+  <div id="adminMainContent" style="display:none;">
+
+    <h1>⚙️ 管理后台</h1>
+    <div class="sub">滇边AI · 视频工坊 · 团队版</div>
+
+    <button class="refresh-btn" onclick="refreshAll()">🔄 刷新数据</button>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="dashboard">📊 概览</button>
+      <button class="tab-btn" data-tab="users">👥 用户管理</button>
+      <button class="tab-btn" data-tab="apikeys">🔑 API Keys</button>
+      <button class="tab-btn" data-tab="usage">📈 用量统计</button>
+      <button class="tab-btn" data-tab="templates">📋 模板</button>
+    </div>
+
+    <!-- Tab: 概览 -->
+    <div class="tab-content" id="tab-dashboard">
+      <div id="statsGrid" class="stats-grid"></div>
+      <div class="section-title" style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:14px;letter-spacing:1px;">📊 模板使用排行</div>
+      <div id="rankList"></div>
+    </div>
+
+    <!-- Tab: 用户管理 -->
+    <div class="tab-content" id="tab-users" style="display:none;">
+      <div class="search-box">
+        <input type="text" id="userSearch" placeholder="搜索手机号或姓名..." oninput="loadUsers()">
+        <button class="btn btn-primary" onclick="loadUsers()">搜索</button>
+      </div>
+      <div class="table-wrap"><table><thead>
+        <tr><th>ID</th><th>手机号</th><th>姓名</th><th>角色</th><th>API Key</th><th>日用量</th><th>创建时间</th><th>操作</th></tr>
+      </thead><tbody id="userTableBody"></tbody></table></div>
+      <div class="pagination" id="userPagination"></div>
+    </div>
+
+    <!-- Tab: API Keys -->
+    <div class="tab-content" id="tab-apikeys" style="display:none;">
+      <div class="table-wrap"><table><thead>
+        <tr><th>手机号</th><th>姓名</th><th>角色</th><th>API Key</th><th>日用量</th><th>操作</th></tr>
+      </thead><tbody id="apikeyTableBody"></tbody></table></div>
+    </div>
+
+    <!-- Tab: 用量统计 -->
+    <div class="tab-content" id="tab-usage" style="display:none;">
+      <div id="usageSummary" class="stats-grid"></div>
+      <div class="section-title" style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:14px;letter-spacing:1px;">📊 用户用量排行</div>
+      <div id="usageRankList"></div>
+    </div>
+
+    <!-- Tab: 模板（增强版） -->
+    <div class="tab-content" id="tab-templates" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="section-title" style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:1px;">📋 所有模板</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-success" onclick="showCreateDialog('new')">✨ 新建模板</button>
+          <button class="btn btn-primary" onclick="showCreateDialog('clone')">📋 克隆模板</button>
+        </div>
+      </div>
+      <div class="tpl-list" id="tplList"></div>
+    </div>
+
+  </div>
+
+  </div>
+
+  <!-- 模板创建/克隆对话框 -->
+  <div class="editor-overlay" id="createOverlay" onclick="closeCreateDialog()"></div>
+  <div class="editor-panel" id="createPanel" style="max-width:520px;">
+    <div class="editor-header">
+      <div class="editor-title" id="createDialogTitle">✨ 新建模板</div>
+      <button class="editor-close" onclick="closeCreateDialog()">✕</button>
+    </div>
+    <input type="hidden" id="createAction" value="new">
+    <div class="editor-section">
+      <div class="editor-field">
+        <label class="editor-label">模板名称</label>
+        <input class="editor-input" id="createTplName" placeholder="输入模板名称" value="我的模板">
+      </div>
+      <div class="editor-field" id="createCloneSourceField" style="display:none;">
+        <label class="editor-label">源模板</label>
+        <select class="editor-select" id="createCloneSource">
+          <option value="">请选择源模板...</option>
+        </select>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label">描述（可选）</label>
+        <input class="editor-input" id="createTplDesc" placeholder="模板描述">
+      </div>
+    </div>
+    <div class="editor-actions">
+      <button class="btn" onclick="closeCreateDialog()">取消</button>
+      <button class="btn btn-primary" onclick="createTemplate()">🚀 创建</button>
+    </div>
+  </div>
+
+  <!-- 模板编辑面板 -->
+  <div class="editor-overlay" id="editorOverlay" onclick="closeEditor()"></div>
+  <div class="editor-panel" id="editorPanel">
+    <div class="editor-header">
+      <div class="editor-title">📋 模板编辑</div>
+      <button class="editor-close" onclick="closeEditor()">✕</button>
+    </div>
+    <input type="hidden" id="editTemplateId" value="">
+
+    <!-- 基本信息 -->
+    <div class="editor-section">
+      <div class="editor-section-title">📝 基本信息</div>
+      <div class="editor-row">
+        <div class="editor-field">
+          <label class="editor-label">模板名称</label>
+          <input class="editor-input" id="editTplName" placeholder="模板名称">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">模板描述</label>
+          <input class="editor-input" id="editTplDesc" placeholder="模板描述">
+        </div>
+      </div>
+    </div>
+
+    <!-- 场景编辑器 -->
+    <div class="editor-section">
+      <div class="editor-section-title">🎬 场景编辑</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn btn-primary btn-sm" onclick="addScene()">+ 添加场景</button>
+      </div>
+      <div id="scenesEditor"></div>
+    </div>
+
+    <!-- 配色方案 -->
+    <div class="editor-section">
+      <div class="editor-section-title">🎨 配色方案</div>
+      <div class="editor-field">
+        <label class="editor-label">选择配色</label>
+        <div class="color-options" id="colorSchemeOptions">
+          <button class="color-opt" data-scheme="white" onclick="selectColorScheme(this)">
+            <span class="color-opt-swatch" style="background:#ffffff;"></span> 白色
+          </button>
+          <button class="color-opt" data-scheme="gold" onclick="selectColorScheme(this)">
+            <span class="color-opt-swatch" style="background:#ffd54f;"></span> 金色
+          </button>
+          <button class="color-opt" data-scheme="cyan" onclick="selectColorScheme(this)">
+            <span class="color-opt-swatch" style="background:#00e5ff;"></span> 青色
+          </button>
+          <button class="color-opt" data-scheme="subtitle" onclick="selectColorScheme(this)">
+            <span class="color-opt-swatch" style="background:linear-gradient(135deg,#ffffff,#ffd54f);"></span> 副标题
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 音频设置 -->
+    <div class="editor-section">
+      <div class="editor-section-title">🔊 音频设置</div>
+      <div class="editor-field">
+        <label class="editor-label">配音文案</label>
+        <textarea class="editor-textarea" id="editNarration" rows="3" placeholder="输入配音文案..."></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-checkbox">
+          <input type="checkbox" id="editBgmEnabled">
+          <span class="editor-checkbox-label">启用背景音乐 (BGM)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="editor-actions">
+      <button class="btn" onclick="closeEditor()">取消</button>
+      <button class="btn btn-primary" onclick="saveTemplateConfig()">💾 保存</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = '/video-panel';
+let TOKEN = localStorage.getItem('g_token') || localStorage.getItem('user_token') || '';
+let userPage = 1;
+
+// ===== Tab 切换 =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+    document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+    if (btn.dataset.tab === 'users') loadUsers();
+    if (btn.dataset.tab === 'apikeys') loadApiKeys();
+    if (btn.dataset.tab === 'usage') loadUsage();
+    if (btn.dataset.tab === 'dashboard' || btn.dataset.tab === 'templates') loadDashboard();
+  });
+});
+
+// ===== Toast =====
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== 刷新全部 =====
+function refreshAll() {
+  const active = document.querySelector('.tab-btn.active');
+  if (active) active.click();
+}
+
+// ===== 概览 =====
+async function loadDashboard() {
+  try {
+    const [healthResp, tplResp] = await Promise.all([
+      fetch(API_BASE + '/api/health'),
+      fetch(API_BASE + '/api/templates')
+    ]);
+    const health = await healthResp.json();
+    const tplData = await tplResp.json();
+    const templates = tplData.templates || [];
+    const usage = health.usage || {};
+    const byTemplate = usage.by_template || {};
+    const byResult = usage.by_result || {};
+
+    const totalGen = usage.total_generates || 0;
+    const ok = byResult.completed || 0;
+    const fail = byResult.failed || 0;
+    const rate = totalGen > 0 ? Math.round(ok / totalGen * 100) : 0;
+
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-card"><div class="stat-num">${totalGen}</div><div class="stat-label">总生成</div></div>
+      <div class="stat-card"><div class="stat-num">${ok}</div><div class="stat-label">成功</div></div>
+      <div class="stat-card"><div class="stat-num">${fail}</div><div class="stat-label">失败</div></div>
+      <div class="stat-card"><div class="stat-num">${rate}%</div><div class="stat-label">成功率</div></div>
+      <div class="stat-card"><div class="stat-num">${health.total_templates}</div><div class="stat-label">模板数</div></div>
+      <div class="stat-card"><div class="stat-num">${health.disk_usage_gb}GB</div><div class="stat-label">磁盘使用</div></div>
+    `;
+
+    const ranked = templates.map(t => ({
+      id: t.id, name: t.name, count: byTemplate[t.id] || 0
+    })).sort((a, b) => b.count - a.count);
+
+    const maxCount = Math.max(...ranked.map(r => r.count), 1);
+    document.getElementById('rankList').innerHTML = ranked.length > 0 ?
+      ranked.map((r, i) => `
+        <div class="usage-rank">
+          <div class="usage-rank-num">#${i + 1}</div>
+          <div class="usage-rank-name">${r.name}</div>
+          <div class="usage-rank-count">${r.count}次</div>
+          <div class="usage-rank-bar">
+            <div class="usage-rank-bar-fill" style="width:${r.count / maxCount * 100}%"></div>
+          </div>
+        </div>
+      `).join('') :
+      '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.2);font-size:13px;">暂无使用数据</div>';
+
+    document.getElementById('tplList').innerHTML = templates.map(t => {
+      const isCustom = t.source === 'custom';
+      return `
+      <div class="tpl-card" style="${isCustom ? 'border-color:rgba(255,213,79,0.2);background:rgba(255,213,79,0.02);' : ''}">
+        <div class="tpl-card-left">
+          <div class="tpl-card-title">
+            ${isCustom ? '<span style="color:#ffd54f;">✦</span> ' : ''}${t.name}
+            ${isCustom ? '<span class="badge badge-admin" style="font-size:10px;margin-left:6px;">自定义</span>' : ''}
+          </div>
+          <div class="tpl-card-desc">${t.description || ''}</div>
+          <div class="tpl-card-id">${t.id} ${isCustom ? '· 我的模板' : ''}</div>
+        </div>
+        <div class="tpl-card-status">
+          <span class="status-badge on">${byTemplate[t.id] || 0}次</span>
+          <span class="status-badge">${isCustom ? '自定义' : '系统'}</span>
+          <button class="btn btn-primary btn-sm" onclick="openEditor('${t.id}')">编辑</button>
+          ${isCustom ? `<button class="btn btn-danger btn-sm" onclick="deleteTemplate('${t.id}')">删除</button>` : ''}
+          <button class="btn btn-sm" onclick="cloneTemplate('${t.id}')">克隆</button>
+        </div>
+      </div>
+    `}).join('');
+
+  } catch(e) {
+    document.getElementById('statsGrid').innerHTML = '<div style="color:rgba(255,255,255,0.3);text-align:center;padding:40px;">加载失败</div>';
+  }
+}
+
+// ===== 用户管理 =====
+async function loadUsers() {
+  const search = document.getElementById('userSearch').value.trim();
+  let url = API_BASE + '/api/admin/users?page=' + userPage + '&per_page=20';
+  if (search) url += '&search=' + encodeURIComponent(search);
+
+  try {
+    const resp = await fetch(url, {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    const data = await resp.json();
+    if (!resp.ok) { showToast('加载失败: ' + (data.error || ''), 'error'); return; }
+
+    document.getElementById('userTableBody').innerHTML = data.users.map(u => `
+      <tr>
+        <td style="color:rgba(255,255,255,0.3);">${u.id}</td>
+        <td>${u.phone}</td>
+        <td>${u.name}</td>
+        <td>
+          <select class="role-select" onchange="changeRole('${u.phone}', this.value)" ${u.phone === '13577683126' ? 'disabled style="opacity:0.5"' : ''}>
+            <option value="user" ${u.role === 'user' ? 'selected' : ''}>👤 user</option>
+            <option value="vip" ${u.role === 'vip' ? 'selected' : ''}>⭐ vip</option>
+            <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>⚡ admin</option>
+          </select>
+        </td>
+        <td style="font-size:11px;color:rgba(255,255,255,0.3);">${u.has_api_key ? u.api_key : '—'}</td>
+        <td>${u.daily_usage}</td>
+        <td style="font-size:11px;color:rgba(255,255,255,0.3);">${(u.created_at || '').slice(0, 10)}</td>
+        <td>
+          ${u.has_api_key ? `<button class="btn btn-danger btn-sm" onclick="revokeKey('${u.phone}')">吊销Key</button>` : ''}
+        </td>
+      </tr>
+    `).join('');
+
+    // 分页
+    const totalPages = Math.ceil(data.total / data.per_page);
+    const pagination = document.getElementById('userPagination');
+    let pages = '';
+    for (let i = 1; i <= totalPages && i <= 10; i++) {
+      pages += `<button class="page-btn ${i === userPage ? 'active' : ''}" onclick="goUserPage(${i})">${i}</button>`;
+    }
+    pagination.innerHTML = pages;
+
+  } catch(e) {
+    showToast('加载用户失败', 'error');
+  }
+}
+
+function goUserPage(p) {
+  userPage = p;
+  loadUsers();
+}
+
+async function changeRole(phone, role) {
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/user/role', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN},
+      body: JSON.stringify({phone, role})
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showToast('✅ ' + data.message, 'success');
+    } else {
+      showToast('❌ ' + (data.error || '操作失败'), 'error');
+    }
+  } catch(e) {
+    showToast('网络错误', 'error');
+  }
+}
+
+async function revokeKey(phone) {
+  if (!confirm('确定吊销 ' + phone + ' 的API Key？')) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/apikey/revoke', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN},
+      body: JSON.stringify({phone})
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showToast('✅ ' + data.message, 'success');
+      loadUsers();
+      loadApiKeys();
+    } else {
+      showToast('❌ ' + (data.error || '操作失败'), 'error');
+    }
+  } catch(e) {
+    showToast('网络错误', 'error');
+  }
+}
+
+// ===== API Keys 列表 =====
+async function loadApiKeys() {
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/apikeys', {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    const data = await resp.json();
+    if (!resp.ok) { showToast('加载失败', 'error'); return; }
+
+    document.getElementById('apikeyTableBody').innerHTML = data.apikeys.map(k => `
+      <tr>
+        <td>${k.phone}</td>
+        <td>${k.name}</td>
+        <td><span class="badge badge-${k.role}">${k.role}</span></td>
+        <td style="font-family:monospace;font-size:12px;max-width:300px;overflow:hidden;text-overflow:ellipsis;">${k.api_key}</td>
+        <td>${k.daily_usage}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="revokeKey('${k.phone}')">吊销</button></td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    showToast('加载API Key列表失败', 'error');
+  }
+}
+
+// ===== 模板编辑功能 =====
+let currentConfig = null;
+
+function openEditor(templateId) {
+  document.getElementById('editTemplateId').value = templateId;
+  loadTemplateConfig(templateId);
+}
+
+function closeEditor() {
+  document.getElementById('editorOverlay').classList.remove('show');
+  document.getElementById('editorPanel').classList.remove('show');
+  currentConfig = null;
+}
+
+async function loadTemplateConfig(templateId) {
+  try {
+    const resp = await fetch(API_BASE + '/api/template-config/' + templateId, {
+      headers: {'Authorization': 'Bearer ' + TOKEN}
+    });
+    if (!resp.ok) {
+      const data = await resp.json();
+      showToast('加载模板配置失败: ' + (data.error || resp.status), 'error');
+      return;
+    }
+    const config = await resp.json();
+    currentConfig = config;
+
+    // 填充基本信息
+    document.getElementById('editTplName').value = config.name || '';
+    document.getElementById('editTplDesc').value = config.description || '';
+
+    // 填充配色方案
+    const currentScheme = config.color_scheme || 'gold';
+    document.querySelectorAll('#colorSchemeOptions .color-opt').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.scheme === currentScheme);
+    });
+
+    // 填充音频设置
+    document.getElementById('editNarration').value = config.narration || '';
+    document.getElementById('editBgmEnabled').checked = config.bgm_enabled !== false;
+
+    // 渲染场景编辑器
+    renderScenesEditor(config.scenes || []);
+
+    // 显示面板
+    document.getElementById('editorOverlay').classList.add('show');
+    document.getElementById('editorPanel').classList.add('show');
+
+  } catch(e) {
+    showToast('加载模板配置失败: ' + e.message, 'error');
+  }
+}
+
+function renderScenesEditor(scenes) {
+  const container = document.getElementById('scenesEditor');
+  if (!scenes || scenes.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.2);font-size:13px;">暂无场景</div>';
+    return;
+  }
+
+  container.innerHTML = scenes.map((scene, idx) => `
+    <div class="scene-card" data-scene-index="${idx}">
+      <div class="scene-card-header">
+        <div class="scene-card-title">🎬 场景 ${idx + 1}</div>
+        <div class="scene-card-index">#${idx + 1}</div>
+      </div>
+      <div class="editor-row">
+        <div class="editor-field">
+          <label class="editor-label">场景名称</label>
+          <input class="editor-input scene-name" value="${escapeHtml(scene.name || '')}" placeholder="场景名称">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">时长(秒)</label>
+          <input class="editor-input scene-duration" type="number" value="${scene.duration || 4}" min="1" max="30">
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label">文字内容</label>
+        <textarea class="editor-textarea scene-text" rows="3" placeholder="输入场景文字内容...">${escapeHtml(scene.text || '')}</textarea>
+      </div>
+      <div class="editor-row">
+        <div class="editor-field">
+          <label class="editor-label">字体大小</label>
+          <input class="editor-input scene-font-size" type="number" value="${scene.font_size || 40}" min="10" max="200">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">颜色风格</label>
+          <select class="editor-select scene-color-style">
+            <option value="white" ${scene.color_style === 'white' ? 'selected' : ''}>白色</option>
+            <option value="gold" ${scene.color_style === 'gold' || !scene.color_style ? 'selected' : ''}>金色</option>
+            <option value="cyan" ${scene.color_style === 'cyan' ? 'selected' : ''}>青色</option>
+            <option value="subtitle" ${scene.color_style === 'subtitle' ? 'selected' : ''}>副标题</option>
+          </select>
+        </div>
+      </div>
+      <!-- 场景元素编辑 -->
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
+        <label class="editor-label" style="margin-bottom:6px;">📦 元素列表</label>
+        <div class="scene-elements-box" data-scene="${idx}">
+          ${(scene.elements && scene.elements.length > 0 ? scene.elements : []).map((el, ei) => `
+            <div class="element-row" style="display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap;">
+              <select class="element-type editor-select" style="width:90px;padding:6px 10px;font-size:11px;" data-ei="${ei}">
+                <option value="text" ${el.type === 'text' ? 'selected' : ''}>文字</option>
+                <option value="image" ${el.type === 'image' ? 'selected' : ''}>图片</option>
+                <option value="video" ${el.type === 'video' ? 'selected' : ''}>视频</option>
+              </select>
+              <input class="element-text editor-input" style="flex:2;min-width:100px;padding:6px 10px;font-size:11px;" value="${escapeHtml(el.text || '')}" placeholder="内容">
+              <select class="element-style editor-select" style="width:110px;padding:6px 10px;font-size:11px;" data-ei="${ei}">
+                <option value="large_white" ${el.style === 'large_white' ? 'selected' : ''}>大号白色</option>
+                <option value="large_gold" ${el.style === 'large_gold' ? 'selected' : ''}>大号金色</option>
+                <option value="large_cyan" ${el.style === 'large_cyan' ? 'selected' : ''}>大号青色</option>
+                <option value="subtitle" ${el.style === 'subtitle' ? 'selected' : ''}>副标题</option>
+                <option value="info" ${el.style === 'info' ? 'selected' : ''}>信息</option>
+                <option value="phone" ${el.style === 'phone' ? 'selected' : ''}>电话</option>
+                <option value="price" ${el.style === 'price' ? 'selected' : ''}>价格</option>
+              </select>
+              <input class="element-font-size editor-input" type="number" style="width:70px;padding:6px 10px;font-size:11px;" value="${el.font_size || ''}" placeholder="字号" min="10" max="200">
+              <button class="btn btn-danger btn-sm" onclick="removeSceneElement(${idx}, ${ei})" style="font-size:10px;padding:3px 8px;">✕</button>
+            </div>
+          `).join('')}
+        </div>
+        <button class="btn btn-sm" onclick="addSceneElement(${idx})" style="margin-top:4px;font-size:11px;">+ 添加元素</button>
+      </div>
+      <!-- 场景操作按钮 -->
+      <div style="display:flex;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);">
+        <button class="btn btn-danger btn-sm" onclick="removeScene(${idx})">🗑 删除场景</button>
+        <button class="btn btn-sm" onclick="moveScene(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>↑ 上移</button>
+        <button class="btn btn-sm" onclick="moveScene(${idx}, 1)" ${idx === scenes.length-1 ? 'disabled style="opacity:0.3"' : ''}>↓ 下移</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addScene() {
+  if (!currentConfig) return;
+  if (!currentConfig.scenes) currentConfig.scenes = [];
+  currentConfig.scenes.push({
+    name: '新场景',
+    text: '',
+    font_size: 40,
+    color_style: 'gold',
+    duration: 4,
+    elements: []
+  });
+  renderScenesEditor(currentConfig.scenes);
+}
+
+function removeScene(idx) {
+  if (!currentConfig || !currentConfig.scenes) return;
+  if (!confirm(`确定删除场景 ${idx + 1}？`)) return;
+  currentConfig.scenes.splice(idx, 1);
+  renderScenesEditor(currentConfig.scenes);
+}
+
+function moveScene(idx, dir) {
+  if (!currentConfig || !currentConfig.scenes) return;
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= currentConfig.scenes.length) return;
+  const arr = currentConfig.scenes;
+  [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+  renderScenesEditor(arr);
+}
+
+function addSceneElement(sceneIdx) {
+  if (!currentConfig || !currentConfig.scenes) return;
+  const scene = currentConfig.scenes[sceneIdx];
+  if (!scene.elements) scene.elements = [];
+  scene.elements.push({
+    type: 'text',
+    text: '',
+    style: 'large_white',
+    font_size: 40
+  });
+  renderScenesEditor(currentConfig.scenes);
+}
+
+function removeSceneElement(sceneIdx, elemIdx) {
+  if (!currentConfig || !currentConfig.scenes) return;
+  const scene = currentConfig.scenes[sceneIdx];
+  if (!scene.elements) return;
+  scene.elements.splice(elemIdx, 1);
+  renderScenesEditor(currentConfig.scenes);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function selectColorScheme(btn) {
+  document.querySelectorAll('#colorSchemeOptions .color-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function getEditorConfig() {
+  if (!currentConfig) return null;
+
+  const scenes = [];
+  document.querySelectorAll('#scenesEditor .scene-card').forEach(card => {
+    const scene = {
+      name: card.querySelector('.scene-name').value,
+      text: card.querySelector('.scene-text').value,
+      font_size: parseInt(card.querySelector('.scene-font-size').value) || 40,
+      color_style: card.querySelector('.scene-color-style').value,
+      duration: parseInt(card.querySelector('.scene-duration')?.value) || 4
+    };
+    // 读取元素
+    const elements = [];
+    card.querySelectorAll('.element-row').forEach(elRow => {
+      elements.push({
+        type: elRow.querySelector('.element-type').value,
+        text: elRow.querySelector('.element-text').value,
+        style: elRow.querySelector('.element-style').value,
+        font_size: parseInt(elRow.querySelector('.element-font-size').value) || 40
+      });
+    });
+    scene.elements = elements;
+    scenes.push(scene);
+  });
+
+  const activeColorBtn = document.querySelector('#colorSchemeOptions .color-opt.active');
+  const colorScheme = activeColorBtn ? activeColorBtn.dataset.scheme : 'gold';
+
+  return {
+    template_id: document.getElementById('editTemplateId').value,
+    config: {
+      name: document.getElementById('editTplName').value,
+      description: document.getElementById('editTplDesc').value,
+      scenes: scenes,
+      color_scheme: colorScheme,
+      narration: document.getElementById('editNarration').value,
+      bgm_enabled: document.getElementById('editBgmEnabled').checked
+    }
+  };
+}
+
+async function saveTemplateConfig() {
+  const data = getEditorConfig();
+  if (!data || !data.template_id) {
+    showToast('缺少模板ID', 'error');
+    return;
+  }
+
+  try {
+    const resp = await fetch(API_BASE + '/api/save-template-config', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await resp.json();
+    if (resp.ok) {
+      showToast('✅ 模板配置已保存', 'success');
+      closeEditor();
+      loadDashboard();
+    } else {
+      showToast('❌ 保存失败: ' + (result.error || '未知错误'), 'error');
+    }
+  } catch(e) {
+    showToast('保存失败: ' + e.message, 'error');
+  }
+}
+
+// ===== 用量统计 =====
+async function loadUsage() {
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/usage', {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    const data = await resp.json();
+    if (!resp.ok) { showToast('加载失败', 'error'); return; }
+
+    document.getElementById('usageSummary').innerHTML = `
+      <div class="stat-card"><div class="stat-num">${data.total_users}</div><div class="stat-label">总用户数</div></div>
+      <div class="stat-card"><div class="stat-num">${data.active_today}</div><div class="stat-label">今日活跃</div></div>
+      <div class="stat-card"><div class="stat-num">${data.total_daily_usage}</div><div class="stat-label">今日总用量</div></div>
+      <div class="stat-card"><div class="stat-num">${data.all_time_generates}</div><div class="stat-label">历史总生成</div></div>
+    `;
+
+    const ranked = data.user_usages.filter(u => u.daily_usage > 0);
+    const maxUsage = Math.max(...ranked.map(u => u.daily_usage), 1);
+    document.getElementById('usageRankList').innerHTML = ranked.length > 0 ?
+      ranked.map((u, i) => `
+        <div class="usage-rank">
+          <div class="usage-rank-num">#${i + 1}</div>
+          <div class="usage-rank-name">
+            ${u.name} <span style="font-size:11px;color:rgba(255,255,255,0.3);">${u.phone}</span>
+            <span class="badge badge-${u.role}" style="margin-left:6px;">${u.role}</span>
+          </div>
+          <div class="usage-rank-count">${u.daily_usage}次</div>
+          <div class="usage-rank-bar">
+            <div class="usage-rank-bar-fill" style="width:${u.daily_usage / maxUsage * 100}%"></div>
+          </div>
+        </div>
+      `).join('') :
+      '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.2);font-size:13px;">今日暂无用量数据</div>';
+
+  } catch(e) {
+    showToast('加载用量统计失败', 'error');
+  }
+}
+
+// ===== 管理员登录 =====
+function adminLogin(){
+  const username = document.getElementById('adminLoginUser').value.trim();
+  const password = document.getElementById('adminLoginPass').value.trim();
+  document.getElementById('adminLoginError').style.display = 'none';
+  if(!username || !password){ showToast('请输入账号和密码'); return; }
+  fetch(API_BASE + '/api/login', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({phone: username, password: password, name: username})
+  }).then(r=>r.json()).then(d=>{
+    if(d.token){
+      localStorage.setItem('g_token', d.token);
+      localStorage.setItem('user_token', d.token);
+      TOKEN = d.token;
+      document.getElementById('adminLoginScreen').style.display = 'none';
+      document.getElementById('adminMainContent').style.display = 'block';
+      loadDashboard();
+      showToast('登录成功', 'success');
+    } else {
+      document.getElementById('adminLoginError').textContent = d.error || '登录失败';
+      document.getElementById('adminLoginError').style.display = 'block';
+    }
+  }).catch(()=>{
+    document.getElementById('adminLoginError').textContent = '网络错误';
+    document.getElementById('adminLoginError').style.display = 'block';
+  });
+}
+
+// ===== 模板创建/克隆对话框 =====
+function showCreateDialog(action) {
+  document.getElementById('createAction').value = action;
+  if (action === 'new') {
+    document.getElementById('createDialogTitle').textContent = '✨ 新建模板';
+    document.getElementById('createCloneSourceField').style.display = 'none';
+    document.getElementById('createTplName').value = '我的模板';
+    document.getElementById('createTplDesc').value = '';
+  } else {
+    document.getElementById('createDialogTitle').textContent = '📋 克隆模板';
+    document.getElementById('createCloneSourceField').style.display = 'block';
+    // 加载可选模板列表
+    fetch(API_BASE + '/api/templates').then(r => r.json()).then(d => {
+      const select = document.getElementById('createCloneSource');
+      const tpls = d.templates || [];
+      select.innerHTML = '<option value="">请选择源模板...</option>' +
+        tpls.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+    }).catch(() => {});
+    document.getElementById('createTplName').value = '';
+    document.getElementById('createTplDesc').value = '';
+  }
+  document.getElementById('createOverlay').classList.add('show');
+  document.getElementById('createPanel').classList.add('show');
+}
+
+function closeCreateDialog() {
+  document.getElementById('createOverlay').classList.remove('show');
+  document.getElementById('createPanel').classList.remove('show');
+}
+
+async function createTemplate() {
+  const action = document.getElementById('createAction').value;
+  const name = document.getElementById('createTplName').value.trim();
+  const desc = document.getElementById('createTplDesc').value.trim();
+  if (!name) { showToast('请输入模板名称', 'error'); return; }
+
+  let sourceId = null;
+  if (action === 'clone') {
+    sourceId = document.getElementById('createCloneSource').value;
+    if (!sourceId) { showToast('请选择源模板', 'error'); return; }
+  }
+
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/template/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify({ name, description: desc, source_id: sourceId })
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showToast('✅ 模板创建成功', 'success');
+      closeCreateDialog();
+      loadDashboard();
+    } else {
+      showToast('❌ ' + (data.error || '创建失败'), 'error');
+    }
+  } catch(e) {
+    showToast('创建失败: ' + e.message, 'error');
+  }
+}
+
+function cloneTemplate(templateId) {
+  // 卡片上的克隆按钮 - 直接弹出创建对话框并预填源模板
+  showCreateDialog('clone');
+  // 等待模板列表加载后选中
+  setTimeout(() => {
+    const select = document.getElementById('createCloneSource');
+    for (let opt of select.options) {
+      if (opt.value === templateId) {
+        opt.selected = true;
+        break;
+      }
+    }
+  }, 500);
+}
+
+async function deleteTemplate(templateId) {
+  if (!confirm('确定删除此模板？此操作不可撤销！')) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/admin/template/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify({ template_id: templateId })
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showToast('✅ 模板已删除', 'success');
+      loadDashboard();
+    } else {
+      showToast('❌ ' + (data.error || '删除失败'), 'error');
+    }
+  } catch(e) {
+    showToast('删除失败: ' + e.message, 'error');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedToken = localStorage.getItem('g_token') || localStorage.getItem('user_token') || '';
+  if (savedToken) {
+    TOKEN = savedToken;
+    document.getElementById('adminLoginScreen').style.display = 'none';
+    document.getElementById('adminMainContent').style.display = 'block';
+    loadDashboard();
+  }
+  // else: login screen stays visible
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+{
+  "template_id": "store_promo_v1",
+  "template_name": "实体店推广·通用版",
+  "version": "1.0",
+  "description": "18秒竖版实体店推广视频。5场景：温馨开场→环境展示→服务介绍→客户好评→行动号召。暖橙色调+珊瑚粉渐变，适合美发/健身/美容/家政等服务行业。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（沉稳推荐）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（激情推荐）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖推荐）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "千挑万选，不如来这一家。舒适干净的环境，专业贴心的服务。每一处细节都不将就，用心对待每一位客人。来过的人都说好。欢迎你来体验。"
+    }
+  },
+  "colors": {
+    "scheme": "warm_orange",
+    "bg_start": "#4a1a0a",
+    "bg_end": "#1a0a05",
+    "primary": "#ff8c42",
+    "secondary": "#ffd4a0",
+    "gold": "#ff8c42",
+    "accent": "#ff6b35"
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#f5ece0",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "暖色渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "high",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "千挑万选，不如来这一家",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 28,
+          "color": "#ffffff"
+        },
+        "line2": {
+          "text": "▎实体店名",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 40,
+          "color": "#ff8c42"
+        },
+        "sub": {
+          "text": "做服务，我们是认真的",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 18,
+          "color": "rgba(255,255,255,0.5)"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎环境展示",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 36,
+          "color": "#ff8c42"
+        },
+        "line2": {
+          "text": "舒适干净·专业设备",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 24,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "来过的客户都说好",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "duration": 4,
+      "elements": {
+        "line1": {
+          "text": "▎匠心服务",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 36,
+          "color": "#ff8c42"
+        },
+        "line2": {
+          "text": "每一处细节都不将就",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 24,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "用心对待每一位客人",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "duration": 3,
+      "elements": {
+        "line1": {
+          "text": "大家都在说",
+          "x": 0.1,
+          "y": 0.25,
+          "size": 28,
+          "color": "#ffffff"
+        },
+        "line2": {
+          "text": "\"效果超出预期！\"",
+          "x": 0.1,
+          "y": 0.4,
+          "size": 30,
+          "color": "#ffd4a0"
+        },
+        "sub": {
+          "text": "⭐ 口碑推荐 · 回头率90%",
+          "x": 0.1,
+          "y": 0.55,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    },
+    {
+      "id": "s5",
+      "duration": 3,
+      "elements": {
+        "line1": {
+          "text": "📍 地址",
+          "x": 0.1,
+          "y": 0.3,
+          "size": 26,
+          "color": "#ff8c42"
+        },
+        "line2": {
+          "text": "📞 电话",
+          "x": 0.1,
+          "y": 0.45,
+          "size": 26,
+          "color": "#ffffff"
+        },
+        "sub": {
+          "text": "欢迎提前预约",
+          "x": 0.1,
+          "y": 0.6,
+          "size": 16,
+          "color": "rgba(255,255,255,0.4)"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/food_promo/template_config.json"
+}

@@ -1,0 +1,308 @@
+{
+  "template_id": "tpl_测试克隆2_5c04",
+  "template_name": "测试克隆2",
+  "version": "2.0",
+  "description": "25秒竖版餐饮宣传片。6场景：氛围开场→招牌突出→食材展示→故事讲述→活动信息→号召行动。深色暖调，食材特写质感，动静结合。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（沉稳推荐）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（激情推荐）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖推荐）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "在文山，有这么一家店。老板做了十五年餐饮，每天凌晨四点亲自去市场挑菜。食材新鲜，是对客人最基本的尊重。从一个小摊位到三家店，没有秘诀，就是用心。现在进店消费，全场八折。欢迎你来坐坐，尝尝这份十五年的味道。"
+    }
+  },
+  "colors": {
+    "scheme": "warm_dark",
+    "options": [
+      {
+        "id": "warm_dark",
+        "name": "暖棕暗金",
+        "bg_top": "#1a0f08",
+        "bg_bottom": "#0d0805",
+        "white_text": "#f5ece0",
+        "gold_text": "#d4a849",
+        "cyan_text": "#e8a87c",
+        "subtitle_color": "rgba(245,236,224,0.4)"
+      },
+      {
+        "id": "red_gold",
+        "name": "红火金",
+        "bg_top": "#1a0505",
+        "bg_bottom": "#0d0202",
+        "white_text": "#fff5f0",
+        "gold_text": "#ffd700",
+        "cyan_text": "#ff6b35",
+        "subtitle_color": "rgba(255,245,240,0.4)"
+      },
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#f5ece0",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "暖色渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "high",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 4,
+      "name": "氛围开场·文字弹出",
+      "elements": {
+        "line1": {
+          "text": "十五年了",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "只做一件事",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "在文山 · 用心做好每一餐",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 4,
+      "duration": 5,
+      "name": "招牌展示",
+      "elements": {
+        "line1": {
+          "text": "店名",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "招牌推荐",
+          "style": "large_white"
+        },
+        "line3": {
+          "text": "老顾客都说好",
+          "style": "large_cyan"
+        },
+        "sub": {
+          "text": "每一道菜，都是时间的味道",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 9,
+      "duration": 4,
+      "name": "食材理念",
+      "elements": {
+        "line1": {
+          "text": "每天凌晨",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "亲自挑菜",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "食材新鲜，是对客人最基本的尊重",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "start": 13,
+      "duration": 5,
+      "name": "创业故事",
+      "elements": {
+        "line1": {
+          "text": "从一个小摊位",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "到三家店",
+          "style": "large_gold"
+        },
+        "line3": {
+          "text": "没有秘诀",
+          "style": "large_cyan"
+        },
+        "line4": {
+          "text": "就是用心",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "匠心 · 良心 · 初心",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s5",
+      "start": 18,
+      "duration": 4,
+      "name": "活动信息",
+      "elements": {
+        "price": {
+          "text": "全场八折",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "进店消费即享\n活动时间：即日起至5月31日",
+          "style": "info"
+        },
+        "limit": {
+          "text": "限时优惠 · 手慢无",
+          "style": "limit"
+        }
+      }
+    },
+    {
+      "id": "s6",
+      "start": 22,
+      "duration": 4,
+      "name": "号召行动",
+      "elements": {
+        "line1": {
+          "text": "欢迎你来坐坐",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "地址",
+          "style": "info"
+        },
+        "phone": {
+          "text": "电话",
+          "style": "phone"
+        },
+        "sub": {
+          "text": "用心做菜 · 等你来尝",
+          "style": "subtitle"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/food_promo/template_config.json",
+  "source": "custom"
+}

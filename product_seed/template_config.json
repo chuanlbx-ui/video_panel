@@ -1,0 +1,255 @@
+{
+  "template_id": "product_seed_v1",
+  "template_name": "产品种草·带货版",
+  "version": "1.0",
+  "description": "18秒竖版产品种草视频。4场景：痛点→产品亮相→卖点→价格+购买。暖色渐变促销风格，适合实体产品/本地特产推广。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian"
+        }
+      ],
+      "speed": 1.0,
+      "text": "产品种草"
+    }
+  },
+  "colors": {
+    "scheme": "warm_sale",
+    "options": [
+      {
+        "id": "warm_sale",
+        "name": "暖色促销",
+        "bg_top": "#1a0a05",
+        "bg_bottom": "#2a1508",
+        "white_text": "#fff5e6",
+        "gold_text": "#ff6b35",
+        "cyan_text": "#ffd700",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "fresh_green",
+        "name": "清新自然",
+        "bg_top": "#051a0a",
+        "bg_bottom": "#0a2a15",
+        "white_text": "#e6fff0",
+        "gold_text": "#35b56b",
+        "cyan_text": "#00d48a",
+        "subtitle_color": "rgba(255,255,255,0.4)"
+      },
+      {
+        "id": "tech_blue",
+        "name": "科技蓝",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "low",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低"
+      },
+      {
+        "id": "medium",
+        "name": "中"
+      },
+      {
+        "id": "high",
+        "name": "高"
+      }
+    ]
+  },
+  "animation": {
+    "style": "scale",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 4,
+      "name": "痛点开场",
+      "elements": {
+        "line1": {
+          "text": "你是不是也遇到过",
+          "style": "pain_text"
+        },
+        "line2": {
+          "text": "痛点描述",
+          "style": "pain_highlight"
+        },
+        "sub": {
+          "text": "其实，解决办法很简单",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 4,
+      "duration": 5,
+      "name": "产品亮相",
+      "elements": {
+        "line1": {
+          "text": "直到遇见它",
+          "style": "reveal_text"
+        },
+        "line2": {
+          "text": "产品名称",
+          "style": "product_name"
+        },
+        "line3": {
+          "text": "产品卖点一句话",
+          "style": "product_tagline"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 9,
+      "duration": 5,
+      "name": "卖点展示",
+      "elements": {
+        "line1": {
+          "text": "三大理由",
+          "style": "reason_title"
+        },
+        "line2": {
+          "text": "理由1",
+          "style": "reason_item"
+        },
+        "line3": {
+          "text": "理由2",
+          "style": "reason_item"
+        },
+        "line4": {
+          "text": "理由3",
+          "style": "reason_item"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "start": 14,
+      "duration": 4,
+      "name": "价格+购买",
+      "elements": {
+        "price": {
+          "text": "价格",
+          "style": "price_big"
+        },
+        "cta": {
+          "text": "立即购买",
+          "style": "cta_button"
+        },
+        "info": {
+          "text": "联系方式",
+          "style": "info_text"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/product_seed/template_config.json"
+}

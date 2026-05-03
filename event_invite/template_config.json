@@ -1,0 +1,247 @@
+{
+  "template_id": "event_invite_v1",
+  "template_name": "活动邀约·通用版",
+  "version": "1.0",
+  "description": "15秒竖版活动邀约宣传片。4场景：大标题→活动信息→亮点→参与方式。深蓝紫渐变+金色点缀，适合各类活动推广。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunjianNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（推荐）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao"
+        }
+      ],
+      "speed": 1.0,
+      "text": "5月5日，立夏。文山大景商业城，有一场特别的AI培训。州政协常委、协会会长、AI全栈开发者余川亲自授课。一天时间，从起心动念开始，搭你的AI数字员工。限50席，会员免费。位置不多了，赶紧报名。"
+    }
+  },
+  "colors": {
+    "scheme": "deep_purple",
+    "options": [
+      {
+        "id": "deep_purple",
+        "name": "深紫金",
+        "bg_top": "#0a0520",
+        "bg_bottom": "#150a3a",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#b388ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "dark_gold",
+        "name": "暗金",
+        "bg_top": "#0a0a0a",
+        "bg_bottom": "#1a1308",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#e8b800",
+        "subtitle_color": "rgba(255,215,0,0.4)"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 4,
+      "name": "大标题",
+      "elements": {
+        "line1": {
+          "text": "5月5日·立夏",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "AI实战课",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "一天时间，带走你的AI数字员工",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 4,
+      "duration": 4,
+      "name": "谁来讲",
+      "elements": {
+        "line1": {
+          "text": "实干的人",
+          "style": "large_gold"
+        },
+        "tags": {
+          "text": "州政协常委 · 协会会长\nAI全栈开发者",
+          "style": "tags"
+        },
+        "sub": {
+          "text": "余川 亲授",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 8,
+      "duration": 3,
+      "name": "学什么",
+      "elements": {
+        "line1": {
+          "text": "先修心·再学器",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "从起心动念开始 · 搭你的AI数字员工",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "start": 11,
+      "duration": 5,
+      "name": "怎么参加",
+      "elements": {
+        "area": {
+          "text": "📍 文山大景商业城\n启迪艺术教育学校",
+          "style": "info"
+        },
+        "limit": {
+          "text": "限50席 · 会员免费",
+          "style": "price"
+        },
+        "phone": {
+          "text": "📞 18008760088（易）",
+          "style": "phone"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/event_invite/template_config.json"
+}

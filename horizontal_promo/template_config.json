@@ -1,0 +1,254 @@
+{
+  "template_id": "horizontal_promo_v1",
+  "template_name": "横版宣传片（16:9宽屏）",
+  "version": "3.0",
+  "description": "16:9宽屏宣传片，1920×1080，适合投屏/网站/公众号嵌入。3场景结构。",
+  "settings": {
+    "video_duration": 22,
+    "output_width": 1920,
+    "output_height": 1080,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "gradient"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "央视播音·YunYang（专业）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "浑厚激情·YunJian（体育）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "阳光活力·YunXi"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "温暖标准·XiaoXiao（女）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "生动卡通·XiaoYi（女）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "标题文案占位"
+    }
+  },
+  "colors": {
+    "scheme": "tech_blue",
+    "options": [
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "dark_gold",
+        "name": "暗金炫酷",
+        "bg_top": "#0a0a0a",
+        "bg_bottom": "#1a1308",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#e8b800",
+        "subtitle_color": "rgba(255,215,0,0.4)"
+      },
+      {
+        "id": "cyber_purple",
+        "name": "赛博紫",
+        "bg_top": "#0a0015",
+        "bg_bottom": "#1a0a30",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#b388ff",
+        "subtitle_color": "rgba(179,136,255,0.4)"
+      },
+      {
+        "id": "red_festival",
+        "name": "红金庆典",
+        "bg_top": "#1a0000",
+        "bg_bottom": "#2d0a00",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#ff6b35",
+        "subtitle_color": "rgba(255,107,53,0.4)"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（滑入淡出）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（焦点出现）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（科技闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.6
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景（默认）"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 7,
+      "name": "开场·吸引关注",
+      "elements": {
+        "line1": {
+          "text": "开场大标题",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "金色副标题",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "说明文字",
+          "style": "subtitle"
+        }
+      },
+      "narration": "开场配音文案"
+    },
+    {
+      "id": "s2",
+      "start": 7,
+      "duration": 7,
+      "name": "核心·价值传递",
+      "elements": {
+        "bullet1": {
+          "text": "要点一",
+          "style": "bullet"
+        },
+        "bullet2": {
+          "text": "要点二",
+          "style": "bullet"
+        },
+        "bullet3": {
+          "text": "要点三",
+          "style": "bullet"
+        }
+      },
+      "narration": "核心价值配音"
+    },
+    {
+      "id": "s3",
+      "start": 14,
+      "duration": 8,
+      "name": "收尾·行动号召",
+      "elements": {
+        "cta": {
+          "text": "立即行动",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "联系方式/地址",
+          "style": "info"
+        }
+      },
+      "narration": "结尾配音"
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/horizontal_promo/template_config.json"
+}

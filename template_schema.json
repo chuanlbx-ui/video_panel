@@ -1,0 +1,55 @@
+{
+  "template_id": "string (唯一标识)",
+  "template_name": "string (模板名称)",
+  "version": "string (版本号)",
+  "description": "string (描述)",
+  "settings": {
+    "fps": "number (帧率，默认30)",
+    "output_width": "number (宽度，默认1080)",
+    "output_height": "number (高度，默认1920)",
+    "quality": "string (standard/high/draft)",
+    "video_bitrate": "string (比特率，如15M)"
+  },
+  "scenes": [
+    {
+      "id": "string (场景唯一ID)",
+      "name": "string (场景名称)",
+      "duration": "number (时长，秒)",
+      "elements": [
+        {
+          "type": "string (text/image/video)",
+          "text": "string (文字内容)",
+          "style": "string (样式: large_white/large_gold/large_cyan/subtitle/info/phone/price)",
+          "font_size": "number (字体大小)",
+          "color": "string (颜色)",
+          "position": {
+            "x": "number (水平位置，0-1)",
+            "y": "number (垂直位置，0-1)"
+          }
+        }
+      ]
+    }
+  ],
+  "colors": {
+    "scheme": "string (配色方案ID)",
+    "options": [
+      {
+        "id": "string",
+        "name": "string",
+        "bg_top": "string",
+        "bg_bottom": "string",
+        "white_text": "string",
+        "gold_text": "string",
+        "cyan_text": "string",
+        "subtitle_color": "string"
+      }
+    ]
+  },
+  "audio": {
+    "bgm": { "enabled": "boolean", "volume": "number" },
+    "voiceover": { "enabled": "boolean", "text": "string", "default_voice": "string" }
+  },
+  "animation": { "style": "string" },
+  "effects": { "transition_style": "string", "particle_density": "string", "glow_enabled": "boolean" },
+  "background": { "type": "string" }
+}

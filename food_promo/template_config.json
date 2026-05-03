@@ -1,0 +1,14 @@
+{
+  "name": "餐饮推广测试",
+  "description": "测试描述",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "测试场景",
+      "text": "测试文字"
+    }
+  ],
+  "settings": {
+    "fps": 30
+  }
+}

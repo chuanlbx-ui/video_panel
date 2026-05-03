@@ -1,0 +1,266 @@
+{
+  "template_id": "association_invite_v1",
+  "template_name": "协会活动邀请函（横版16:9）",
+  "version": "2.0",
+  "description": "25秒横版邀请函宣传片，1920×1080，红金庆典风格。3场景结构：活动名称→嘉宾介绍→时间地点CTA。适合协会/商会活动邀约。",
+  "settings": {
+    "video_duration": 25,
+    "output_width": 1920,
+    "output_height": 1080,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "particle"
+  },
+  "background": {
+    "type": "particle",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.6
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "uplifting",
+          "name": "庆典激昂"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "ambient",
+          "name": "庄重氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunjianNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（专业新闻）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（浑厚激情）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "男声·YunXi（阳光活力）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖标准）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "女声·XiaoYi（生动卡通）"
+        },
+        {
+          "id": "zh-CN-YunyeNeural",
+          "name": "男声·YunYe（沉稳自然）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "尊敬的各位会员、合作伙伴，文山州新媒体协会诚挚邀请您出席——2026文山数字经济发展峰会暨协会年度盛典。汇聚行业精英，共话数字未来，赋能实体经济。活动将于2026年6月18日下午两点，在文山大景国际会议中心三楼宴会厅隆重举行。席位有限，敬请提前预约。诚邀莅临，共襄盛举。"
+    }
+  },
+  "colors": {
+    "scheme": "red_gold",
+    "options": [
+      {
+        "id": "red_gold",
+        "name": "红金庆典",
+        "bg_top": "#1a0000",
+        "bg_bottom": "#2d0a00",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#ff6b35",
+        "subtitle_color": "rgba(255,215,0,0.5)"
+      },
+      {
+        "id": "deep_red",
+        "name": "深红雍容",
+        "bg_top": "#0d0000",
+        "bg_bottom": "#1f0505",
+        "white_text": "#fff5e6",
+        "gold_text": "#ffd700",
+        "cyan_text": "#ff8c42",
+        "subtitle_color": "rgba(255,140,66,0.4)"
+      },
+      {
+        "id": "gold_navy",
+        "name": "金蓝典雅",
+        "bg_top": "#0a0e27",
+        "bg_bottom": "#151a3a",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#4a90d9",
+        "subtitle_color": "rgba(74,144,217,0.4)"
+      },
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（上滑淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（弹入）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 8,
+      "name": "活动名称·邀请标题",
+      "elements": {
+        "line1": {
+          "text": "诚挚邀请",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "2026文山数字经济发展峰会",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "暨协会年度盛典",
+          "style": "subtitle"
+        }
+      },
+      "narration": "尊敬的各位会员、合作伙伴，文山州新媒体协会诚挚邀请您出席——2026文山数字经济发展峰会暨协会年度盛典。"
+    },
+    {
+      "id": "s2",
+      "start": 8,
+      "duration": 8,
+      "name": "嘉宾介绍·活动亮点",
+      "elements": {
+        "tag1": {
+          "text": "行业精英 · 齐聚一堂",
+          "style": "bullet"
+        },
+        "tag2": {
+          "text": "前沿议题 · 深度对话",
+          "style": "bullet"
+        },
+        "tag3": {
+          "text": "资源对接 · 合作共赢",
+          "style": "bullet"
+        }
+      },
+      "narration": "汇聚行业精英，共话数字未来，赋能实体经济。"
+    },
+    {
+      "id": "s3",
+      "start": 16,
+      "duration": 9,
+      "name": "时间地点·行动号召",
+      "elements": {
+        "cta": {
+          "text": "诚邀莅临 · 共襄盛举",
+          "style": "large_gold"
+        },
+        "date": {
+          "text": "2026年6月18日 · 14:00",
+          "style": "info"
+        },
+        "venue": {
+          "text": "文山大景国际会议中心 · 三楼宴会厅",
+          "style": "info"
+        },
+        "phone": {
+          "text": "📞 预约专线：18008760088",
+          "style": "phone"
+        }
+      },
+      "narration": "活动将于2026年6月18日下午两点，在文山大景国际会议中心三楼宴会厅隆重举行。席位有限，敬请提前预约。诚邀莅临，共襄盛举。"
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/association_invite/template_config.json"
+}

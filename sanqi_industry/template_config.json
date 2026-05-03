@@ -1,0 +1,287 @@
+{
+  "template_id": "sanqi_industry_v1",
+  "template_name": "三七产业推广竖版宣传片",
+  "version": "2.0",
+  "description": "32秒竖版三七产业推广片，1080×1920，深绿渐变+金色文字。4场景结构：三七介绍→产业优势→产品展示→合作CTA。自然+科技融合风格。",
+  "settings": {
+    "video_duration": 32,
+    "output_width": 1080,
+    "output_height": 1920,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "particle"
+  },
+  "background": {
+    "type": "particle",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.6
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "ambient",
+          "name": "自然氛围"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（专业新闻）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（浑厚激情）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "男声·YunXi（阳光活力）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖标准）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "女声·XiaoYi（生动卡通）"
+        },
+        {
+          "id": "zh-CN-YunyeNeural",
+          "name": "男声·YunYe（沉稳自然）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "文山三七，千年本草，南国神草。三七，是中国国家地理标志产品，被誉为参中之王、金不换。文山州是世界公认的三七原产地和主产区，种植面积和产量占全国百分之九十五以上。从种子到成品，全程标准化种植、精深化加工，品质保障。三七总皂苷含量领先行业标准，畅销全国、远销海外。选择文山三七，就是选择正宗与品质。诚邀各界客商、合作伙伴，共拓三七大健康产业。合作热线：18008760088。"
+    }
+  },
+  "colors": {
+    "scheme": "forest_gold",
+    "options": [
+      {
+        "id": "forest_gold",
+        "name": "深绿金",
+        "bg_top": "#0a1a0a",
+        "bg_bottom": "#0d2a10",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#66bb6a",
+        "subtitle_color": "rgba(102,187,106,0.4)"
+      },
+      {
+        "id": "jade_dark",
+        "name": "墨玉翡翠",
+        "bg_top": "#051005",
+        "bg_bottom": "#0a1f0d",
+        "white_text": "#e8f5e9",
+        "gold_text": "#ffd54f",
+        "cyan_text": "#4caf50",
+        "subtitle_color": "rgba(76,175,80,0.4)"
+      },
+      {
+        "id": "teal_gold",
+        "name": "青绿金",
+        "bg_top": "#001a1a",
+        "bg_bottom": "#002d2d",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#26c6da",
+        "subtitle_color": "rgba(38,198,218,0.4)"
+      },
+      {
+        "id": "dark_gold",
+        "name": "暗金炫酷",
+        "bg_top": "#0a0a0a",
+        "bg_bottom": "#1a1308",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#e8b800",
+        "subtitle_color": "rgba(255,215,0,0.4)"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（上滑淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（弹入）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 7,
+      "name": "三七介绍·南国神草",
+      "elements": {
+        "line1": {
+          "text": "文山三七",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "千年本草",
+          "style": "large_gold"
+        },
+        "line3": {
+          "text": "南国神草",
+          "style": "large_cyan"
+        },
+        "sub": {
+          "text": "中国国家地理标志产品",
+          "style": "subtitle"
+        }
+      },
+      "narration": "文山三七，千年本草，南国神草。三七，是中国国家地理标志产品，被誉为参中之王、金不换。"
+    },
+    {
+      "id": "s2",
+      "start": 7,
+      "duration": 8,
+      "name": "产业优势·原产地",
+      "elements": {
+        "stat1": {
+          "text": "原产地 · 文山州",
+          "style": "large_white"
+        },
+        "stat2": {
+          "text": "占全国产量95%+",
+          "style": "large_gold"
+        },
+        "stat3": {
+          "text": "全程标准化种植",
+          "style": "large_cyan"
+        }
+      },
+      "narration": "文山州是世界公认的三七原产地和主产区，种植面积和产量占全国百分之九十五以上。从种子到成品，全程标准化种植、精深化加工，品质保障。"
+    },
+    {
+      "id": "s3",
+      "start": 15,
+      "duration": 8,
+      "name": "产品展示·品质标杆",
+      "elements": {
+        "quality1": {
+          "text": "皂苷含量",
+          "style": "bullet"
+        },
+        "val1": {
+          "text": "领先行业标准",
+          "style": "large_gold"
+        },
+        "quality2": {
+          "text": "畅销全国 · 远销海外",
+          "style": "large_cyan"
+        }
+      },
+      "narration": "三七总皂苷含量领先行业标准，畅销全国、远销海外。选择文山三七，就是选择正宗与品质。"
+    },
+    {
+      "id": "s4",
+      "start": 23,
+      "duration": 9,
+      "name": "合作CTA·共拓产业",
+      "elements": {
+        "cta": {
+          "text": "合作共赢",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "共拓三七大健康产业",
+          "style": "info"
+        },
+        "phone": {
+          "text": "📞 合作热线：18008760088",
+          "style": "phone"
+        }
+      },
+      "narration": "诚邀各界客商、合作伙伴，共拓三七大健康产业。合作热线：18008760088。"
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/sanqi_industry/template_config.json"
+}

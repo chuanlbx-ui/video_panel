@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="data:,">
+  <title>滇边AI·心学智造 — 视频工坊 v4.5</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'Noto Sans SC', 'PingFang SC', sans-serif;
+  background: linear-gradient(160deg, #0a2a5e 0%, #0a1628 35%, #060e1e 100%);
+  color: #fff; min-height: 100vh; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 20%, rgba(255,213,79,0.06) 0%, transparent 70%);
+}
+
+/* ===== 品牌色 ===== */
+:root {
+  --gold: #ffd54f;
+  --gold-dark: #d4a849;
+  --gold-light: #ffe68a;
+  --gold-glow: rgba(255,213,79,0.15);
+  --dark: #060e1e;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.06);
+  --card-border-hover: rgba(255,255,255,0.12);
+}
+
+/* ===== 容器 ===== */
+.page {
+  max-width: 480px; margin: 0 auto; padding: 0; min-height: 100vh;
+  position: relative; z-index: 1;
+  box-shadow: 0 0 60px rgba(255,213,79,0.03), inset 0 0 80px rgba(255,213,79,0.02);
+}
+
+/* ===== 头部 ===== */
+.header { padding: 28px 16px 14px; text-align: center; position: relative; }
+.header::after {
+  content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
+  height: 1px; background: linear-gradient(90deg, transparent, rgba(255,213,79,0.15), transparent);
+}
+.header-logo { font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 3px; text-shadow: 0 0 30px rgba(255,213,79,0.15); }
+.header-sub { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 5px; letter-spacing: 1px; }
+.header-user { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 10px; }
+.header-user strong { color: #fff; }
+
+/* ===== 大按钮CTA ===== */
+.cta-btn {
+  display: block; width: calc(100% - 32px); margin: 18px auto; padding: 18px 0;
+  background: linear-gradient(135deg, #ffd54f 0%, #e6b800 40%, #c9a000 100%);
+  color: #1a1200; font-size: 20px; font-weight: 800; text-align: center;
+  border: none; border-radius: 16px; cursor: pointer;
+  box-shadow: 0 4px 28px rgba(255,213,79,0.25), 0 0 40px rgba(255,213,79,0.08);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  letter-spacing: 3px; position: relative; overflow: hidden;
+}
+.cta-btn::before {
+  content: ''; position: absolute; inset: 0; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 36px rgba(255,213,79,0.35), 0 0 50px rgba(255,213,79,0.1); }
+.cta-btn:active { transform: scale(0.96); box-shadow: 0 2px 12px rgba(255,213,79,0.15); }
+.cta-btn:disabled { opacity: 0.35; transform: none; box-shadow: none; }
+
+/* ===== 步骤指示器（3个圆形点+金色连线） ===== */
+.steps-bar {
+  display: flex; justify-content: center; align-items: center; gap: 0;
+  padding: 18px 40px 22px; position: relative;
+}
+.step-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.08);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative; z-index: 2; flex-shrink: 0;
+}
+.step-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(255,213,79,0.4), 0 0 40px rgba(255,213,79,0.15);
+  width: 14px; height: 14px;
+}
+.step-dot.done {
+  background: var(--gold);
+  border-color: var(--gold);
+  opacity: 0.6;
+}
+/* 连接线 — 用伪元素 */
+.step-dot::after {
+  content: ''; position: absolute; top: 50%; left: 100%;
+  width: 48px; height: 2px;
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.step-dot:last-child::after { display: none; }
+.step-dot.done::after { background: var(--gold); opacity: 0.4; }
+
+/* ===== 页面容器 ===== */
+.screen { display: none; padding: 0 16px 80px; animation: fadeSlideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+.screen.active { display: block; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 模板选择（大卡片+发光边框） ===== */
+.screen-title {
+  font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.5);
+  margin-bottom: 14px; letter-spacing: 1px;
+}
+.tpl-grid { display: flex; flex-direction: column; gap: 14px; }
+.tpl-card {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex; gap: 16px; align-items: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  position: relative;
+}
+.tpl-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.tpl-card:active { transform: scale(0.97); }
+.tpl-card.selected {
+  border-color: var(--gold);
+  background: rgba(255,213,79,0.06);
+  box-shadow: 0 0 20px rgba(255,213,79,0.12), 0 0 60px rgba(255,213,79,0.04), inset 0 0 30px rgba(255,213,79,0.03);
+}
+.tpl-card.selected::before {
+  content: ''; position: absolute; inset: -1px; border-radius: 19px;
+  background: linear-gradient(135deg, rgba(255,213,79,0.3), transparent 50%, rgba(255,213,79,0.1));
+  z-index: -1; opacity: 0.6;
+}
+.tpl-emoji { font-size: 40px; width: 56px; text-align: center; flex-shrink: 0; }
+.tpl-info { flex: 1; }
+.tpl-name { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+.tpl-desc { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 4px; line-height: 1.5; }
+.tpl-badge {
+  display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 12px;
+  background: rgba(255,213,79,0.12); color: var(--gold); margin-top: 7px;
+  letter-spacing: 0.5px; border: 1px solid rgba(255,213,79,0.08);
+}
+
+/* ===== 表单 ===== */
+.form-group { margin-bottom: 20px; }
+.form-label { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 8px; display: block; letter-spacing: 0.5px; }
+.form-input {
+  width: 100%; padding: 15px 18px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff; font-size: 16px; outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.form-input:focus {
+  border-color: rgba(255,213,79,0.3);
+  box-shadow: 0 0 24px rgba(255,213,79,0.06);
+}
+.form-input::placeholder { color: rgba(255,255,255,0.15); }
+textarea.form-input { resize: none; min-height: 80px; line-height: 1.6; }
+
+/* ===== 预览区域（带内发光） ===== */
+.preview-area {
+  border-radius: 16px; overflow: hidden; margin-bottom: 18px;
+  background: radial-gradient(ellipse at 50% 50%, #0d1a35, #060e1e);
+  aspect-ratio: 9/16; max-height: 360px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: inset 0 0 60px rgba(255,213,79,0.03), 0 4px 24px rgba(0,0,0,0.3);
+  position: relative;
+}
+.preview-placeholder { text-align: center; color: rgba(255,255,255,0.12); font-size: 13px; }
+.preview-placeholder .icon { font-size: 52px; margin-bottom: 12px; display: block; opacity: 0.6; }
+.preview-frame { width: 100%; height: 100%; object-fit: contain; }
+
+/* ===== 生成进度 ===== */
+.progress-screen { text-align: center; padding-top: 80px; }
+.progress-ring { width: 96px; height: 96px; margin: 0 auto 28px; position: relative; }
+.progress-ring svg { transform: rotate(-90deg); }
+.progress-ring circle {
+  fill: none; stroke-width: 5; stroke-linecap: round;
+}
+.progress-bg { stroke: rgba(255,255,255,0.06); }
+.progress-fill { stroke: url(#goldGrad); stroke-width: 5; stroke-dasharray: 260; stroke-dashoffset: 260; transition: stroke-dashoffset 0.8s cubic-bezier(0.23, 1, 0.32, 1); filter: drop-shadow(0 0 8px rgba(255,213,79,0.3)); }
+.progress-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: var(--gold); text-shadow: 0 0 20px rgba(255,213,79,0.15); }
+.progress-text { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 6px; letter-spacing: 0.5px; }
+.progress-hint { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+/* ===== 完成页面 ===== */
+.finish-screen { text-align: center; padding-top: 36px; position: relative; }
+/* 粒子装饰点 */
+.finish-screen::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 200px;
+  pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,213,79,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 15%, rgba(255,213,79,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 40%, rgba(255,213,79,0.2) 0%, transparent 100%),
+    radial-gradient(2px 2px at 35% 55%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 70%, rgba(255,213,79,0.2) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 80%, rgba(255,255,255,0.1) 0%, transparent 100%);
+}
+.finish-icon { font-size: 72px; margin-bottom: 16px; display: block; filter: drop-shadow(0 0 30px rgba(255,213,79,0.2)); }
+.finish-title { font-size: 26px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.finish-sub { font-size: 14px; color: rgba(255,255,255,0.35); margin-bottom: 28px; line-height: 1.6; }
+.finish-video {
+  border-radius: 16px; overflow: hidden; margin: 0 auto 28px; max-width: 280px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 60px rgba(255,213,79,0.04);
+}
+.finish-video video { width: 100%; display: block; }
+.finish-actions { display: flex; gap: 12px; padding: 0 16px; margin-bottom: 8px; }
+.finish-actions .btn {
+  flex: 1; padding: 15px 10px; border-radius: 12px; border: none;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.finish-actions .btn:active { transform: scale(0.96); }
+.btn-share {
+  background: linear-gradient(135deg, #07c160, #059a4e);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(7,193,96,0.25);
+}
+.btn-save {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ===== 小贴士 ===== */
+.tip-box {
+  margin: 20px 16px 0; padding: 14px 18px; border-radius: 12px;
+  background: rgba(255,213,79,0.04);
+  border: 1px solid rgba(255,213,79,0.08);
+  font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.7; text-align: left;
+}
+
+/* ===== 返回按钮 ===== */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 0 10px 4px; font-size: 14px; color: rgba(255,255,255,0.35);
+  background: none; border: none; cursor: pointer; margin-bottom: 14px;
+  transition: color 0.2s, transform 0.2s;
+}
+.back-btn:hover { color: rgba(255,255,255,0.6); transform: translateX(-2px); }
+
+/* ===== Canvas实时预览（V4.5智能版） ===== */
+.preview-canvas {
+  width: 100%; height: 100%;
+  display: block;
+  border-radius: 0;
+}
+.preview-label {
+  position: absolute; top: 12px; left: 12px;
+  font-size: 10px; color: rgba(255,255,255,0.25);
+  letter-spacing: 1px; z-index: 5;
+  background: rgba(0,0,0,0.4); padding: 4px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+/* ===== AI文案助手浮层 ===== */
+.variant-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+.variant-overlay.active { display: flex; }
+.variant-panel {
+  width: 100%; max-width: 480px;
+  background: linear-gradient(180deg, #0d1a35, #060e1e);
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px 40px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: slideUp 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.variant-header {
+  font-size: 18px; font-weight: 700; margin-bottom: 4px;
+  color: var(--gold);
+}
+.variant-sub {
+  font-size: 12px; color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+.variant-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px; padding: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.variant-card:hover {
+  border-color: rgba(255,213,79,0.2);
+  background: rgba(255,213,79,0.04);
+}
+.variant-card.selected {
+  border-color: var(--gold);
+  background: rgba(255,213,79,0.08);
+}
+.variant-style {
+  font-size: 13px; font-weight: 600; color: var(--gold);
+  margin-bottom: 8px;
+}
+.variant-scene {
+  font-size: 12px; color: rgba(255,255,255,0.5);
+  line-height: 1.6; padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.variant-scene:last-child { border-bottom: none; }
+.variant-vo {
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-style: italic;
+}
+.variant-confirm {
+  display: block; width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #ffd54f, #e6b800);
+  color: #1a1200;
+  border: none; border-radius: 14px;
+  font-size: 17px; font-weight: 700; cursor: pointer;
+  margin-top: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.variant-confirm:active { transform: scale(0.96); }
+.variant-close {
+  display: block; width: 100%; padding: 12px;
+  background: none; border: none;
+  color: rgba(255,255,255,0.3); font-size: 14px;
+  cursor: pointer; margin-top: 4px;
+}
+
+/* ===== AI文案助手按钮 ===== */
+.ai-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: calc(100% - 32px); margin: 0 auto 14px;
+  padding: 14px; border-radius: 12px;
+  border: 1px solid rgba(255,213,79,0.15);
+  background: linear-gradient(135deg, rgba(255,213,79,0.08), rgba(255,213,79,0.03));
+  color: var(--gold);
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.ai-btn:hover {
+  border-color: rgba(255,213,79,0.3);
+  background: linear-gradient(135deg, rgba(255,213,79,0.12), rgba(255,213,79,0.06));
+  box-shadow: 0 4px 20px rgba(255,213,79,0.08);
+}
+.ai-btn:active { transform: scale(0.97); }
+.ai-btn:disabled {
+  opacity: 0.4; cursor: not-allowed;
+  transform: none; box-shadow: none;
+}
+
+/* ===== 底部状态条 ===== */
+.status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; text-align: center;
+  padding: 12px 16px; font-size: 11px; letter-spacing: 3px;
+  background: rgba(6,14,30,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--gold); opacity: 0.7;
+  border-top: 1px solid rgba(255,213,79,0.06);
+  z-index: 100;
+}
+
+/* ===== SVG渐变定义（用于进度环） ===== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 480px) {
+  .page { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="app">
+
+  <!-- ===== 首页 ===== -->
+  <div class="screen active" id="screenHome">
+    <div class="header">
+      <div class="header-logo">✦ 滇边AI · 心学智造</div>
+      <div class="header-sub">文山州互联网协会 · AI视频工坊</div>
+      <div class="header-user" id="userInfo">👋 你好，<strong>请先登录</strong></div>
+    </div>
+
+    <button class="cta-btn" id="startBtn">🎬 开始做视频</button>
+
+    <!-- 一句话出片快捷入口 -->
+    <div style="padding:0 16px;margin-bottom:8px;">
+      <button class="ai-btn" id="oneShotBtn" style="width:100%;border-radius:14px;padding:16px;">
+        ⚡ 一句话出片 — 你说句话，AI自动做
+      </button>
+    </div>
+    <div id="oneShotResult" style="display:none;padding:0 16px;margin-bottom:8px;"></div>
+
+    <div style="padding: 0 16px; margin-top: 8px;">
+      <div class="form-label" style="text-align:center;">热门模板</div>
+      <div class="tpl-grid" id="hotTplGrid" style="margin-top:8px;"></div>
+    </div>
+
+    <div id="statsBadge" style="text-align:center;padding:6px 16px;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;margin-top:4px;">
+      ⚡ 加载数据中...
+    </div>
+
+    <div class="status-bar">知而行 · 行而达</div>
+  </div>
+
+  <!-- ===== 模板选择 ===== -->
+  <div class="screen" id="screenTpl">
+    <button class="back-btn" onclick="goHome()">← 返回</button>
+    <div class="form-label">选择视频类型</div>
+    <div class="tpl-grid" id="tplGrid"></div>
+  </div>
+
+  <!-- ===== 填写信息 ===== -->
+  <div class="screen" id="screenForm">
+    <button class="back-btn" onclick="goStep('tpl')">← 换个模板</button>
+    <div class="form-label" id="formTitle">填写内容</div>
+
+    <div id="dynamicForm"></div>
+
+    <!-- 预览 -->
+    <div class="preview-area" id="previewArea">
+      <canvas class="preview-canvas" id="previewCanvas" width="360" height="640"></canvas>
+      <div class="preview-label">预览</div>
+    </div>
+
+    <!-- AI文案助手按钮 -->
+    <button class="ai-btn" id="aiCopyBtn">✨ AI生成3版文案</button>
+
+    <button class="cta-btn" id="generateBtn">🎬 立即生成视频</button>
+  </div>
+
+  <!-- ===== 生成进度 ===== -->
+  <div class="screen" id="screenProgress">
+    <div class="progress-screen">
+      <div class="progress-ring">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffd54f"/>
+              <stop offset="50%" stop-color="#e6b800"/>
+              <stop offset="100%" stop-color="#c9a000"/>
+            </linearGradient>
+          </defs>
+          <circle class="progress-bg" cx="48" cy="48" r="41"/>
+          <circle class="progress-fill" id="progressCircle" cx="48" cy="48" r="41"/>
+        </svg>
+        <div class="progress-pct" id="progressPct">0%</div>
+      </div>
+      <div class="progress-text" id="progressText">正在准备...</div>
+      <div class="progress-hint" id="progressHint">知而行，行而达</div>
+    </div>
+  </div>
+
+  <!-- ===== 完成页面 ===== -->
+  <div class="screen" id="screenFinish">
+    <div class="finish-screen">
+      <div class="finish-icon">🎉</div>
+      <div class="finish-title">搞定！</div>
+      <div class="finish-sub" id="finishSub">你的视频已经生成好了</div>
+
+      <div class="finish-video">
+        <video id="finishVideo" controls playsinline></video>
+      </div>
+
+      <div class="finish-actions">
+        <button class="btn btn-save" id="saveBtn">💾 保存到手机</button>
+        <button class="btn btn-share" id="shareBtn">📤 分享到朋友圈</button>
+      </div>
+      <button class="btn btn-wechat" id="wechatBtn" style="width:calc(100% - 32px);margin:10px auto 0;padding:14px;border-radius:10px;border:none;font-size:15px;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#07c160,#06ad56);color:#fff;display:block;text-align:center;box-shadow:0 4px 16px rgba(7,193,96,0.25);">📱 发到微信群</button>
+
+      <div class="tip-box">
+        💡 <strong>知而不行，只是未知</strong> —— 做出来，发出去，才是知行合一
+      </div>
+
+      <button class="cta-btn" style="margin-top:20px;" onclick="goHome()">再做一条</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== AI文案助手浮层 ===== -->
+<div class="variant-overlay" id="variantOverlay">
+  <div class="variant-panel">
+    <div class="variant-header">✨ AI文案助手</div>
+    <div class="variant-sub">根据你填的信息，生成3版不同风格的文案。选一个最合适的。</div>
+    <div id="variantHint" style="display:none;text-align:center;padding:8px 12px;margin-bottom:12px;border-radius:10px;background:rgba(255,213,79,0.08);color:#ffd54f;font-size:13px;font-weight:600;"></div>
+    <div id="variantList"></div>
+    <button class="variant-confirm" id="variantConfirmBtn">✅ 使用选中的文案</button>
+    <button class="variant-close" onclick="closeVariantOverlay()">算了，我自己写</button>
+  </div>
+</div>
+
+<!-- 步骤指示器 -->
+<div class="steps-bar" id="stepsBar" style="display:none;">
+  <div class="step-dot active" data-step="tpl"></div>
+  <div class="step-dot" data-step="form"></div>
+  <div class="step-dot" data-step="progress"></div>
+  <div class="step-dot" data-step="finish"></div>
+</div>
+
+<script>
+const API_BASE = '/video-panel';
+let templates = [];
+let selectedTemplate = null;
+let currentJobId = null;
+let pollTimer = null;
+
+// ===== 页面切换 =====
+const screens = ['Home', 'Tpl', 'Form', 'Progress', 'Finish'];
+
+function showScreen(name) {
+  screens.forEach(s => {
+    document.getElementById('screen' + s).classList.remove('active');
+  });
+  document.getElementById('screen' + name).classList.add('active');
+
+  // 步骤条
+  const stepMap = { Home: -1, Tpl: 0, Form: 1, Progress: 2, Finish: 3 };
+  const si = stepMap[name] || 0;
+  const bar = document.getElementById('stepsBar');
+  if (si >= 0) {
+    bar.style.display = 'flex';
+    bar.querySelectorAll('.step-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === si);
+      d.classList.toggle('done', i < si);
+    });
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function goStep(name) {
+  if (name === 'tpl') showScreen('Tpl');
+  // nop
+}
+
+function goHome() {
+  showScreen('Home');
+  if (pollTimer) clearInterval(pollTimer);
+}
+
+// ===== 初始化 =====
+async function init() {
+  try {
+    const resp = await fetch(API_BASE + '/api/templates');
+    const data = await resp.json();
+    templates = data.templates || [];
+    renderTemplateGrid();
+    renderHotTemplates();
+  } catch(e) {
+    console.error('加载模板失败:', e);
+  }
+
+  // 加载统计数据
+  try {
+    const sr = await fetch(API_BASE + '/api/health');
+    const sd = await sr.json();
+    const u = sd.usage || {};
+    const total = u.total_generates || 0;
+    const ok = u.by_result?.completed || 0;
+    const fail = u.by_result?.failed || 0;
+    const badge = document.getElementById('statsBadge');
+    if (badge) {
+      if (total > 0) {
+        const rate = total > 0 ? Math.round(ok / total * 100) : 0;
+        badge.textContent = `📊 已生成 ${total} 条视频 · 成功率 ${rate}% · 共 ${sd.total_templates} 个模板`;
+      } else {
+        badge.textContent = `📊 共 ${sd.total_templates} 个模板 · 快来试第一个视频吧`;
+      }
+    }
+  } catch(e) {}
+
+  // 加载变体数据
+  try {
+    const vr = await fetch(API_BASE + '/api/variants');
+    window.variantData = await vr.json();
+  } catch(e) { window.variantData = {}; }
+
+  // 默认显示首页
+  showScreen('Home');
+}
+
+// ===== 模板渲染 =====
+const TPL_META = {
+  'food_promo': { emoji: '🍜', badge: '餐饮·促销' },
+  'event_invite': { emoji: '🎪', badge: '活动·邀约' },
+  'personal_ip': { emoji: '👤', badge: '个人IP' },
+  'personal_ip_v1': { emoji: '👤', badge: '个人IP' },
+  'product_seed': { emoji: '📦', badge: '产品·种草' },
+  'product_seed_v1': { emoji: '📦', badge: '产品·种草' },
+  'sanqi_industry': { emoji: '🌿', badge: '三七·产业' },
+  'store_promo': { emoji: '🏪', badge: '实体·推广' },
+  'store_promo_v1': { emoji: '🏪', badge: '实体·推广' },
+  'farm_promo': { emoji: '🌾', badge: '农产品·原产地' },
+  'farm_promo_v1': { emoji: '🌾', badge: '农产品·原产地' },
+  'association_invite': { emoji: '🤝', badge: '协会·邀请' },
+  'lixia_poster_v5': { emoji: '📚', badge: '培训·课程' },
+  'association_invite': { emoji: '🤝', badge: '协会·入会' },
+  'horizontal_promo': { emoji: '🎥', badge: '横屏·宣传' },
+  'xinxue_course': { emoji: '🧠', badge: '心学·课程' },
+  'xiaohongshu_style': { emoji: '📱', badge: '小红书·风格' },
+  'store_promo': { emoji: '🏪', badge: '实体店·推广' },
+  'farm_promo': { emoji: '🌾', badge: '农产品·带货' },
+};
+
+function renderTemplateGrid() {
+  const grid = document.getElementById('tplGrid');
+  grid.innerHTML = templates.map(t => {
+    const m = TPL_META[t.id] || { emoji: '🎬', badge: '通用' };
+    return `<div class="tpl-card" onclick="selectTemplate('${t.id}')" data-id="${t.id}">
+      <div class="tpl-emoji">${m.emoji}</div>
+      <div class="tpl-info">
+        <div class="tpl-name">${t.name}</div>
+        <div class="tpl-desc">${t.description || ''}</div>
+        <span class="tpl-badge">${m.badge}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderHotTemplates() {
+  const grid = document.getElementById('hotTplGrid');
+  // 只展示前3个热门
+  const hot = templates.filter(t => ['food_promo','event_invite','lixia_poster_v5'].includes(t.id)).slice(0, 3);
+  if (hot.length === 0) { grid.innerHTML = ''; return; }
+  grid.innerHTML = hot.map(t => {
+    const m = TPL_META[t.id] || { emoji: '🎬', badge: '' };
+    return `<div class="tpl-card" onclick="selectTemplate('${t.id}')" data-id="${t.id}">
+      <div class="tpl-emoji">${m.emoji}</div>
+      <div class="tpl-info">
+        <div class="tpl-name">${t.name}</div>
+        <span class="tpl-badge">${m.badge}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== 选择模板 =====
+function selectTemplate(tid) {
+  selectedTemplate = templates.find(t => t.id === tid);
+  if (!selectedTemplate) return;
+
+  // 高亮
+  document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.tpl-card[data-id="${tid}"]`)?.classList.add('selected');
+
+  buildForm();
+  showScreen('Form');
+}
+
+// ===== 构建表单 =====
+function buildForm() {
+  if (!selectedTemplate) return;
+
+  const cfg = selectedTemplate.config;
+  const tid = selectedTemplate.id;
+  const m = TPL_META[tid] || { emoji: '🎬', badge: '' };
+  document.getElementById('formTitle').textContent = `${m.emoji} ${selectedTemplate.name} — 填信息`;
+
+  const scenes = cfg.scenes || [];
+  const vo = cfg.audio?.voiceover || {};
+
+  // 变体选择器（如果有）
+  let variantHtml = '';
+  const variantTemplates = ['food_promo','store_promo','product_seed','farm_promo','personal_ip','event_invite'];
+  let hasVariant = false;
+  if (variantTemplates.includes(tid) || variantTemplates.includes(tid.replace('_v1',''))) {
+    const baseTid = tid.replace('_v1','');
+    const checkTid = variantTemplates.includes(tid) ? tid : baseTid;
+    if (variantTemplates.includes(checkTid)) {
+      hasVariant = true;
+      const vd = (window.variantData || {})[checkTid];
+      const opts = vd ? vd.variants.map(v => `<option value="${v}">${v}</option>`).join('') : '';
+      variantHtml = `
+        <div class="form-group">
+          <label class="form-label">行业类型 <span style="color:#ffd54f;">选一个更精准</span></label>
+          <select class="form-input" id="f_variant" style="appearance:auto;">
+            <option value="">通用版</option>
+            ${opts}
+          </select>
+          <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:4px;">选择行业后AI自动适配配色和文案风格</div>
+        </div>`;
+    }
+  }
+
+  // 根据模板类型生成不同的表单字段
+  let html = variantHtml;
+
+  if (tid === 'personal_ip' || tid === 'personal_ip_v1') {
+    // 个人IP模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">你的名字 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="余川" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">你的身份标签（选填）</label>
+        <input class="form-input" id="f_desc" placeholder="比如：州政协常委·协会会长·AI全栈开发者" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">你能帮别人做什么（选填）</label>
+        <textarea class="form-input" id="f_value" placeholder="比如：帮企业用AI提效、帮个人学AI变现" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话/微信（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'food_promo' || tid === 'food_promo_v2') {
+    // 餐饮模板：极简输入，AI生成文案
+    html = `
+      <div class="form-group">
+        <label class="form-label">店名/品牌名 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="老张火锅城" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍你的店（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：做了十五年火锅，凌晨四点去市场挑菜" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">💡 随便说两句，AI帮你生成完整视频文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">地址（选填）</label>
+        <input class="form-input" id="f_address" placeholder="文山·龙井路128号" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'event_invite') {
+    // 活动邀约模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">活动名称 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="5月5日AI实战课" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍活动（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：立夏那天，余川会长亲授AI实战，限50席" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">💡 AI自动生成完整活动邀请文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">活动地点（选填）</label>
+        <input class="form-input" id="f_address" placeholder="文山大景商业城" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="18008760088" value="" type="tel">
+      </div>`;
+  } else if (tid === 'sanqi_industry') {
+    // 三七产业模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">品牌/企业名 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="苗乡三七" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：文山本地三七种植基地，20年头，品质保障" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">🌿 AI自动生成三七产业推广文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">地址（选填）</label>
+        <input class="form-input" id="f_address" placeholder="文山·三七产业园区" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'association_invite') {
+    // 协会邀请函模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">协会/组织名称 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="文山州互联网协会" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍协会（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：汇聚行业精英·共享前沿资源" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">🤝 AI自动生成入会邀请文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">地址（选填）</label>
+        <input class="form-input" id="f_address" placeholder="文山·盘龙体育馆" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'product_seed' || tid === 'product_seed_v1') {
+    // 产品种草模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">产品名称 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="文山三七粉" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话卖点（选填）</label>
+        <input class="form-input" id="f_desc" placeholder="比如：道地三七头，20头一斤，打粉直饮" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">三个核心卖点（选填）</label>
+        <textarea class="form-input" id="f_value" placeholder="用顿号分隔，比如：道地药材、古法炮制、品质保障" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">💡 AI自动生成种草文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">价格（选填）</label>
+        <input class="form-input" id="f_price" placeholder="99元/斤" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系方式（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'store_promo' || tid === 'store_promo_v1') {
+    // 实体店推广模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">店名/品牌名 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="阿强美发沙龙" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍你的店（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：做了十年美发，只做适合你的发型" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">💡 AI帮你生成实体店推广文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">地址（选填）</label>
+        <input class="form-input" id="f_address" placeholder="文山·步行街128号" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else if (tid === 'farm_promo' || tid === 'farm_promo_v1') {
+    // 农产品带货模板：极简输入
+    html = `
+      <div class="form-group">
+        <label class="form-label">品牌/产品名 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="苗乡三七粉" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">一句话介绍产品（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="比如：文山道地三七，20头，古法打粉直饮" rows="2"></textarea>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;">🌾 AI自动生成农产品带货文案</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">价格（选填）</label>
+        <input class="form-input" id="f_price" placeholder="99元/斤" value="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系电话（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="138xxxxxxxx" value="" type="tel">
+      </div>`;
+  } else {
+    // 通用极简输入（适用于其他所有模板）
+    const defaultTitle = scenes[0]?.elements?.line1?.text || '标题';
+    html = `
+      <div class="form-group">
+        <label class="form-label">标题 <span style="color:#d4a849;">*必填</span></label>
+        <input class="form-input" id="f_brand" placeholder="${defaultTitle}" value="${defaultTitle}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">副标题/详情（选填）</label>
+        <textarea class="form-input" id="f_desc" placeholder="一句话说清楚主要内容" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">联系方式（选填）</label>
+        <input class="form-input" id="f_phone" placeholder="电话/微信" value="" type="tel">
+      </div>`;
+  }
+
+  document.getElementById('dynamicForm').innerHTML = html;
+
+  // 实时输入监听（简易预览）
+  document.querySelectorAll('#dynamicForm .form-input').forEach(inp => {
+    inp.addEventListener('input', drawPreview);
+  });
+  loadPreviewColors(tid);
+  drawPreview();
+}
+
+// ===== 预览（Canvas实时绘制 + 多场景轮播） =====
+let previewColors = { primary: '#ffd54f', bg_start: '#0a2a5e', bg_end: '#060e1e' };
+let carouselTimer = null;
+let carouselScene = 0;
+let isTyping = false;  // 用户在输入时不切换
+
+async function loadPreviewColors(tid) {
+  try {
+    const resp = await fetch(API_BASE + '/api/preview-data', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ template_id: tid })
+    });
+    const data = await resp.json();
+    if (data.colors) previewColors = data.colors;
+  } catch(e) {}
+}
+
+function drawPreview() {
+  isTyping = true;
+  clearTimeout(carouselTimer);
+  const canvas = document.getElementById('previewCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+
+  const brand = document.getElementById('f_brand')?.value || '';
+  const desc = document.getElementById('f_desc')?.value || '';
+  const phone = document.getElementById('f_phone')?.value || '';
+  const address = document.getElementById('f_address')?.value || '';
+  const value = document.getElementById('f_value')?.value || '';
+  const price = document.getElementById('f_price')?.value || '';
+  const tid = selectedTemplate?.id || '';
+
+  // 渐变背景
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, previewColors.bg_start || '#0a2a5e');
+  grad.addColorStop(1, previewColors.bg_end || '#060e1e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // 装饰光效
+  const glow = ctx.createRadialGradient(w/2, h*0.3, 0, w/2, h*0.3, w*0.5);
+  glow.addColorStop(0, 'rgba(255,213,79,0.05)');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+
+  // 场景指示器（小点）
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.arc(w/2 - 20 + i * 14, 20, 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === 0 ? 'rgba(255,213,79,0.5)' : 'rgba(255,255,255,0.1)';
+    ctx.fill();
+  }
+
+  // 标题文字
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  if (brand) {
+    ctx.fillStyle = previewColors.primary || '#ffd54f';
+    ctx.font = 'bold 36px "Noto Sans SC", sans-serif';
+    ctx.shadowColor = 'rgba(255,213,79,0.2)';
+    ctx.shadowBlur = 20;
+    ctx.fillText(brand, w/2, h*0.3);
+    ctx.shadowBlur = 0;
+
+    if (desc) {
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '18px "Noto Sans SC", sans-serif';
+      const lines = wrapText(ctx, desc, w - 60);
+      lines.forEach((line, i) => {
+        ctx.fillText(line, w/2, h*0.3 + 50 + i * 28);
+      });
+    }
+
+    if (value) {
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.font = '14px "Noto Sans SC", sans-serif';
+      ctx.fillText(value, w/2, h*0.55);
+    }
+
+    if (price) {
+      ctx.fillStyle = '#ff6b6b';
+      ctx.font = 'bold 28px "Noto Sans SC", sans-serif';
+      ctx.fillText(price, w/2, h*0.65);
+    }
+
+    if (address || phone) {
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.font = '13px "Noto Sans SC", sans-serif';
+      ctx.fillText(address || phone, w/2, h*0.85);
+    }
+  } else {
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.font = '16px "Noto Sans SC", sans-serif';
+    ctx.fillText('填信息后可预览', w/2, h*0.45);
+  }
+
+  // 底部装饰线
+  ctx.fillStyle = 'rgba(255,213,79,0.08)';
+  ctx.fillRect(w*0.2, h*0.95, w*0.6, 2);
+
+  // 3秒后恢复轮播
+  isTyping = false;
+  carouselTimer = setTimeout(() => {
+    if (!isTyping) carouselNext();
+  }, 3000);
+}
+
+function carouselNext() {
+  const scenes = [
+    { label: '品牌亮相', y: 0.3 },
+    { label: '价值展示', y: 0.5 },
+    { label: '行动号召', y: 0.8 },
+  ];
+  carouselScene = (carouselScene + 1) % scenes.length;
+  const canvas = document.getElementById('previewCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+
+  // 淡入效果 — 重新绘制+指示点高亮变化
+  const s = scenes[carouselScene];
+  
+  // 重绘背景（同drawPreview一样的背景，保持简单）
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, previewColors.bg_start || '#0a2a5e');
+  grad.addColorStop(1, previewColors.bg_end || '#060e1e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  const glow = ctx.createRadialGradient(w/2, h*0.3, 0, w/2, h*0.3, w*0.5);
+  glow.addColorStop(0, 'rgba(255,213,79,0.05)');
+  glow.addColorStop(1, 'transparent');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+
+  // 场景指示器
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.arc(w/2 - 20 + i * 14, 20, 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === carouselScene ? 'rgba(255,213,79,0.5)' : 'rgba(255,255,255,0.1)';
+    ctx.fill();
+  }
+
+  // 显示当前场景标签
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  ctx.font = '22px "Noto Sans SC", sans-serif';
+  ctx.fillText(s.label, w/2, h * s.y);
+
+  ctx.fillStyle = 'rgba(255,213,79,0.12)';
+  ctx.fillRect(w*0.2, h*0.95, w*0.6, 2);
+
+  // 4秒后继续自动切换
+  if (!isTyping) {
+    carouselTimer = setTimeout(carouselNext, 4000);
+  }
+}
+
+function wrapText(ctx, text, maxWidth) {
+  const lines = [];
+  let current = '';
+  for (const ch of text) {
+    const test = current + ch;
+    if (ctx.measureText(test).width > maxWidth) {
+      lines.push(current);
+      current = ch;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines.length > 2 ? lines.slice(0, 2) : (lines.length || ['']);
+}
+
+// ===== AI文案助手 =====
+let selectedVariantIndex = 0;
+let currentVariants = null;
+
+document.getElementById('aiCopyBtn').addEventListener('click', async () => {
+  const tid = selectedTemplate?.id;
+  const brand = document.getElementById('f_brand')?.value || '';
+  if (!brand.trim()) { alert('请先填写店名/姓名/产品名'); return; }
+
+  const btn = document.getElementById('aiCopyBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ AI生成中...';
+
+  try {
+    const resp = await fetch(API_BASE + '/api/generate-variants', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        template_id: tid,
+        brand: document.getElementById('f_brand')?.value || '',
+        description: document.getElementById('f_desc')?.value || '',
+        address: document.getElementById('f_address')?.value || '',
+        phone: document.getElementById('f_phone')?.value || '',
+        value: document.getElementById('f_value')?.value || '',
+        price: document.getElementById('f_price')?.value || ''
+      })
+    });
+    const data = await resp.json();
+    currentVariants = data.variants || [];
+    showVariantOverlay(currentVariants);
+  } catch(e) {
+    alert('AI文案生成失败，请重试');
+  }
+  btn.disabled = false;
+  btn.textContent = '✨ AI生成3版文案';
+});
+
+function showVariantOverlay(variants) {
+  selectedVariantIndex = 0;
+  const list = document.getElementById('variantList');
+  list.innerHTML = variants.map((v, i) => `
+    <div class="variant-card ${i === 0 ? 'selected' : ''}" onclick="selectVariant(${i})" data-idx="${i}">
+      <div class="variant-style">${v.style}</div>
+      ${v.scenes.map(s => `<div class="variant-scene">🎬 ${s.text}</div>`).join('')}
+      <div class="variant-vo">🎙️ ${v.voiceover}</div>
+    </div>
+  `).join('');
+  document.getElementById('variantOverlay').classList.add('active');
+}
+
+function selectVariant(idx) {
+  selectedVariantIndex = idx;
+  document.querySelectorAll('.variant-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.variant-card[data-idx="${idx}"]`).classList.add('selected');
+}
+
+function closeVariantOverlay() {
+  document.getElementById('variantOverlay').classList.remove('active');
+}
+
+document.getElementById('variantConfirmBtn').addEventListener('click', () => {
+  if (!currentVariants || currentVariants.length === 0) return;
+  const v = currentVariants[selectedVariantIndex];
+  if (!v) return;
+
+  // 用选中的文案填充到描述框
+  const f_desc = document.getElementById('f_desc');
+  if (f_desc) {
+    // 先把选中的scene文案拼接成完整的描述，不要截断
+    const sceneTexts = v.scenes.map(s => s.text).join('\n');
+    f_desc.value = sceneTexts;
+  }
+
+  // 把voiceover显示给用户（如果有voiceover输入框）
+  const f_value = document.getElementById('f_value');
+  if (f_value && v.voiceover) {
+    f_value.value = v.voiceover;
+  }
+
+  // 更新预览
+  drawPreview();
+
+  // 显示选中提示（用全局toast）
+  showToast(`✅ 已选择「${v.style}」文案`);
+
+  closeVariantOverlay();
+});
+
+// ===== 全局Toast提示 =====
+function showToast(msg) {
+  let toast = document.getElementById('globalToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'globalToast';
+    toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;padding:12px 24px;border-radius:12px;background:rgba(10,42,94,0.95);backdrop-filter:blur(12px);border:1px solid rgba(255,213,79,0.2);color:#ffd54f;font-size:15px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.4);pointer-events:none;transition:opacity 0.3s,transform 0.3s;max-width:90%;text-align:center;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(-10px)';
+  }, 2500);
+}
+
+// ===== 生成视频 =====
+document.getElementById('startBtn').addEventListener('click', () => {
+  showScreen('Tpl');
+});
+
+document.getElementById('generateBtn').addEventListener('click', generateVideo);
+
+async function generateVideo() {
+  if (!selectedTemplate) { alert('请先选模板'); return; }
+  const tid = selectedTemplate.id;
+
+  // AI生成文案模式（所有模板）
+  if (tid === 'food_promo' || tid === 'food_promo_v2' || tid === 'event_invite' ||
+      tid === 'personal_ip' || tid === 'personal_ip_v1' ||
+      tid === 'product_seed' || tid === 'product_seed_v1' ||
+      tid === 'sanqi_industry' || tid === 'association_invite' ||
+      tid === 'store_promo' || tid === 'store_promo_v1' ||
+      tid === 'farm_promo' || tid === 'farm_promo_v1') {
+    const brand = document.getElementById('f_brand')?.value || '';
+    if (!brand.trim()) { alert('请填写店名/姓名/产品名'); return; }
+    const desc = document.getElementById('f_desc')?.value || '';
+    const address = document.getElementById('f_address')?.value || '';
+    const phone = document.getElementById('f_phone')?.value || '';
+    const value = document.getElementById('f_value')?.value || '';
+    const price = document.getElementById('f_price')?.value || '';
+    const variant = document.getElementById('f_variant')?.value || '';
+
+    showScreen('Progress');
+    startProgress();
+
+    try {
+      const resp = await fetch(API_BASE + '/api/generate-copy', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ template_id: tid, brand, description: desc, address, phone, value, price, variant })
+      });
+      const data = await resp.json();
+      currentJobId = data.job_id;
+      pollStatus(data.job_id);
+    } catch(e) {
+      setProgressFail('网络请求失败，请重试');
+    }
+    return;
+  }
+
+  const cfg = selectedTemplate.config;
+
+  // 构建textConfig
+  const textConfig = {};
+  const scenes = cfg.scenes || [];
+
+  if (tid === 'food_promo') {
+    const brand = document.getElementById('f_brand')?.value || '';
+    const years = document.getElementById('f_years')?.value || '用心做';
+    const tagline = document.getElementById('f_tagline')?.value || '';
+    const address = document.getElementById('f_address')?.value || '';
+    const phone = document.getElementById('f_phone')?.value || '';
+
+    textConfig['s1'] = {
+      line1: { text: years },
+      line2: { text: '只做一件事' },
+      sub: { text: brand ? `${brand} · 用心餐饮` : '' }
+    };
+    textConfig['s2'] = {
+      line1: { text: '' },
+      line2: { text: brand || '用心' },
+      sub: { text: tagline || '用心做好每一道菜' }
+    };
+    textConfig['s4'] = {
+      line1: { text: '欢迎你来坐坐' },
+      info: { text: `📍 ${address || '文山'}\n📞 ${phone || ''}` },
+      sub: { text: '用心做菜 · 等你来尝' }
+    };
+  } else {
+    const title = document.getElementById('f_title')?.value || '';
+    const sub = document.getElementById('f_subtitle')?.value || '';
+    const desc = document.getElementById('f_desc')?.value || '';
+    const phone = document.getElementById('f_phone')?.value || '';
+
+    if (scenes[0]) {
+      textConfig['s1'] = { line1: { text: title || '活动' } };
+    }
+    if (scenes.length > 1) {
+      textConfig['s2'] = { sub: { text: sub || desc } };
+    }
+  }
+
+  // 构建voiceover文本
+  let voText = '';
+  if (tid === 'food_promo') {
+    const brand = document.getElementById('f_brand')?.value || '';
+    const years = document.getElementById('f_years')?.value || '多年';
+    const tagline = document.getElementById('f_tagline')?.value || '';
+    voText = `在文山，有这样一家店。老板做了${years}餐饮。${tagline ? `${tagline}` : ''}欢迎你来坐坐，尝尝这份味道。`;
+  } else {
+    voText = document.getElementById('f_desc')?.value || cfg.audio?.voiceover?.text || '';
+  }
+
+  const params = {
+    text: textConfig,
+    colors: cfg.colors?.scheme || 'tech_blue',
+    animation: cfg.animation?.style || 'standard',
+    bg_type: cfg.background?.type || 'gradient',
+    quality: 'standard',
+    voiceover: { enabled: true, voice: cfg.audio?.voiceover?.default_voice || 'zh-CN-YunyangNeural', text: voText },
+    subtitles: { enabled: true },
+    bgm: { enabled: true, file: 'tech_pulse' }
+  };
+
+  showScreen('Progress');
+  startProgress();
+
+  try {
+    const resp = await fetch(API_BASE + '/api/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ template_id: tid, params })
+    });
+    const data = await resp.json();
+    currentJobId = data.job_id;
+    pollStatus(data.job_id);
+  } catch(e) {
+    setProgressFail('网络请求失败，请重试');
+  }
+}
+
+// ===== 一句话出片 =====
+document.getElementById('oneShotBtn').addEventListener('click', async () => {
+  const text = prompt('用一句话描述你想要什么样的视频：\n\n例如："帮我做一条老张火锅店的推广视频，做了十五年"\n"我是余川，州政协常委·协会会长，专注AI赋能"\n"帮我家美容店做个宣传，做了八年，地址在步行街"', '');
+  if (!text) return;
+
+  const resultArea = document.getElementById('oneShotResult');
+  const btn = document.getElementById('oneShotBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ AI分析中...';
+  resultArea.style.display = 'none';
+
+  try {
+    const resp = await fetch(API_BASE + '/api/one-shot', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ text })
+    });
+    const data = await resp.json();
+    if (data.job_id) {
+      // 直接跳转到进度页
+      currentJobId = data.job_id;
+      const t = data.matched_template;
+      resultArea.innerHTML = `
+        <div style="background:rgba(255,213,79,0.04);border:1px solid rgba(255,213,79,0.08);border-radius:12px;padding:12px 14px;font-size:12px;">
+          🤖 AI识别结果：<strong>${t.name}</strong> · 已开始渲染
+        </div>`;
+      resultArea.style.display = 'block';
+      showScreen('Progress');
+      startProgress();
+      pollStatus(data.job_id);
+    } else {
+      resultArea.innerHTML = `<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.4);">${data.error || '生成失败'}</div>`;
+      resultArea.style.display = 'block';
+    }
+  } catch(e) {
+    resultArea.innerHTML = `<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:12px;font-size:12px;color:rgba(255,255,255,0.4);">网络错误，请重试</div>`;
+    resultArea.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.textContent = '⚡ 一句话出片 — 你说句话，AI自动做';
+});
+
+// ===== 进度 =====
+function startProgress() {
+  document.getElementById('progressText').textContent = '正在渲染视频...';
+  document.getElementById('progressHint').textContent = '配乐、配音、字幕合成中';
+  updateProgressCircle(10);
+}
+
+function updateProgressCircle(pct) {
+  document.getElementById('progressPct').textContent = pct + '%';
+  const circle = document.getElementById('progressCircle');
+  const circumference = 2 * Math.PI * 41;
+  const offset = circumference - (pct / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
+}
+
+function setProgressFail(msg) {
+  document.getElementById('progressText').textContent = '❌ ' + msg;
+  document.getElementById('progressHint').textContent = '点首页重试';
+}
+
+function pollStatus(jobId) {
+  if (pollTimer) clearInterval(pollTimer);
+  let elapsed = 0;
+
+  pollTimer = setInterval(async () => {
+    elapsed += 5;
+    try {
+      const resp = await fetch(API_BASE + `/api/jobs/${jobId}`);
+      const data = await resp.json();
+
+      if (data.status === 'completed') {
+        clearInterval(pollTimer);
+        updateProgressCircle(100);
+        document.getElementById('progressText').textContent = '✅ 生成完成！';
+        document.getElementById('progressHint').textContent = '';
+        setTimeout(() => showFinish(jobId), 600);
+      } else if (data.status === 'failed') {
+        clearInterval(pollTimer);
+        setProgressFail(data.error || '生成失败');
+      } else {
+        // 根据经过时间模拟进度
+        const fakePct = Math.min(15 + elapsed * 2, 85);
+        updateProgressCircle(fakePct);
+        if (elapsed < 15) {
+          document.getElementById('progressHint').textContent = '正在制作画面...';
+        } else if (elapsed < 30) {
+          document.getElementById('progressHint').textContent = '配音+BGM合成中...';
+        } else {
+          document.getElementById('progressHint').textContent = '马上就好，再等一等...';
+        }
+      }
+    } catch(e) {
+      // ignore
+    }
+  }, 5000);
+}
+
+// ===== 完成 =====
+async function showFinish(jobId) {
+  showScreen('Finish');
+  const video = document.getElementById('finishVideo');
+  video.src = API_BASE + `/api/download/${jobId}`;
+  video.load();
+
+  document.getElementById('saveBtn').onclick = () => {
+    const a = document.createElement('a');
+    a.href = video.src;
+    a.download = `video_${jobId}.mp4`;
+    a.click();
+  };
+
+  document.getElementById('shareBtn').onclick = () => {
+    if (navigator.share) {
+      navigator.share({ title: '我的视频', text: '看我用AI做的视频！', url: video.src });
+    } else {
+      // fallback: 复制链接
+      navigator.clipboard.writeText(video.src).then(() => {
+        alert('视频链接已复制，去微信粘贴分享吧！');
+      });
+    }
+  };
+
+  // 发到微信按钮
+  document.getElementById('wechatBtn').onclick = async () => {
+    try {
+      const resp = await fetch(API_BASE + '/api/push-wechat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ job_id: jobId, group_name: '' })
+      });
+      const data = await resp.json();
+      if (data.success) {
+        alert('✅ 已推送到微信群，稍后显示');
+      } else {
+        alert('推送失败: ' + (data.error || '未知错误'));
+      }
+    } catch(e) {
+      alert('网络错误，请重试');
+    }
+  };
+}
+
+// ===== 用户信息（登录） =====
+function updateUser(name) {
+  document.getElementById('userInfo').innerHTML = `👋 你好，<strong>${name}</strong>`;
+}
+
+// ===== 启动 =====
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

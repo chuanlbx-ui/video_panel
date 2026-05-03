@@ -1,0 +1,239 @@
+{
+  "template_id": "personal_ip_v1",
+  "template_name": "个人IP打造·三段式",
+  "version": "1.0",
+  "description": "20秒竖版个人IP宣传片。3场景：我是谁→我能帮你什么→怎么找我。深蓝黑金渐变，适合超级个体/创业者/专家型人才。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunjianNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian(浑厚推荐)"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao"
+        }
+      ],
+      "speed": 1.0,
+      "text": "我是谁"
+    }
+  },
+  "colors": {
+    "scheme": "dark_gold",
+    "options": [
+      {
+        "id": "dark_gold",
+        "name": "暗金品质",
+        "bg_top": "#0a0a0a",
+        "bg_bottom": "#1a1308",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#e8b800",
+        "subtitle_color": "rgba(255,215,0,0.4)"
+      },
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "deep_purple",
+        "name": "深紫金",
+        "bg_top": "#0a0520",
+        "bg_bottom": "#150a3a",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#b388ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "low",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低"
+      },
+      {
+        "id": "medium",
+        "name": "中"
+      },
+      {
+        "id": "high",
+        "name": "高"
+      }
+    ]
+  },
+  "animation": {
+    "style": "scale",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 7,
+      "name": "我是谁",
+      "elements": {
+        "title": {
+          "text": "我是谁",
+          "style": "title_gold"
+        },
+        "name": {
+          "text": "姓名",
+          "style": "name_white"
+        },
+        "tag": {
+          "text": "身份标签",
+          "style": "tag_gold"
+        },
+        "sub": {
+          "text": "一句话说清楚我是做什么的",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 7,
+      "duration": 7,
+      "name": "我能帮你什么",
+      "elements": {
+        "line1": {
+          "text": "我能帮你",
+          "style": "help_title"
+        },
+        "line2": {
+          "text": "核心价值1",
+          "style": "help_item"
+        },
+        "line3": {
+          "text": "核心价值2",
+          "style": "help_item"
+        },
+        "line4": {
+          "text": "核心价值3",
+          "style": "help_item"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 14,
+      "duration": 6,
+      "name": "怎么找我",
+      "elements": {
+        "line1": {
+          "text": "怎么找到我",
+          "style": "title_gold"
+        },
+        "phone": {
+          "text": "📞 电话/微信",
+          "style": "phone"
+        },
+        "sub": {
+          "text": "期待与你连接",
+          "style": "subtitle"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/personal_ip/template_config.json"
+}

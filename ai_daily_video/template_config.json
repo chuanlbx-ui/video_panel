@@ -1,0 +1,300 @@
+{
+  "template_id": "ai_daily_video_v1",
+  "template_name": "AI日报竖版短视频",
+  "version": "2.0",
+  "description": "18秒竖版AI日报视频，1080×1920，科技蓝风格。简化版：封面标题+3条AI新闻快讯+结尾CTA。纯文字滚动，快速阅读。",
+  "settings": {
+    "video_duration": 18,
+    "output_width": 1080,
+    "output_height": 1920,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "gradient"
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#b0d4ff",
+    "bg_opacity": 0.5
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "快讯节奏"
+        },
+        {
+          "id": "ambient",
+          "name": "资讯氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-XiaoxiaoNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（专业新闻）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（浑厚激情）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "男声·YunXi（阳光活力）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖标准）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "女声·XiaoYi（生动卡通）"
+        },
+        {
+          "id": "zh-CN-YunyeNeural",
+          "name": "男声·YunYe（沉稳自然）"
+        }
+      ],
+      "speed": 1.1,
+      "text": "AI日报。OpenAI发布GPT-5预览版，推理能力大幅提升。字节跳动推出豆包大模型2.0，中文理解全面领先。谷歌Gemini新增实时视频分析功能。关注我们，每日获取AI前沿资讯。"
+    }
+  },
+  "colors": {
+    "scheme": "tech_blue",
+    "options": [
+      {
+        "id": "tech_blue",
+        "name": "科技蓝",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#64b5f6",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(100,181,246,0.4)"
+      },
+      {
+        "id": "dark_cyan",
+        "name": "深青科技",
+        "bg_top": "#001a1a",
+        "bg_bottom": "#002d33",
+        "white_text": "#e0f7fa",
+        "gold_text": "#4dd0e1",
+        "cyan_text": "#26c6da",
+        "subtitle_color": "rgba(77,208,225,0.4)"
+      },
+      {
+        "id": "cyber_purple",
+        "name": "赛博紫",
+        "bg_top": "#0a0015",
+        "bg_bottom": "#1a0a30",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#b388ff",
+        "subtitle_color": "rgba(179,136,255,0.4)"
+      },
+      {
+        "id": "neon_green",
+        "name": "霓虹绿",
+        "bg_top": "#000a00",
+        "bg_bottom": "#0a1a05",
+        "white_text": "#e0ffe0",
+        "gold_text": "#00ff88",
+        "cyan_text": "#00ffcc",
+        "subtitle_color": "rgba(0,255,136,0.4)"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "slide",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（上滑淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（弹入）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 4,
+      "name": "封面标题",
+      "elements": {
+        "icon": {
+          "text": "📡",
+          "style": "icon"
+        },
+        "title": {
+          "text": "AI 日报",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "每日AI前沿资讯速览",
+          "style": "subtitle"
+        }
+      },
+      "narration": "AI日报。"
+    },
+    {
+      "id": "s2",
+      "start": 4,
+      "duration": 4,
+      "name": "新闻快讯1",
+      "elements": {
+        "tag": {
+          "text": "🔹 头条",
+          "style": "tag"
+        },
+        "headline": {
+          "text": "OpenAI发布GPT-5预览版",
+          "style": "large_white"
+        },
+        "desc": {
+          "text": "推理能力大幅提升",
+          "style": "subtitle"
+        }
+      },
+      "narration": "OpenAI发布GPT-5预览版，推理能力大幅提升。"
+    },
+    {
+      "id": "s3",
+      "start": 8,
+      "duration": 4,
+      "name": "新闻快讯2",
+      "elements": {
+        "tag": {
+          "text": "🔹 国内",
+          "style": "tag"
+        },
+        "headline": {
+          "text": "字节跳动豆包2.0发布",
+          "style": "large_white"
+        },
+        "desc": {
+          "text": "中文理解全面领先",
+          "style": "subtitle"
+        }
+      },
+      "narration": "字节跳动推出豆包大模型2.0，中文理解全面领先。"
+    },
+    {
+      "id": "s4",
+      "start": 12,
+      "duration": 3,
+      "name": "新闻快讯3",
+      "elements": {
+        "tag": {
+          "text": "🔹 国际",
+          "style": "tag"
+        },
+        "headline": {
+          "text": "Gemini新增视频分析",
+          "style": "large_white"
+        },
+        "desc": {
+          "text": "实时视频理解功能上线",
+          "style": "subtitle"
+        }
+      },
+      "narration": "谷歌Gemini新增实时视频分析功能。"
+    },
+    {
+      "id": "s5",
+      "start": 15,
+      "duration": 3,
+      "name": "结尾CTA",
+      "elements": {
+        "cta": {
+          "text": "关注我们",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "每日获取AI前沿资讯",
+          "style": "info"
+        }
+      },
+      "narration": "关注我们，每日获取AI前沿资讯。"
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/ai_daily_video/template_config.json"
+}

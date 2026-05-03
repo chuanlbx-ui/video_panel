@@ -1,0 +1,283 @@
+{
+  "template_id": "xinxue_course_v1",
+  "template_name": "心学AI课程推广竖版宣传片",
+  "version": "2.0",
+  "description": "32秒竖版心学+AI课程推广片，1080×1920，深蓝+金色。4场景结构：心学精神→AI融合→课程亮点→报名CTA。古风+科技融合风格。",
+  "settings": {
+    "video_duration": 32,
+    "output_width": 1080,
+    "output_height": 1920,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p",
+    "bg_type": "particle"
+  },
+  "background": {
+    "type": "particle",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "循环视频背景"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.6
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵古韵"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（专业新闻）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（浑厚激情）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "男声·YunXi（阳光活力）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖标准）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "女声·XiaoYi（生动卡通）"
+        },
+        {
+          "id": "zh-CN-YunyeNeural",
+          "name": "男声·YunYe（沉稳自然）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "心即理，知行合一。王阳明心学，五百年来启迪了无数智者。今天，我们将心学智慧与人工智能深度融合——以心御器，以AI赋能。三天两夜沉浸式课程，从心学心法到AI实战，零基础也能上手。学会用AI工具提升十倍效率，用阳明智慧校准人生方向。课程亮点：阳明心学核心精讲、AI数字人搭建、AI自动化工作流实战。限时特惠998元，含全套资料与社群辅导。立即报名，开启你的心学AI之旅。"
+    }
+  },
+  "colors": {
+    "scheme": "deep_blue_gold",
+    "options": [
+      {
+        "id": "deep_blue_gold",
+        "name": "深蓝金",
+        "bg_top": "#0a0e27",
+        "bg_bottom": "#0f1a3a",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#64b5f6",
+        "subtitle_color": "rgba(100,181,246,0.4)"
+      },
+      {
+        "id": "imperial",
+        "name": "帝王古韵",
+        "bg_top": "#0d0a1a",
+        "bg_bottom": "#1a1030",
+        "white_text": "#f0e6d0",
+        "gold_text": "#c9a84c",
+        "cyan_text": "#8e6fd8",
+        "subtitle_color": "rgba(201,168,76,0.4)"
+      },
+      {
+        "id": "midnight_aurora",
+        "name": "极光夜蓝",
+        "bg_top": "#000d1a",
+        "bg_bottom": "#0a1f33",
+        "white_text": "#e0f2fe",
+        "gold_text": "#ffd700",
+        "cyan_text": "#38bdf8",
+        "subtitle_color": "rgba(56,189,248,0.4)"
+      },
+      {
+        "id": "cyber_purple",
+        "name": "赛博紫",
+        "bg_top": "#0a0015",
+        "bg_bottom": "#1a0a30",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#b388ff",
+        "subtitle_color": "rgba(179,136,255,0.4)"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（上滑淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放（弹入）"
+      },
+      {
+        "id": "glitch",
+        "name": "故障（闪烁）"
+      },
+      {
+        "id": "slide",
+        "name": "滑入（左右交替）"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 7,
+      "name": "心学精神·心即理",
+      "elements": {
+        "line1": {
+          "text": "心即理",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "知行合一",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "王阳明心学 · 五百年智慧传承",
+          "style": "subtitle"
+        }
+      },
+      "narration": "心即理，知行合一。王阳明心学，五百年来启迪了无数智者。"
+    },
+    {
+      "id": "s2",
+      "start": 7,
+      "duration": 8,
+      "name": "AI融合·以心御器",
+      "elements": {
+        "tag1": {
+          "text": "心学智慧 ✦ AI科技",
+          "style": "large_white"
+        },
+        "tag2": {
+          "text": "以心御器",
+          "style": "large_gold"
+        },
+        "tag3": {
+          "text": "以AI赋能",
+          "style": "large_cyan"
+        }
+      },
+      "narration": "今天，我们将心学智慧与人工智能深度融合——以心御器，以AI赋能。"
+    },
+    {
+      "id": "s3",
+      "start": 15,
+      "duration": 8,
+      "name": "课程亮点·三大模块",
+      "elements": {
+        "point1": {
+          "text": "✦ 阳明心学核心精讲",
+          "style": "bullet"
+        },
+        "point2": {
+          "text": "✦ AI数字人搭建实战",
+          "style": "bullet"
+        },
+        "point3": {
+          "text": "✦ AI自动化工作流",
+          "style": "bullet"
+        }
+      },
+      "narration": "三天两夜沉浸式课程，从心学心法到AI实战，零基础也能上手。学会用AI工具提升十倍效率，用阳明智慧校准人生方向。"
+    },
+    {
+      "id": "s4",
+      "start": 23,
+      "duration": 9,
+      "name": "报名CTA·立即行动",
+      "elements": {
+        "price": {
+          "text": "限时特惠 ¥998",
+          "style": "price"
+        },
+        "info": {
+          "text": "含全套资料 + 社群辅导",
+          "style": "info"
+        },
+        "phone": {
+          "text": "📞 报名热线：18008760088",
+          "style": "phone"
+        }
+      },
+      "narration": "限时特惠998元，含全套资料与社群辅导。立即报名，开启你的心学AI之旅。"
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/xinxue_course/template_config.json"
+}

@@ -1,0 +1,298 @@
+{
+  "template_id": "house_promo_v1",
+  "template_name": "房产家居推广竖版宣传片",
+  "version": "2.0",
+  "description": "30秒竖版房产家居推广片，1080×1920，暖棕+金色。6场景结构：品牌理念→楼盘展示→户型亮点→周边配套→优惠活动→号召行动。高端住宅风格。",
+  "settings": {
+    "fps": 30,
+    "output_width": 1080,
+    "output_height": 1920,
+    "quality": "standard",
+    "video_bitrate": "15M",
+    "pixel_format": "yuv420p"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "uplifting",
+          "name": "励志昂扬"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "节奏脉冲"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-YunyangNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "男声·YunYang（沉稳推荐）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "男声·YunJian（激情推荐）"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "女声·XiaoXiao（温暖推荐）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "城市繁华深处，遇见理想生活。金瑞华府，城市中心品质社区。新中式建筑风格，三面环水，推窗即景。约89-168㎡精装奢宅，全明户型，南北通透。3.1米层高，超宽阳台，每一处细节都是匠心雕琢。三甲医院、重点学区、大型商超环绕，5分钟生活圈一应俱全。小区配套：恒温泳池、儿童乐园、健身会所、智慧安防。现在购房，享限时特惠。首付20万起，送全屋品牌精装。开盘前认购额外享98折。金瑞华府，一生之选。"
+    }
+  },
+  "colors": {
+    "scheme": "warm_gold",
+    "options": [
+      {
+        "id": "warm_gold",
+        "name": "暖棕暗金",
+        "bg_top": "#1a1208",
+        "bg_bottom": "#0d0a05",
+        "white_text": "#f5ece0",
+        "gold_text": "#d4a849",
+        "cyan_text": "#c9a84c",
+        "subtitle_color": "rgba(245,236,224,0.4)"
+      },
+      {
+        "id": "luxury_blue",
+        "name": "奢华蓝金",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#64b5f6",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "dark_teal",
+        "name": "深墨绿",
+        "bg_top": "#0a1a14",
+        "bg_bottom": "#0d2418",
+        "white_text": "#e8f5e9",
+        "gold_text": "#a5d6a7",
+        "cyan_text": "#81c784",
+        "subtitle_color": "rgba(232,245,233,0.4)"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#f5ece0",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "暖色渐变"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      },
+      {
+        "id": "video_loop",
+        "name": "视频背景"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "high",
+    "glow_enabled": true,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "上滑淡入"
+      },
+      {
+        "id": "scale",
+        "name": "弹入"
+      },
+      {
+        "id": "glitch",
+        "name": "故障闪烁"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 5,
+      "name": "品牌理念·遇见理想家",
+      "elements": {
+        "line1": {
+          "text": "城市繁华深处",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "遇见理想生活",
+          "style": "large_gold"
+        },
+        "sub": {
+          "text": "金瑞华府 · 城市中心品质社区",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 5,
+      "duration": 5,
+      "name": "楼盘展示·新中式建筑",
+      "elements": {
+        "line1": {
+          "text": "新中式建筑",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "三面环水 · 推窗即景",
+          "style": "large_white"
+        },
+        "sub": {
+          "text": "每一扇窗，都是一幅风景画",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 10,
+      "duration": 5,
+      "name": "户型亮点·精装奢宅",
+      "elements": {
+        "line1": {
+          "text": "89-168㎡精装奢宅",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "全明户型 · 南北通透",
+          "style": "large_white"
+        },
+        "line3": {
+          "text": "3.1米层高 · 超宽阳台",
+          "style": "large_cyan"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "start": 15,
+      "duration": 5,
+      "name": "周边配套·5分钟生活圈",
+      "elements": {
+        "line1": {
+          "text": "三甲医院 · 重点学区",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "大型商超环绕",
+          "style": "large_gold"
+        },
+        "line3": {
+          "text": "恒温泳池 · 儿童乐园",
+          "style": "info"
+        },
+        "line4": {
+          "text": "健身会所 · 智慧安防",
+          "style": "info"
+        }
+      }
+    },
+    {
+      "id": "s5",
+      "start": 20,
+      "duration": 5,
+      "name": "优惠活动·限时特惠",
+      "elements": {
+        "price": {
+          "text": "首付20万起",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "送全屋品牌精装\n开盘前认购额外享98折",
+          "style": "info"
+        },
+        "limit": {
+          "text": "限时特惠 · 错过不再",
+          "style": "limit"
+        }
+      }
+    },
+    {
+      "id": "s6",
+      "start": 25,
+      "duration": 5,
+      "name": "号召行动·一生之选",
+      "elements": {
+        "line1": {
+          "text": "金瑞华府",
+          "style": "large_gold"
+        },
+        "line2": {
+          "text": "一生之选",
+          "style": "large_white"
+        },
+        "phone": {
+          "text": "☎ 品鉴热线：400-888-6666",
+          "style": "phone"
+        },
+        "sub": {
+          "text": "样板间已开放 · 欢迎品鉴",
+          "style": "subtitle"
+        }
+      }
+    }
+  ]
+}

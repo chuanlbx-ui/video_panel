@@ -1,0 +1,221 @@
+{
+  "template_id": "xiaohongshu_v1",
+  "template_name": "小红书风格（3:4竖版知识卡片）",
+  "version": "3.0",
+  "description": "3:4竖版，小红书/朋友圈风格，1080×1440，信息卡片式排版，适合知识分享/种草。",
+  "settings": {
+    "video_duration": 15,
+    "output_width": 1080,
+    "output_height": 1440,
+    "fps": 30,
+    "quality": "standard",
+    "video_bitrate": "10M",
+    "pixel_format": "yuv420p",
+    "bg_type": "gradient"
+  },
+  "audio": {
+    "bgm": {
+      "enabled": true,
+      "file": "",
+      "volume": 0.12,
+      "options": [
+        {
+          "id": "none",
+          "name": "无背景音乐"
+        },
+        {
+          "id": "tech_pulse",
+          "name": "科技脉冲"
+        },
+        {
+          "id": "ambient",
+          "name": "空灵氛围"
+        }
+      ]
+    },
+    "voiceover": {
+      "enabled": true,
+      "default_voice": "zh-CN-XiaoxiaoNeural",
+      "options": [
+        {
+          "id": "zh-CN-YunyangNeural",
+          "name": "央视播音·YunYang（专业）"
+        },
+        {
+          "id": "zh-CN-YunjianNeural",
+          "name": "浑厚激情·YunJian（体育）"
+        },
+        {
+          "id": "zh-CN-YunxiNeural",
+          "name": "阳光活力·YunXi"
+        },
+        {
+          "id": "zh-CN-XiaoxiaoNeural",
+          "name": "温暖标准·XiaoXiao（女）"
+        },
+        {
+          "id": "zh-CN-XiaoyiNeural",
+          "name": "生动卡通·XiaoYi（女）"
+        }
+      ],
+      "speed": 1.0,
+      "text": "知识分享"
+    }
+  },
+  "colors": {
+    "scheme": "minimal_white",
+    "options": [
+      {
+        "id": "tech_blue",
+        "name": "深蓝科技",
+        "bg_top": "#0a1628",
+        "bg_bottom": "#0d1f3c",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#00d4ff",
+        "subtitle_color": "rgba(255,255,255,0.5)"
+      },
+      {
+        "id": "dark_gold",
+        "name": "暗金炫酷",
+        "bg_top": "#0a0a0a",
+        "bg_bottom": "#1a1308",
+        "white_text": "#ffffff",
+        "gold_text": "#ffd700",
+        "cyan_text": "#e8b800",
+        "subtitle_color": "rgba(255,215,0,0.4)"
+      },
+      {
+        "id": "minimal_white",
+        "name": "简约白（小红书风）",
+        "bg_top": "#f5f5f5",
+        "bg_bottom": "#ffffff",
+        "white_text": "#1a1a1a",
+        "gold_text": "#c9a84c",
+        "cyan_text": "#2c7a9e",
+        "subtitle_color": "rgba(0,0,0,0.4)"
+      }
+    ]
+  },
+  "animation": {
+    "style": "standard",
+    "options": [
+      {
+        "id": "standard",
+        "name": "标准（淡入）"
+      },
+      {
+        "id": "scale",
+        "name": "缩放"
+      },
+      {
+        "id": "slide",
+        "name": "滑入"
+      }
+    ]
+  },
+  "effects": {
+    "transition_style": "fade",
+    "particle_density": "medium",
+    "glow_enabled": false,
+    "options": [
+      {
+        "id": "fade",
+        "name": "淡入淡出"
+      },
+      {
+        "id": "slide",
+        "name": "滑动"
+      },
+      {
+        "id": "zoom",
+        "name": "缩放"
+      }
+    ],
+    "density_options": [
+      {
+        "id": "low",
+        "name": "低密度"
+      },
+      {
+        "id": "medium",
+        "name": "中等密度"
+      },
+      {
+        "id": "high",
+        "name": "高密度"
+      }
+    ]
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "bottom_center",
+    "font_size": 36,
+    "color": "#ffffff",
+    "bg_opacity": 0.5
+  },
+  "background": {
+    "type": "gradient",
+    "options": [
+      {
+        "id": "gradient",
+        "name": "渐变背景"
+      },
+      {
+        "id": "particle",
+        "name": "粒子动效"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0,
+      "duration": 5,
+      "name": "封面·标题卡片",
+      "elements": {
+        "line1": {
+          "text": "知识标题",
+          "style": "large_white"
+        },
+        "line2": {
+          "text": "一句话简介",
+          "style": "subtitle"
+        }
+      }
+    },
+    {
+      "id": "s2",
+      "start": 5,
+      "duration": 5,
+      "name": "干货·要点呈现",
+      "elements": {
+        "point1": {
+          "text": "核心要点1",
+          "style": "bullet"
+        },
+        "point2": {
+          "text": "核心要点2",
+          "style": "bullet"
+        }
+      }
+    },
+    {
+      "id": "s3",
+      "start": 10,
+      "duration": 5,
+      "name": "结尾·引导关注",
+      "elements": {
+        "cta": {
+          "text": "关注获取更多",
+          "style": "large_gold"
+        },
+        "info": {
+          "text": "账号名",
+          "style": "subtitle"
+        }
+      }
+    }
+  ],
+  "_path": "/home/agentuser/hyperframes_projects/xiaohongshu_style/template_config.json"
+}
