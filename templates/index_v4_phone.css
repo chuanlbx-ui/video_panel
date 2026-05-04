@@ -315,3 +315,109 @@ button, .tpl-card, .tpl-tag, .history-item, .ai-hint, .nav-item{
 .iv-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
 .iv-keywords{font-size:11px;color:rgba(255,213,79,.5);margin-bottom:3px;}
 .iv-hint{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;}
+
+/* ===== Phase 1: AI视频分析入口 ===== */
+.ai-import-card {
+    background: rgba(255,213,79,0.04);
+    border: 1px solid rgba(255,213,79,0.15);
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all .3s;
+}
+.ai-import-card:active { transform: scale(.98); }
+.ai-import-icon { font-size: 28px; margin-bottom: 4px; }
+.ai-import-title { font-size: 15px; font-weight: 700; color: #ffd54f; }
+.ai-import-desc { font-size: 11px; color: rgba(255,255,255,.35); margin: 3px 0 10px; }
+.ai-import-input-row { display: flex; gap: 8px; }
+.ai-import-input {
+    flex: 1;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,213,79,.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+.ai-import-input:focus { border-color: rgba(255,213,79,.3); }
+.ai-import-btn {
+    background: linear-gradient(135deg,#ffd54f,#e6b800);
+    color: #1a1200;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* ===== 分析进度弹窗 ===== */
+.analysis-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,.75);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+}
+.analysis-modal {
+    background: #1a1a2e;
+    border: 1px solid rgba(255,213,79,.12);
+    border-radius: 16px;
+    width: 100%; max-width: 400px;
+    padding: 28px 24px;
+    text-align: center;
+    animation: fadeSlideIn .3s;
+}
+.analysis-modal-icon { font-size: 36px; margin-bottom: 8px; }
+.analysis-modal-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+.analysis-progress-ring { width: 80px; height: 80px; margin: 0 auto 16px; position: relative; }
+.analysis-progress-ring svg { transform: rotate(-90deg); }
+.analysis-progress-ring circle { fill: none; stroke-width: 5; stroke-linecap: round; }
+.ap-ring-bg { stroke: rgba(255,255,255,.06); }
+.ap-ring-fill {
+    stroke: #ffd54f; stroke-width: 5;
+    stroke-dasharray: 263.89; stroke-dashoffset: 263.89;
+    transition: stroke-dashoffset .5s;
+    filter: drop-shadow(0 0 8px rgba(255,213,79,.3));
+}
+.ap-ring-text {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #ffd54f;
+}
+.analysis-progress-status { font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 4px; }
+.analysis-progress-hint { font-size: 11px; color: rgba(255,255,255,.2); margin-bottom: 16px; }
+
+/* ===== 分析结果弹窗 ===== */
+.result-modal { text-align: left; max-width: 460px; }
+.analysis-summary {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-bottom: 16px;
+}
+.as-item {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+.as-label { font-size: 11px; color: rgba(255,255,255,.3); display: block; margin-bottom: 2px; }
+.as-item span:last-child { font-size: 14px; font-weight: 600; color: #ffd54f; }
+.analysis-section { margin-bottom: 14px; }
+.analysis-section-label { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 6px; font-weight: 600; }
+.analysis-textarea {
+    width: 100%; padding: 10px 12px;
+    border-radius: 8px; border: 1px solid rgba(255,213,79,.1);
+    background: rgba(255,255,255,.03); color: #fff;
+    font-size: 13px; outline: none; resize: vertical;
+    min-height: 60px; font-family: inherit; box-sizing: border-box;
+}
+.analysis-input {
+    width: 100%; padding: 10px 12px;
+    border-radius: 8px; border: 1px solid rgba(255,255,255,.06);
+    background: rgba(255,255,255,.03); color: #fff;
+    font-size: 13px; outline: none; box-sizing: border-box;
+}
+.analysis-actions { display: flex; gap: 8px; margin-top: 8px; }

@@ -1075,4 +1075,192 @@
       var savedScheme = localStorage.getItem('user_color_scheme');
     }
 
+    // ===== 视频分析功能 (Phase 1) =====
+
+    window.startVideoAnalysis = function startVideoAnalysis() {
+        var url = document.getElementById('aiImportUrl').value.trim();
+        if (!url) { toast('请粘贴视频链接'); return; }
+        if (!url.startsWith('http')) { toast('链接格式不正确，请以http开头'); return; }
+        
+        document.getElementById('analysisProgressOverlay').style.display = 'flex';
+        updateAnalysisProgress(0);
+        document.getElementById('analysisStatus').textContent = '正在连接服务器...';
+        
+        fetch((window.API_BASE || '/api') + '/analyze-video', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) {
+                hideAnalysisProgress();
+                toast(data.error);
+                return;
+            }
+            pollAnalysisStatus(data.job_id);
+        })
+        .catch(function() {
+            hideAnalysisProgress();
+            toast('分析启动失败，请检查网络');
+        });
+    };
+
+    window.pollAnalysisStatus = function pollAnalysisStatus(jobId) {
+        window._analysisJobId = jobId;
+        var statusMessages = {
+            0: '正在准备...',
+            10: '正在下载视频...',
+            20: '检测场景切换...',
+            35: '语音转文字中...',
+            55: '分析视觉风格...',
+            75: '分析视频结构...',
+            90: '正在生成模板...'
+        };
+        
+        var interval = setInterval(function() {
+            fetch((window.API_BASE || '/api') + '/analyze-status/' + jobId)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.status === 'completed') {
+                    clearInterval(interval);
+                    window._analysisResult = data.result;
+                    showAnalysisResult(data.result);
+                } else if (data.status === 'failed') {
+                    clearInterval(interval);
+                    hideAnalysisProgress();
+                    toast('分析失败: ' + (data.error || '未知错误'));
+                } else {
+                    var pct = data.progress || 0;
+                    updateAnalysisProgress(pct);
+                    var msg = statusMessages[Math.floor(pct / 10) * 10] || '分析中...';
+                    document.getElementById('analysisStatus').textContent = msg;
+                }
+            }).catch(function() {});
+        }, 2000);
+    };
+
+    window.updateAnalysisProgress = function updateAnalysisProgress(pct) {
+        var ring = document.getElementById('apRingFill');
+        var text = document.getElementById('apRingText');
+        if (ring) {
+            var circumference = 2 * Math.PI * 42;
+            var offset = circumference - (pct / 100) * circumference;
+            ring.style.strokeDashoffset = offset;
+        }
+        if (text) text.textContent = pct + '%';
+    };
+
+    window.showAnalysisResult = function showAnalysisResult(result) {
+        document.getElementById('analysisProgressOverlay').style.display = 'none';
+        
+        // 填充摘要
+        if (document.getElementById('asDuration')) {
+            document.getElementById('asDuration').textContent = (result.duration || '--') + '秒';
+        }
+        if (document.getElementById('asScenes')) {
+            document.getElementById('asScenes').textContent = (result.scene_count || result._raw_scenes?.length || '--') + '个场景';
+        }
+        if (document.getElementById('asStyle')) {
+            document.getElementById('asStyle').textContent = result.video_type || '--';
+        }
+        if (document.getElementById('asColor')) {
+            document.getElementById('asColor').textContent = result.color_palette || '--';
+        }
+        
+        // 填充文案
+        if (document.getElementById('analysisTranscript')) {
+            document.getElementById('analysisTranscript').value = result.full_text || '';
+        }
+        
+        // 填充模板名
+        if (document.getElementById('analysisTemplateName')) {
+            document.getElementById('analysisTemplateName').value = '从视频分析的模板';
+        }
+        
+        document.getElementById('analysisResultOverlay').style.display = 'flex';
+    };
+
+    window.hideAnalysisProgress = function hideAnalysisProgress() {
+        document.getElementById('analysisProgressOverlay').style.display = 'none';
+    };
+
+    window.closeAnalysisResult = function closeAnalysisResult() {
+        document.getElementById('analysisResultOverlay').style.display = 'none';
+        document.getElementById('aiImportUrl').value = '';
+    };
+
+    window.cancelAnalysis = function cancelAnalysis() {
+        document.getElementById('analysisProgressOverlay').style.display = 'none';
+        if (window._analysisJobId) {
+            // 不取消后台任务，只是关闭弹窗
+            window._analysisJobId = null;
+        }
+    };
+
+    window.confirmAnalysisTemplate = function confirmAnalysisTemplate() {
+        var btn = document.getElementById('confirmTemplateBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ 生成中...';
+        
+        var data = window._analysisResult;
+        if (!data) {
+            toast('分析数据丢失，请重新分析');
+            btn.disabled = false;
+            btn.textContent = '✅ 生成视频';
+            return;
+        }
+        
+        var templateName = document.getElementById('analysisTemplateName')?.value || '从视频分析的模板';
+        
+        // 先用jobId拿到分析结果
+        var jobId = window._analysisJobId;
+        
+        fetch((window.API_BASE || '/api') + '/analyze-to-template', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                analysis_job_id: jobId,
+                template_name: templateName
+            })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            btn.disabled = false;
+            btn.textContent = '✅ 生成视频';
+            if (d.error) { toast(d.error); return; }
+            
+            // 关闭结果弹窗，跳转到生成
+            document.getElementById('analysisResultOverlay').style.display = 'none';
+            
+            // 调用生成接口
+            fetch((window.API_BASE || '/api') + '/analyze-generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    template_id: d.template_id,
+                    user_params: { brand: templateName }
+                })
+            })
+            .then(function(r2) { return r2.json(); })
+            .then(function(d2) {
+                if (d2.error) { toast(d2.error); return; }
+                // 跳转到进度页
+                if (typeof showScreen === 'function') showScreen('Progress');
+                if (typeof startProgress === 'function') startProgress();
+                // 开始轮询
+                if (typeof pollStatus === 'function' && d2.job_id) {
+                    window.jobId_global = d2.job_id;
+                    pollStatus(d2.job_id);
+                }
+            })
+            .catch(function() { toast('渲染启动失败'); });
+        })
+        .catch(function() {
+            btn.disabled = false;
+            btn.textContent = '✅ 生成视频';
+            toast('模板生成失败');
+        });
+    };
+
 })();

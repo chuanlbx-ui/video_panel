@@ -76,6 +76,18 @@
 
     <div class="screen" id="screenTpl">
       <div class="screen-title">选择视频类型</div>
+
+      <!-- ===== AI导入入口卡片 (Phase 1) ===== -->
+      <div class="ai-import-card" id="aiImportCard">
+        <div class="ai-import-icon">🔍</div>
+        <div class="ai-import-title">导入视频一键生成模板</div>
+        <div class="ai-import-desc">粘贴视频链接，AI自动分析风格+结构，自动生成可编辑模板</div>
+        <div class="ai-import-input-row">
+          <input class="ai-import-input" id="aiImportUrl" placeholder="📋 粘贴视频链接..." />
+          <button class="ai-import-btn" onclick="startVideoAnalysis()">🚀 开始分析</button>
+        </div>
+      </div>
+
       <div class="tpl-search" id="tplSearchWrap">
         <input class="tpl-search-input" id="tplSearchInput" placeholder="🔍 搜索模板..." type="search" autocomplete="off">
       </div>
@@ -195,6 +207,58 @@
     </div>
   </div>
 
+</div>
+
+<!-- ===== 分析进度弹窗 (Phase 1) ===== -->
+<div class="analysis-overlay" id="analysisProgressOverlay" style="display:none;">
+  <div class="analysis-modal">
+    <div class="analysis-modal-icon">🔍</div>
+    <div class="analysis-modal-title">AI视频分析中</div>
+    <div class="analysis-progress-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="ap-ring-bg" cx="50" cy="50" r="42"/>
+        <circle class="ap-ring-fill" id="apRingFill" cx="50" cy="50" r="42"/>
+      </svg>
+      <div class="ap-ring-text" id="apRingText">0%</div>
+    </div>
+    <div class="analysis-progress-status" id="analysisStatus">正在准备...</div>
+    <div class="analysis-progress-hint" id="analysisHint">预计1-3分钟</div>
+    <button class="btn-secondary btn-sm" onclick="cancelAnalysis()">取消</button>
+  </div>
+</div>
+
+<!-- ===== 分析结果弹窗 (Phase 1) ===== -->
+<div class="analysis-overlay" id="analysisResultOverlay" style="display:none;">
+  <div class="analysis-modal result-modal">
+    <div class="analysis-modal-icon" style="font-size:40px;">✅</div>
+    <div class="analysis-modal-title">分析完成</div>
+    
+    <!-- 分析摘要 -->
+    <div class="analysis-summary">
+      <div class="as-item"><span class="as-label">总时长</span><span id="asDuration">--</span></div>
+      <div class="as-item"><span class="as-label">场景数</span><span id="asScenes">--</span></div>
+      <div class="as-item"><span class="as-label">风格</span><span id="asStyle">--</span></div>
+      <div class="as-item"><span class="as-label">配色</span><span id="asColor">--</span></div>
+    </div>
+    
+    <!-- 口播文案编辑区 -->
+    <div class="analysis-section">
+      <div class="analysis-section-label">📝 口播文案（可编辑）</div>
+      <textarea class="analysis-textarea" id="analysisTranscript" rows="3"></textarea>
+    </div>
+    
+    <!-- 模板名称 -->
+    <div class="analysis-section">
+      <div class="analysis-section-label">🎬 模板名称</div>
+      <input class="analysis-input" id="analysisTemplateName" placeholder="给模板起个名字..." />
+    </div>
+    
+    <!-- 按钮 -->
+    <div class="analysis-actions">
+      <button class="btn-secondary" onclick="closeAnalysisResult()">重新分析</button>
+      <button class="btn-primary" id="confirmTemplateBtn" onclick="confirmAnalysisTemplate()">✅ 生成视频</button>
+    </div>
+  </div>
 </div>
 
 <div id="toast"></div>

@@ -173,6 +173,8 @@ from api_user import init_routes as init_user_routes
 from api_admin import init_routes as init_admin_routes
 from api_bg import init_routes as init_bg_routes
 from api_wechat import init_routes as init_wechat_routes
+# Phase 1: 视频分析四步工作流
+from api_video_analysis import init_routes as init_analysis_routes
 
 init_template_routes(app)
 init_video_routes(app)
@@ -180,6 +182,8 @@ init_user_routes(app)
 init_admin_routes(app)
 init_bg_routes(app)
 init_wechat_routes(app)
+# Phase 1: 注册视频分析路由
+init_analysis_routes(app)
 
 
 @app.route("/")
