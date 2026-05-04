@@ -2,11 +2,42 @@
   'use strict';
 
   // ===== 模板网格 =====
-  window.renderTplGrid = function(){
+
+  // ===== 搜索/筛选功能 =====
+  window._allTemplates = [];
+
+  window.filterTemplates = function(){
+    var kw = (document.getElementById('tplSearchInput').value || '').trim().toLowerCase();
+    var activeTag = document.querySelector('.tpl-tag.active');
+    var tagFilter = activeTag ? activeTag.getAttribute('data-tag') || '' : '';
+
+    var filtered = window._allTemplates;
+    if(kw){
+      filtered = filtered.filter(function(t){
+        var name = (t.name || '').toLowerCase();
+        var desc = (t.description || '').toLowerCase();
+        var badge = (window.BADGE_MAP[t.id] || '').toLowerCase();
+        return name.indexOf(kw) !== -1 || desc.indexOf(kw) !== -1 || badge.indexOf(kw) !== -1;
+      });
+    }
+    if(tagFilter){
+      filtered = filtered.filter(function(t){
+        var badge = (window.BADGE_MAP[t.id] || '').toLowerCase();
+        return badge.indexOf(tagFilter.toLowerCase()) !== -1;
+      });
+    }
+    window.renderFilteredTplGrid(filtered);
+  };
+
+  window.renderFilteredTplGrid = function(items){
     var grid = document.getElementById('tplGrid');
+    if(!items || !items.length){
+      grid.innerHTML = '<div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,.2);font-size:14px;">😕 没有找到匹配的模板</div>';
+      return;
+    }
     var html = '';
-    for(var i=0; i<window.templates.length; i++){
-      var t = window.templates[i];
+    for(var i=0; i<items.length; i++){
+      var t = items[i];
       var emoji = window.EMOJI_MAP[t.id] || '&#127916;';
       var badge = window.BADGE_MAP[t.id] || '通用';
       var desc = t.description || '';
@@ -17,6 +48,35 @@
       html += '<span class="tpl-badge">'+badge+'</span></div></div></div>';
     }
     grid.innerHTML = html;
+  };
+
+  window.renderTplTags = function(templates){
+    var tagSet = {};
+    for(var i=0; i<templates.length; i++){
+      var badge = window.BADGE_MAP[templates[i].id] || '通用';
+      var cat = badge.split('\u00b7')[0] || badge;
+      tagSet[cat] = true;
+    }
+    var tags = Object.keys(tagSet).sort();
+    var el = document.getElementById('tplTags');
+    var html = '';
+    for(var i=0; i<tags.length; i++){
+      html += '<span class="tpl-tag" data-tag="'+tags[i]+'" onclick="filterByTag(this)">'+tags[i]+'</span>';
+    }
+    el.innerHTML = html;
+  };
+
+  window.filterByTag = function(el){
+    var isActive = el.classList.contains('active');
+    document.querySelectorAll('.tpl-tag').forEach(function(t){ t.classList.remove('active'); });
+    if(!isActive) el.classList.add('active');
+    window.filterTemplates();
+  };
+
+  window.renderTplGrid = function(){
+    window._allTemplates = window.templates.slice();
+    window.renderFilteredTplGrid(window._allTemplates);
+    window.renderTplTags(window._allTemplates);
   };
 
   window.selectTemplate = function(tid){
@@ -111,7 +171,6 @@
     var variantConfirmBtn = document.getElementById('variantConfirmBtn');
     if(variantConfirmBtn){
       variantConfirmBtn.addEventListener('click', function(){
-        if(!window.variants.length) return;
         var v = window.variants[window.variantIdx];
         if(!v) return;
         var texts = [];
@@ -318,5 +377,15 @@
     document.getElementById('f_desc').value = '';
     window.toast('已清空文案');
   };
+
+  // ===== 搜索框事件绑定 =====
+  document.addEventListener('DOMContentLoaded', function(){
+    var searchInput = document.getElementById('tplSearchInput');
+    if(searchInput){
+      searchInput.addEventListener('input', function(){
+        window.filterTemplates();
+      });
+    }
+  });
 
 })();

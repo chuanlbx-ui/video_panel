@@ -213,6 +213,20 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.6;}
 .history-item .hi-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .history-item .hi-action{font-size:20px;cursor:pointer;opacity:.3;padding:4px;}
 .history-item .hi-action:active{opacity:.8;}
+.history-load-more{text-align:center;padding:16px 0;}
+.history-load-more button{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:rgba(255,255,255,.35);font-size:13px;cursor:pointer;transition:all .2s;}
+.history-load-more button:active{background:rgba(255,213,79,.06);border-color:rgba(255,213,79,.15);color:#ffd54f;}
+.history-load-more button:disabled{opacity:.3;cursor:default;}
+
+/* ===== 搜索框 ===== */
+.tpl-search{margin-bottom:12px;}
+.tpl-search-input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#fff;font-size:14px;outline:none;transition:border-color .25s;appearance:none;}
+.tpl-search-input:focus{border-color:rgba(255,213,79,.3);}
+.tpl-search-input::placeholder{color:rgba(255,255,255,.15);}
+.tpl-search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:rgba(255,255,255,.2);cursor:pointer;padding:4px;}
+
+/* ===== 分类标签快捷筛选 ===== */
+.tpl-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 
 /* ===== 通用 ===== */
 .back-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 0;font-size:13px;color:rgba(255,255,255,.35);background:none;border:none;cursor:pointer;margin-bottom:10px;}
