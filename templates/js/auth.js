@@ -155,6 +155,8 @@
       window.user = {name: d.name, token: token};
       document.getElementById('userInfo').innerHTML = '&#128075; <strong>' + d.name + '</strong>';
       window.showScreen('Tpl');
+      // 登录成功后加载设置和信息
+      if(d.name) localStorage.setItem('user_name', d.name);
     }).catch(function(){
       localStorage.removeItem('user_token');
     });

@@ -46,8 +46,8 @@
   <div class="tpl-header">
     <div class="user" id="userInfo">&#128075; <strong>你好</strong></div>
     <div class="header-actions">
-      <span class="history-btn" id="historyBtn" title="历史视频">&#128196;</span>
-      <span class="settings-btn" id="settingsBtn" title="设置">&#9881;&#65039;</span>
+      <span class="history-btn" id="historyBtn" title="历史视频" onclick="loadHistory();showScreen('History')">&#128196;</span>
+      <span class="settings-btn" id="settingsBtn" title="设置" onclick="loadSettings();showScreen('Settings')">&#9881;&#65039;</span>
     </div>
   </div>
   <div class="screen-title">选择视频类型</div>
@@ -106,21 +106,36 @@
 
 <div class="screen" id="screenSettings" style="padding:0 16px 80px;">
   <div class="screen-title">账号设置</div>
-  <div class="settings-card">
-    <div class="settings-item"><span class="settings-label">账号</span><span id="setPhone">--</span></div>
-    <div class="settings-item"><span class="settings-label">姓名</span><span id="setName">--</span></div>
-    <div class="settings-item"><span class="settings-label">角色</span><span id="setRole">--</span></div>
-    <div class="settings-item"><span class="settings-label">API Key</span><span id="setApiKey" style="font-size:12px;word-break:break-all;">--</span></div>
+  <div class="settings-card skeleton" id="settingsSkeleton">
+    <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+    <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+    <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+    <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
   </div>
-  <button class="btn-primary btn-sm" onclick="generateApiKey()" style="margin-bottom:8px;">&#128273; 生成API Key</button>
-  <button class="btn-secondary btn-sm" onclick="copyApiKey()">&#128203; 复制API Key</button>
-  <div style="margin-top:16px;">
-    <button class="btn-danger btn-sm" onclick="logout()">&#128682; 退出登录</button>
+  <div id="settingsContent" style="display:none;">
+    <div class="settings-card">
+      <div class="settings-item"><span class="settings-label">账号</span><span id="setPhone">--</span></div>
+      <div class="settings-item"><span class="settings-label">姓名</span><span id="setName">--</span></div>
+      <div class="settings-item"><span class="settings-label">角色</span><span id="setRole">--</span></div>
+      <div class="settings-item"><span class="settings-label">API Key</span><span id="setApiKey" style="font-size:12px;word-break:break-all;">--</span></div>
+    </div>
+    <button class="btn-primary btn-sm" onclick="generateApiKey()" style="margin-bottom:8px;">🔑 生成API Key</button>
+    <button class="btn-secondary btn-sm" onclick="copyApiKey()">📋 复制API Key</button>
+    <div style="margin-top:16px;">
+      <button class="btn-danger btn-sm" onclick="logout()">🚪 退出登录</button>
+    </div>
   </div>
+  <div class="error-boundary" id="settingsError" style="display:none;"></div>
 </div>
 
 <div class="screen" id="screenHistory" style="padding:0 16px 80px;">
   <div class="screen-title">我的视频</div>
+  <div class="error-boundary" id="historyError" style="display:none;"></div>
+  <div class="history-list-skeleton" id="historySkeleton">
+    <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+    <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+    <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+  </div>
   <div class="history-list" id="historyList"></div>
 </div>
 

@@ -10,7 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from pathlib import Path
-from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from functools import wraps
 from datetime import datetime, timedelta
 
@@ -154,7 +154,7 @@ def jobs_update_status(job_id, status, **kwargs):
         jobs_save(job_id)
 
 # ===================== Flask应用初始化 =====================
-app = Flask(__name__, template_folder=str(BASE_DIR / "templates"))
+app = Flask(__name__)
 app.secret_key = "hyperframes_secret_key_2024"
 
 # 加载历史作业
@@ -184,15 +184,17 @@ init_wechat_routes(app)
 
 @app.route("/")
 def index():
-    return render_template("index_v4_phone.html")
+    return app.send_static_file("index.html")
 
 
-@app.route("/<path:filename>")
-def serve_template_file(filename):
-    """Serve CSS/JS files from templates/ directory"""
-    if filename.startswith(("api/", "uploads/", "admin")):
-        return jsonify({"error": "not found"}), 404
-    return send_from_directory(str(BASE_DIR / "templates"), filename)
+@app.route("/uploads/<path:filename>")
+def serve_upload(filename):
+    return send_from_directory(str(BASE_DIR / "uploads"), filename)
+
+
+@app.route("/admin")
+def admin():
+    return app.send_static_file("admin.html")
 
 
 if __name__ == "__main__":
