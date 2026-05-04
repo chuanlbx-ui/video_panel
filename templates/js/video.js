@@ -753,7 +753,8 @@
           desc: descText,
           phone: document.getElementById('f_phone').value,
           value: document.getElementById('f_value') ? document.getElementById('f_value').value : '',
-          price: document.getElementById('f_price') ? document.getElementById('f_price').value : ''
+          price: document.getElementById('f_price') ? document.getElementById('f_price').value : '',
+          variant: window.selectedIndustryVariant ? window.selectedIndustryVariant.key : ''
         })
       }).then(function(r){ return r.json(); })
       .then(function(d){
