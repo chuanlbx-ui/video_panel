@@ -14,28 +14,9 @@
     return match ? decodeURIComponent(match[1]) : '';
   };
 
-  var screenNames = ['Login','Tpl','Form','Progress','Finish','Settings','History'];
-  window.showScreen = function(name){
-    screenNames.forEach(function(s){
-      var el = document.getElementById('screen'+s);
-      if(el) el.classList.remove('active');
-    });
-    var el = document.getElementById('screen'+name);
-    if(el) el.classList.add('active');
-    var bar = document.getElementById('stepsBar');
-    var stepMap = {Tpl:0, Form:1, Progress:2, Finish:2};
-    var si = stepMap[name];
-    if(si !== undefined){
-      bar.classList.add('show');
-      var dots = bar.querySelectorAll('.step-dot');
-      for(var i=0; i<dots.length; i++){
-        dots[i].classList.toggle('active', i===si);
-        dots[i].classList.toggle('done', i<si);
-      }
-    } else {
-      bar.classList.remove('show');
-    }
-  };
+  // showScreen 在 app.js 中定义（含三明治布局切换），此处不再重复
+  // 保留旧版兼容引用
+  window.oldShowScreen = window.showScreen;
 
   window.goStep = function(name){
     if(name==='tpl') window.showScreen('Tpl');

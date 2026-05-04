@@ -1,236 +1,250 @@
-     1|<!DOCTYPE html>
-     2|<html lang="zh-CN">
-     3|<head>
-     4|<meta charset="UTF-8">
-     5|<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-     6|<title>滇边AI·视频工坊</title>
-     7|<link rel="stylesheet" href="index_v4_phone.css">
-     8|</head>
-     9|<body>
-    10|
-    11|<div class="page" id="app">
-    12|
-    13|<!-- ====== 登录页（全屏，无三明治） ====== -->
-    14|<div class="screen active" id="screenLogin">
-    15|  <div class="login-screen">
-    16|    <div class="login-logo">✦ 滇边AI</div>
-    17|    <div class="login-sub">文山州互联网协会 · AI视频工坊</div>
-    18|    <div class="login-tabs">
-    19|      <button class="login-tab active" data-tab="login" onclick="switchLoginTab('login')">登录</button>
-    20|      <button class="login-tab" data-tab="register" onclick="switchLoginTab('register')">注册</button>
-    21|    </div>
-    22|    <div id="loginForm">
-    23|      <input class="login-input" id="loginPhone" placeholder="手机号" type="tel" maxlength="11" autocomplete="tel">
-    24|      <input class="login-input" id="loginPassword" placeholder="密码" type="password" maxlength="32" autocomplete="current-password">
-    25|      <div class="login-error" id="loginError"></div>
-    26|      <button class="login-btn" id="loginBtn">🚀 登录</button>
-    27|    </div>
-    28|    <div id="registerForm" style="display:none">
-    29|      <input class="login-input" id="regName" placeholder="姓名" type="text" maxlength="20">
-    30|      <input class="login-input" id="regPhone" placeholder="手机号" type="tel" maxlength="11">
-    31|      <input class="login-input" id="regPassword" placeholder="密码（6位以上）" type="password" maxlength="32">
-    32|      <input class="login-input" id="regInvite" placeholder="邀请码（选填）" type="text" maxlength="12">
-    33|      <div class="login-error" id="regError"></div>
-    34|      <button class="login-btn" id="regBtn">🎉 注册</button>
-    35|    </div>
-    36|    <div class="login-hint" id="loginHint">输入手机号和密码即可登录</div>
-    37|  </div>
-    38|</div>
-    39|
-    40|<!-- ====== 三明治结构（登录后页面） ====== -->
-    41|<div id="sandwich" class="sandwich" style="display:none;">
-    42|
-    43|  <!-- 顶部栏 -->
-    44|  <div class="top-bar" id="topBar">
-    45|    <div class="top-left">
-    46|      <span class="top-logo">✦ 滇边AI</span>
-    47|    </div>
-    48|    <div class="top-center">
-    49|      <span class="top-title" id="topTitle">创作</span>
-    50|    </div>
-    51|    <div class="top-right">
-    52|      <span class="top-avatar" id="topAvatar" onclick="loadSettings();showScreen('Settings')">👤</span>
-    53|    </div>
-    54|  </div>
-    55|
-    56|  <!-- 步骤指示器（嵌入顶部） -->
-    57|  <div class="steps-bar" id="stepsBar">
-    58|    <div class="step-dot active"></div>
-    59|    <div class="step-dot"></div>
-    60|    <div class="step-dot"></div>
-    61|  </div>
-    62|
-    63|  <!-- 内容区（可滚动） -->
-    64|  <div class="content-scroll" id="contentScroll">
-    65|
-    66|    <div class="screen" id="screenTpl">
-    67|      <div class="screen-title">选择视频类型</div>
-    68|      <div class="tpl-search" id="tplSearchWrap">
-    69|        <input class="tpl-search-input" id="tplSearchInput" placeholder="🔍 搜索模板..." type="search" autocomplete="off">
-    70|      </div>
-    71|      <div class="tpl-tags" id="tplTags"></div>
-    72|      <div class="tpl-grid" id="tplGrid">
-    73|        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
-    74|        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
-    75|        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
-    76|      </div>
-    77|      <!-- AI智能生成区 -->
-    78|      <div class="ai-zone" id="aiZone" style="margin-top:16px;">
-    79|        <div class="ai-zone-header">✨ AI智能生成</div>
-    80|        <div class="ai-input-wrap">
-    81|          <textarea class="ai-input" id="aiInput" placeholder="一句话描述你要的视频，例如：文山三七品牌宣传片" rows="2"></textarea>
-    82|          <button class="ai-go-btn" id="aiGoBtn" onclick="aiOneShot()">🚀</button>
-    83|        </div>
-    84|        <div class="ai-hints" id="aiHints">
-    85|          <span class="ai-hint" onclick="fillAiExample('文山三七，传承千年养生智慧')">三七品牌</span>
-    86|          <span class="ai-hint" onclick="fillAiExample('老街米线店，三代人传承的味道')">餐饮推广</span>
-    87|          <span class="ai-hint" onclick="fillAiExample('邀请好友来协会共话AI未来')">协会邀请</span>
-    88|          <span class="ai-hint" onclick="fillAiExample('立夏学习会，5月5日开启')">活动邀约</span>
-    89|        </div>
-    90|        <div class="ai-preview" id="aiPreview" style="display:none;"></div>
-    91|        <div class="ai-history" id="aiHistory"></div>
-    92|      </div>
-    93|    </div>
-    94|
-    95|    <div class="screen" id="screenForm">
-    96|      <div class="screen-title" id="formTitle">填写信息</div>
-    97|      <div class="form-card" id="formFields"></div>
-    98|      <div style="display:flex;gap:10px;padding:0 0 16px;">
-    99|        <button class="btn-secondary" onclick="showScreen('Tpl')">← 返回</button>
-   100|        <button class="btn-primary" id="generateBtn" style="flex:1">🎬 生成视频</button>
-   101|        <button class="btn-accent" id="previewCopyBtn">AI文案⚡</button>
-   102|      </div>
-   103|    </div>
-   104|
-   105|    <div class="screen" id="screenProgress">
-   106|      <div class="progress-card">
-   107|        <div class="progress-ring" id="progressRing">
-   108|          <svg viewBox="0 0 100 100">
-   109|            <circle class="progress-bg" cx="50" cy="50" r="42"/>
-   110|            <circle class="progress-fill" id="progressFill" cx="50" cy="50" r="42"/>
-   111|          </svg>
-   112|          <div class="progress-pct" id="progressPct">0%</div>
-   113|        </div>
-   114|        <div class="progress-text" id="progressText">正在准备...</div>
-   115|        <div class="progress-hint" id="progressHint"></div>
-   116|        <button class="btn-secondary btn-sm" onclick="minimizeProgress()">📅 后台渲染</button>
-   117|      </div>
-   118|    </div>
-   119|
-   120|    <div class="screen" id="screenFinish">
-   121|      <div class="finish-screen">
-   122|        <div class="finish-icon">🎉</div>
-   123|        <div class="finish-title">视频生成成功！</div>
-   124|        <div class="finish-video">
-   125|          <video id="finishVideo" controls playsinline preload="metadata" style="width:100%;border-radius:12px;"></video>
-   126|        </div>
-   127|        <div class="finish-actions">
-   128|          <button class="btn-primary" id="downloadBtn" style="flex:1">📥 下载</button>
-   129|          <button class="btn-accent" id="shareBtn">💬 分享</button>
-   130|        </div>
-   131|      </div>
-   132|    </div>
-   133|
-   134|    <div class="screen" id="screenSettings" style="padding:0 0 80px;">
-   135|      <div class="screen-title">账号设置</div>
-   136|      <div class="settings-card skeleton" id="settingsSkeleton">
-   137|        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
-   138|        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
-   139|        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
-   140|        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
-   141|      </div>
-   142|      <div id="settingsContent" style="display:none;">
-   143|        <div class="settings-card">
-   144|          <div class="settings-item"><span class="settings-label">账号</span><span id="setPhone">--</span></div>
-   145|          <div class="settings-item"><span class="settings-label">姓名</span><span id="setName">--</span></div>
-   146|          <div class="settings-item"><span class="settings-label">角色</span><span id="setRole">--</span></div>
-   147|          <div class="settings-item"><span class="settings-label">API Key</span><span id="setApiKey" style="font-size:12px;word-break:break-all;">--</span></div>
-   148|        </div>
-   149|        <button class="btn-primary btn-sm" onclick="generateApiKey()" style="margin-bottom:8px;">🔑 生成API Key</button>
-   150|        <button class="btn-secondary btn-sm" onclick="copyApiKey()">📋 复制API Key</button>
-   151|        <div style="margin-top:16px;">
-   152|          <button class="btn-danger btn-sm" onclick="logout()">🚪 退出登录</button>
-   153|        </div>
-   154|      </div>
-   155|      <div class="error-boundary" id="settingsError" style="display:none;"></div>
-   156|    </div>
-   157|
-   158|    <div class="screen" id="screenHistory" style="padding:0 0 80px;">
-   159|      <div class="screen-title">我的视频</div>
-   160|      <div class="error-boundary" id="historyError" style="display:none;"></div>
-   161|      <div class="history-list-skeleton" id="historySkeleton">
-   162|        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
-   163|        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
-   164|        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
-   165|      </div>
-   166|      <div class="history-list" id="historyList"></div>
-   167|    </div>
-   168|
-   169|  </div>
-   170|
-   171|  <!-- 底部导航栏 -->
-   172|  <div class="bottom-nav" id="bottomNav">
-   173|    <div class="nav-item active" data-tab="home" onclick="switchTab('home')">
-   174|      <span class="nav-icon">🏠</span>
-   175|      <span class="nav-label">创作</span>
-   176|    </div>
-   177|    <div class="nav-item" data-tab="history" onclick="switchTab('history')">
-   178|      <span class="nav-icon">🎬</span>
-   179|      <span class="nav-label">历史</span>
-   180|    </div>
-   181|    <div class="nav-item" data-tab="mine" onclick="switchTab('mine')">
-   182|      <span class="nav-icon">👤</span>
-   183|      <span class="nav-label">我的</span>
-   184|    </div>
-   185|  </div>
-   186|
-   187|</div>
-   188|
-   189|<div id="toast"></div>
-   190|
-   191|<!-- ====== V5.0 AI区域（插入在screenTpl内） ====== -->
-   192|<div class="ai-zone" id="aiZone" style="margin-top:4px;">
-   193|  <div class="ai-zone-header">✨ AI智能生成</div>
-   194|  <div class="ai-input-wrap">
-   195|    <textarea class="ai-input" id="aiInput" placeholder="一句话描述你要的视频，例如：文山三七品牌宣传片" rows="2"></textarea>
-   196|    <button class="ai-go-btn" id="aiGoBtn" onclick="aiOneShot()">🚀</button>
-   197|  </div>
-   198|  <div class="ai-hints" id="aiHints">
-   199|    <span class="ai-hint" onclick="fillAiExample('文山三七，传承千年养生智慧')">三七品牌</span>
-   200|    <span class="ai-hint" onclick="fillAiExample('老街米线店，三代人传承的味道')">餐饮推广</span>
-   201|    <span class="ai-hint" onclick="fillAiExample('邀请好友来协会共话AI未来')">协会邀请</span>
-   202|    <span class="ai-hint" onclick="fillAiExample('立夏学习会，5月5日开启')">活动邀约</span>
-   203|  </div>
-   204|  <div class="ai-preview" id="aiPreview" style="display:none;"></div>
-   205|  <div class="ai-history" id="aiHistory"></div>
-   206|</div>
-   207|
-   208|</div>
-   209|
-   210|<!-- V5.1: 文案预览弹窗 -->
-   211|<div class="ai-modal-overlay" id="aiModalOverlay">
-   212|  <div class="ai-modal">
-   213|    <div class="ai-modal-title">📝 编辑文案</div>
-   214|    <div class="ai-modal-tpl" id="aiModalTpl"></div>
-   215|    <div id="aiModalScenes"></div>
-   216|    <div class="ai-modal-section">
-   217|      <div class="ai-modal-label">🎙️ 配音文案</div>
-   218|      <textarea class="ai-modal-textarea voiceover" id="aiModalVoiceover" rows="3"></textarea>
-   219|    </div>
-   220|    <div class="ai-modal-actions">
-   221|      <button class="btn-cancel" onclick="aiModalCancel()">取消</button>
-   222|      <button class="btn-apply" id="aiModalApplyBtn" onclick="aiModalApply()">✅ 确认生成</button>
-   223|    </div>
-   224|  </div>
-   225|</div>
-   226|
-   227|<!-- JS模块 -->
-   228|<script src="js/app.js"></script>
-   229|<script src="js/auth.js"></script>
-   230|<script src="js/ui.js"></script>
-   231|<script src="js/templates.js"></script>
-   232|<script src="js/video.js"></script>
-   233|
-   234|</body>
-   235|</html>
-   236|
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>滇边AI·视频工坊</title>
+<link rel="stylesheet" href="index_v4_phone.css?v=5.2">
+</head>
+<body>
+
+<div class="page" id="app">
+
+<!-- ====== 登录页（全屏，无三明治） ====== -->
+<div class="screen active" id="screenLogin">
+  <div class="login-screen">
+    <div class="login-logo">✦ 滇边AI</div>
+    <div class="login-sub">文山州互联网协会 · AI视频工坊</div>
+    <div class="login-tabs">
+      <button class="login-tab active" data-tab="login" onclick="switchLoginTab('login')">登录</button>
+      <button class="login-tab" data-tab="register" onclick="switchLoginTab('register')">注册</button>
+    </div>
+    <div id="loginForm">
+      <input class="login-input" id="loginPhone" placeholder="手机号" type="tel" maxlength="11" autocomplete="tel">
+      <input class="login-input" id="loginPassword" placeholder="密码" type="password" maxlength="32" autocomplete="current-password">
+      <div class="login-error" id="loginError"></div>
+      <button class="login-btn" id="loginBtn">🚀 登录</button>
+    </div>
+    <div id="registerForm" style="display:none">
+      <input class="login-input" id="regName" placeholder="姓名" type="text" maxlength="20">
+      <input class="login-input" id="regPhone" placeholder="手机号" type="tel" maxlength="11">
+      <input class="login-input" id="regPassword" placeholder="密码（6位以上）" type="password" maxlength="32">
+      <input class="login-input" id="regInvite" placeholder="邀请码（选填）" type="text" maxlength="12">
+      <div class="login-error" id="regError"></div>
+      <button class="login-btn" id="regBtn">🎉 注册</button>
+    </div>
+    <div class="login-hint" id="loginHint">输入手机号和密码即可登录</div>
+  </div>
+</div>
+
+<!-- ====== 三明治结构（登录后页面） ====== -->
+<div id="sandwich" class="sandwich" style="display:none;">
+
+  <!-- 顶部栏 -->
+  <div class="top-bar" id="topBar">
+    <div class="top-left">
+      <span class="top-logo">✦ 滇边AI</span>
+    </div>
+    <div class="top-center">
+      <span class="top-title" id="topTitle">创作</span>
+    </div>
+    <div class="top-right">
+      <span class="top-avatar" id="topAvatar" onclick="loadSettings();showScreen('Settings')">👤</span>
+    </div>
+  </div>
+
+  <!-- 步骤指示器（嵌入顶部） -->
+  <div class="steps-bar" id="stepsBar">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+
+  <!-- 内容区（可滚动） -->
+  <div class="content-scroll" id="contentScroll">
+
+    <div class="screen" id="screenTpl">
+      <div class="screen-title">选择视频类型</div>
+      <div class="tpl-search" id="tplSearchWrap">
+        <input class="tpl-search-input" id="tplSearchInput" placeholder="🔍 搜索模板..." type="search" autocomplete="off">
+      </div>
+      <div class="tpl-tags" id="tplTags"></div>
+      <div class="tpl-grid" id="tplGrid">
+        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
+        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
+        <div class="tpl-card skeleton"><div class="sk-img"></div><div class="sk-text"></div><div class="sk-text sk-short"></div></div>
+      </div>
+      <!-- AI智能生成区 -->
+      <div class="ai-zone" id="aiZone" style="margin-top:16px;">
+        <div class="ai-zone-header">✨ AI智能生成</div>
+        <div class="ai-input-wrap">
+          <textarea class="ai-input" id="aiInput" placeholder="一句话描述你要的视频，例如：文山三七品牌宣传片" rows="2"></textarea>
+          <button class="ai-go-btn" id="aiGoBtn" onclick="aiOneShot()">🚀</button>
+        </div>
+        <div class="ai-hints" id="aiHints">
+          <span class="ai-hint" onclick="fillAiExample('文山三七，传承千年养生智慧')">三七品牌</span>
+          <span class="ai-hint" onclick="fillAiExample('老街米线店，三代人传承的味道')">餐饮推广</span>
+          <span class="ai-hint" onclick="fillAiExample('邀请好友来协会共话AI未来')">协会邀请</span>
+          <span class="ai-hint" onclick="fillAiExample('立夏学习会，5月5日开启')">活动邀约</span>
+        </div>
+        <div class="ai-preview" id="aiPreview" style="display:none;"></div>
+        <div class="ai-history" id="aiHistory"></div>
+      </div>
+    </div>
+
+    <div class="screen" id="screenForm">
+      <div class="screen-title" id="formTitle">填写信息</div>
+      <div class="form-card" id="formFields"></div>
+      <div style="display:flex;gap:10px;padding:0 0 16px;">
+        <button class="btn-secondary" onclick="showScreen('Tpl')">← 返回</button>
+        <button class="btn-primary" id="generateBtn" style="flex:1">🎬 生成视频</button>
+        <button class="btn-accent" id="previewCopyBtn">AI文案⚡</button>
+      </div>
+    </div>
+
+    <div class="screen" id="screenProgress">
+      <div class="progress-card">
+        <div class="progress-ring" id="progressRing">
+          <svg viewBox="0 0 100 100">
+            <circle class="progress-bg" cx="50" cy="50" r="42"/>
+            <circle class="progress-fill" id="progressFill" cx="50" cy="50" r="42"/>
+          </svg>
+          <div class="progress-pct" id="progressPct">0%</div>
+        </div>
+        <div class="progress-text" id="progressText">正在准备...</div>
+        <div class="progress-hint" id="progressHint"></div>
+        <button class="btn-secondary btn-sm" onclick="minimizeProgress()">📅 后台渲染</button>
+      </div>
+    </div>
+
+    <div class="screen" id="screenFinish">
+      <div class="finish-screen">
+        <div class="finish-icon">🎉</div>
+        <div class="finish-title">视频生成成功！</div>
+        <div class="finish-video">
+          <video id="finishVideo" controls playsinline preload="metadata" style="width:100%;border-radius:12px;"></video>
+        </div>
+        <div class="finish-actions">
+          <button class="btn-primary" id="downloadBtn" style="flex:1">📥 下载</button>
+          <button class="btn-accent" id="shareBtn">💬 分享</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="screenSettings" style="padding:0 0 80px;">
+      <div class="screen-title">账号设置</div>
+      <div class="settings-card skeleton" id="settingsSkeleton">
+        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+        <div class="sk-item"><div class="sk-label"></div><div class="sk-val sk-short"></div></div>
+      </div>
+      <div id="settingsContent" style="display:none;">
+        <div class="settings-card">
+          <div class="settings-item"><span class="settings-label">账号</span><span id="setPhone">--</span></div>
+          <div class="settings-item"><span class="settings-label">姓名</span><span id="setName">--</span></div>
+          <div class="settings-item"><span class="settings-label">角色</span><span id="setRole">--</span></div>
+          <div class="settings-item"><span class="settings-label">API Key</span><span id="setApiKey" style="font-size:12px;word-break:break-all;">--</span></div>
+        </div>
+        <button class="btn-primary btn-sm" onclick="generateApiKey()" style="margin-bottom:8px;">🔑 生成API Key</button>
+        <button class="btn-secondary btn-sm" onclick="copyApiKey()">📋 复制API Key</button>
+        <div style="margin-top:16px;">
+          <button class="btn-danger btn-sm" onclick="logout()">🚪 退出登录</button>
+        </div>
+      </div>
+      <div class="error-boundary" id="settingsError" style="display:none;"></div>
+    </div>
+
+    <div class="screen" id="screenHistory" style="padding:0 0 80px;">
+      <div class="screen-title">我的视频</div>
+      <div class="error-boundary" id="historyError" style="display:none;"></div>
+      <div class="history-list-skeleton" id="historySkeleton">
+        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+        <div class="sk-history"><div class="sk-icon"></div><div class="sk-info"><div class="sk-text"></div><div class="sk-text sk-short"></div></div></div>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+
+  </div>
+
+  <!-- 底部导航栏 -->
+  <div class="bottom-nav" id="bottomNav">
+    <div class="nav-item active" data-tab="home" onclick="switchTab('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">创作</span>
+    </div>
+    <div class="nav-item" data-tab="history" onclick="switchTab('history')">
+      <span class="nav-icon">🎬</span>
+      <span class="nav-label">历史</span>
+    </div>
+    <div class="nav-item" data-tab="mine" onclick="switchTab('mine')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">我的</span>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<!-- ====== V5.0 AI区域（插入在screenTpl内） ====== -->
+<div class="ai-zone" id="aiZone" style="margin-top:4px;">
+  <div class="ai-zone-header">✨ AI智能生成</div>
+  <div class="ai-input-wrap">
+    <textarea class="ai-input" id="aiInput" placeholder="一句话描述你要的视频，例如：文山三七品牌宣传片" rows="2"></textarea>
+    <button class="ai-go-btn" id="aiGoBtn" onclick="aiOneShot()">🚀</button>
+  </div>
+  <div class="ai-hints" id="aiHints">
+    <span class="ai-hint" onclick="fillAiExample('文山三七，传承千年养生智慧')">三七品牌</span>
+    <span class="ai-hint" onclick="fillAiExample('老街米线店，三代人传承的味道')">餐饮推广</span>
+    <span class="ai-hint" onclick="fillAiExample('邀请好友来协会共话AI未来')">协会邀请</span>
+    <span class="ai-hint" onclick="fillAiExample('立夏学习会，5月5日开启')">活动邀约</span>
+  </div>
+  <div class="ai-preview" id="aiPreview" style="display:none;"></div>
+  <div class="ai-history" id="aiHistory"></div>
+</div>
+
+</div>
+
+<!-- 行业变体选择弹窗 -->
+<div class="variant-overlay" id="industryVariantOverlay">
+  <div class="variant-modal">
+    <div class="vm-header">
+      <div class="vm-title" id="industryVariantTitle">选择行业风格</div>
+      <div class="vm-close" onclick="closeIndustryVariant()">✕</div>
+    </div>
+    <div class="vm-list" id="industryVariantList"></div>
+    <div class="vm-actions">
+      <button class="btn-cancel" onclick="closeIndustryVariant()">跳过</button>
+      <button class="btn-apply" onclick="confirmIndustryVariant()">✅ 确定选择</button>
+    </div>
+  </div>
+</div>
+
+<!-- V5.1: 文案预览弹窗 -->
+<div class="ai-modal-overlay" id="aiModalOverlay">
+  <div class="ai-modal">
+    <div class="ai-modal-title">📝 编辑文案</div>
+    <div class="ai-modal-tpl" id="aiModalTpl"></div>
+    <div id="aiModalScenes"></div>
+    <div class="ai-modal-section">
+      <div class="ai-modal-label">🎙️ 配音文案</div>
+      <textarea class="ai-modal-textarea voiceover" id="aiModalVoiceover" rows="3"></textarea>
+    </div>
+    <div class="ai-modal-actions">
+      <button class="btn-cancel" onclick="aiModalCancel()">取消</button>
+      <button class="btn-apply" id="aiModalApplyBtn" onclick="aiModalApply()">✅ 确认生成</button>
+    </div>
+  </div>
+</div>
+
+<!-- JS模块 -->
+<script src="js/app.js?v=5.2"></script>
+<script src="js/auth.js?v=5.2"></script>
+<script src="js/ui.js?v=5.2"></script>
+<script src="js/templates.js?v=5.2"></script>
+<script src="js/video.js?v=5.2"></script>
+
+</body>
+</html>

@@ -1070,6 +1070,6 @@
         document.getElementById('bgStatus').textContent = '✅ 已设置自定义背景（旧版兼容）';
       }
       var savedScheme = localStorage.getItem('user_color_scheme');
-
+    }
 
 })();

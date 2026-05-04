@@ -470,6 +470,26 @@ def init_routes(app):
             logger.error(f"创建模板失败: {e}")
             return jsonify({"error": f"创建失败: {str(e)}"}), 500
 
+    @app.route("/api/template-variants/<template_id>")
+    def api_template_variants(template_id):
+        """返回指定模板的行业变体配置"""
+        variant_data = TEMPLATE_VARIANTS.get(template_id)
+        if not variant_data:
+            return jsonify({"variants": [], "label": ""})
+        variants = []
+        for key, config in variant_data["variants"].items():
+            variants.append({
+                "id": key,
+                "name": key,
+                "colors": config.get("colors", {}),
+                "keywords": config.get("keywords", []),
+                "voiceover_hint": config.get("voiceover_hint", "")
+            })
+        return jsonify({
+            "variants": variants,
+            "label": variant_data["label"]
+        })
+
     @app.route("/api/delete-template", methods=["POST"])
     def api_delete_template():
         """删除模板（仅允许删除自定义模板）"""

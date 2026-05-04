@@ -91,7 +91,118 @@
     for(var i=0; i<cards.length; i++) cards[i].classList.remove('selected');
     var card = document.querySelector('.tpl-card[data-id="'+tid+'"]');
     if(card) card.classList.add('selected');
-    document.getElementById('formTitle').textContent = window.template.name + ' — 填信息';
+    // 检查是否有行业变体配置
+    fetch(window.API + '/api/template-variants/' + tid)
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        window.industryVariants = d.variants || [];
+        window.industryVariantLabel = d.label || '行业选择';
+        if(window.industryVariants.length > 0){
+          window.showIndustryVariants();
+        } else {
+          window.goToForm();
+        }
+      })
+      .catch(function(){
+        window.industryVariants = [];
+        window.goToForm();
+      });
+  };
+
+  // 带变体的：显示行业变体选择器
+  window.showIndustryVariants = function(){
+    window.industryVariantIdx = 0;
+    document.getElementById('industryVariantTitle').textContent =
+      window.template.name + ' — 选择' + window.industryVariantLabel;
+    var list = document.getElementById('industryVariantList');
+    var html = '';
+    for(var i=0; i<window.industryVariants.length; i++){
+      var v = window.industryVariants[i];
+      var colors = v.colors || {};
+      var primary = colors.primary || '#ffd54f';
+      var accentColor = colors.accent || primary;
+      html += '<div class="industry-variant-card" onclick="selectIndustryVariant('+i+')" data-idx="'+i+'">';
+      html += '<div class="iv-color-strip" style="background:'+primary+';"></div>';
+      html += '<div class="iv-info">';
+      html += '<div class="iv-name">'+v.name+'</div>';
+      html += '<div class="iv-keywords">'+ (v.keywords||[]).slice(0,3).join(' · ') + '</div>';
+      html += '<div class="iv-hint">'+ (v.voiceover_hint||'') +'</div>';
+      html += '</div></div>';
+    }
+    list.innerHTML = html;
+    document.getElementById('industryVariantOverlay').style.display = 'flex';
+  };
+
+  window.selectIndustryVariant = function(idx){
+    window.industryVariantIdx = idx;
+    var cards = document.querySelectorAll('.industry-variant-card');
+    for(var i=0; i<cards.length; i++){
+      cards[i].classList.remove('selected');
+    }
+    cards[idx].classList.add('selected');
+  };
+
+  window.confirmIndustryVariant = function(){
+    var v = window.industryVariants[window.industryVariantIdx];
+    if(v){
+      window.selectedIndustryVariant = v;
+      window.toast('已选择「'+v.name+'」风格');
+    }
+    document.getElementById('industryVariantOverlay').style.display = 'none';
+    window.goToForm();
+  };
+
+  window.closeIndustryVariant = function(){
+    document.getElementById('industryVariantOverlay').style.display = 'none';
+    window.goToForm();
+  };
+
+  window.goToForm = function(){
+    // 如果表单字段还没创建，动态生成
+    var formFields = document.getElementById('formFields');
+    if(!formFields.innerHTML.trim()){
+      formFields.innerHTML =
+        '<div class="form-group"><label class="form-label">🏪 品牌名/店名</label>' +
+        '<input class="form-input" id="f_brand" placeholder="输入品牌名或店名..." type="text"></div>' +
+        '<div class="form-group"><label class="form-label">📝 视频文案/描述</label>' +
+        '<textarea class="form-input" id="f_desc" placeholder="输入视频文案或用AI生成..." rows="4"></textarea></div>' +
+        '<div class="form-group"><label class="form-label">📞 联系电话（选填）</label>' +
+        '<input class="form-input" id="f_phone" placeholder="展示在视频结尾" type="tel"></div>';
+      // 添加"AI生成3版文案"按钮
+      var aiBtn = document.createElement('button');
+      aiBtn.className = 'ai-btn';
+      aiBtn.id = 'aiCopyBtn';
+      aiBtn.innerHTML = '&#10024; AI生成3版文案';
+      aiBtn.onclick = function(){
+        var brand = document.getElementById('f_brand').value.trim();
+        if(!brand){ toast('请先填写品牌名/店名'); return; }
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = 'AI生成中...';
+        fetch(window.API + '/api/generate-variants', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            template_id: window.template ? window.template.id : '',
+            brand: brand,
+            description: document.getElementById('f_desc').value,
+            phone: document.getElementById('f_phone').value,
+            address: '', value: '', price: ''
+          })
+        }).then(function(r){ return r.json(); })
+        .then(function(d){
+          window.variants = d.variants || [];
+          window.showVariants(window.variants);
+          btn.disabled = false;
+          btn.textContent = '&#10024; AI生成3版文案';
+        }).catch(function(){
+          toast('AI生成失败');
+          btn.disabled = false;
+          btn.textContent = '&#10024; AI生成3版文案';
+        });
+      };
+      document.getElementById('screenForm').insertBefore(aiBtn, document.getElementById('screenForm').querySelector('.form-card + div'));
+    }
+    document.getElementById('formTitle').textContent = (window.template ? window.template.name : '视频') + ' — 填信息';
     document.getElementById('f_brand').value = '';
     document.getElementById('f_desc').value = '';
     document.getElementById('f_phone').value = '';
