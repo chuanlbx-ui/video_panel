@@ -413,6 +413,7 @@ def api_analyze_to_template():
             "template_id": template_id,
             "template_config": template_config,
             "template_dir": str(template_dir),
+            "status": "ready",
             "message": "模板生成成功"
         })
 
