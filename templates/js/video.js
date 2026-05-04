@@ -143,7 +143,7 @@
       }).then(function(r){ return r.json(); })
       .then(function(d){
         btn.disabled = false;
-        btn.textContent = '🚀 智能生成';
+        btn.textContent = '🚀';
         if(d.error){
           toast(d.error);
           return;
@@ -155,7 +155,7 @@
         saveAiHistory(text, d.job_id || '', d.brand);
       }).catch(function(){
         btn.disabled = false;
-        btn.textContent = '🚀 智能生成';
+        btn.textContent = '🚀';
         toast('AI分析失败，请重试');
       });
     }
