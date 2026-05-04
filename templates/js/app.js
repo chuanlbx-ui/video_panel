@@ -2,8 +2,9 @@
      2|  'use strict';
      3|
      4|// ===== 全局变量 =====
-     5|const API = '/video-panel';
-     6|let user = null;
+const API = '/video-panel';
+window.API = API;
+let user = null;
      7|let template = null;
      8|let templates = [];
      9|let jobId = null;
