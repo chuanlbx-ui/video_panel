@@ -81,7 +81,10 @@
             localStorage.setItem('user_token', d.token);
             localStorage.setItem('g_token', d.token);
             localStorage.setItem('user_name', d.name);
-            document.getElementById('userInfo').innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+            var nameEl = document.getElementById('userInfo');
+            if(nameEl) nameEl.innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+            var titleEl = document.getElementById('topTitle');
+            if(titleEl) titleEl.textContent = 'Hi, ' + d.name;
             window.showScreen('Tpl');
             window.toast('欢迎回来，' + d.name);
           } else {
@@ -125,7 +128,10 @@
             localStorage.setItem('user_token', d.token);
             localStorage.setItem('g_token', d.token);
             localStorage.setItem('user_name', d.name);
-            document.getElementById('userInfo').innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+            var nameEl = document.getElementById('userInfo');
+            if(nameEl) nameEl.innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+            var titleEl = document.getElementById('topTitle');
+            if(titleEl) titleEl.textContent = 'Hi, ' + d.name;
             window.showScreen('Tpl');
             window.toast('注册成功，欢迎 ' + d.name);
           } else {
@@ -153,7 +159,10 @@
       throw new Error('no');
     }).then(function(d){
       window.user = {name: d.name, token: token};
-      document.getElementById('userInfo').innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+      var nameEl = document.getElementById('userInfo');
+      if(nameEl) nameEl.innerHTML = '&#128075; <strong>' + d.name + '</strong>';
+      var titleEl = document.getElementById('topTitle');
+      if(titleEl) titleEl.textContent = 'Hi, ' + d.name;
       window.showScreen('Tpl');
       // 登录成功后加载设置和信息
       if(d.name) localStorage.setItem('user_name', d.name);

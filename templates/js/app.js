@@ -117,32 +117,72 @@ let user = null;
    116|  }).catch(function(){ toast('推送失败，请重试'); });
    117|}
    118|
-   119|// ===== 页面切换 =====
-   120|var screenNames = ['Login','Tpl','Form','Progress','Finish','Settings','History'];
-   121|
-   122|window.showScreen = function showScreen(name){
-   123|  screenNames.forEach(function(s){
-   124|    var el = document.getElementById('screen'+s);
-   125|    if(el) el.classList.remove('active');
-   126|  });
-   127|  var el = document.getElementById('screen'+name);
-   128|  if(el) el.classList.add('active');
-   129|  var bar = document.getElementById('stepsBar');
-   130|  var stepMap = {Tpl:0, Form:1, Progress:2, Finish:2};
-   131|  var si = stepMap[name];
-   132|  if(si !== undefined){
-   133|    bar.classList.add('show');
-   134|    var dots = bar.querySelectorAll('.step-dot');
-   135|    for(var i=0; i<dots.length; i++){
-   136|      dots[i].classList.toggle('active', i===si);
-   137|      dots[i].classList.toggle('done', i<si);
-   138|    }
-   139|  } else {
-   140|    bar.classList.remove('show');
-   141|  }
-   142|}
-   143|
-   144|window.goStep = function goStep(name){
+// ===== 页面切换（兼容新旧布局） =====
+var screenNames = ['Login','Tpl','Form','Progress','Finish','Settings','History'];
+
+window.showScreen = function showScreen(name){
+  screenNames.forEach(function(s){
+    var el = document.getElementById('screen'+s);
+    if(el) el.classList.remove('active');
+  });
+  var el = document.getElementById('screen'+name);
+  if(el) el.classList.add('active');
+
+  // 登录页显示/隐藏三明治结构
+  var sandwich = document.getElementById('sandwich');
+  var loginScreen = document.getElementById('screenLogin');
+  if(name === 'Login'){
+    if(loginScreen) loginScreen.style.display = '';
+    loginScreen.classList.add('active');
+    if(sandwich) sandwich.style.display = 'none';
+    return;
+  } else {
+    if(sandwich) sandwich.style.display = 'flex';
+    if(loginScreen) loginScreen.style.display = 'none';
+    loginScreen.classList.remove('active');
+  }
+
+  // 步骤指示器
+  var bar = document.getElementById('stepsBar');
+  var stepMap = {Tpl:0, Form:1, Progress:2, Finish:2};
+  var si = stepMap[name];
+  if(si !== undefined){
+    bar.classList.add('show');
+    var dots = bar.querySelectorAll('.step-dot');
+    for(var i=0; i<dots.length; i++){
+      dots[i].classList.toggle('active', i===si);
+      dots[i].classList.toggle('done', i<si);
+    }
+  } else {
+    bar.classList.remove('show');
+  }
+
+// 底部导航高亮
+  updateNavTab(name);
+}
+
+// ===== 底部Tab切换（V4.0三明治） =====
+window.switchTab = function switchTab(tab){
+  var map = {home:'Tpl', history:'History', mine:'Settings'};
+  var screen = map[tab];
+  if(screen){
+    if(screen === 'History') loadHistory();
+    if(screen === 'Settings') loadSettings();
+    showScreen(screen);
+  }
+  var items = document.querySelectorAll('.nav-item');
+  items.forEach(function(it){ it.classList.toggle('active', it.dataset.tab === tab); });
+}
+
+window.updateNavTab = function updateNavTab(name){
+  var map = {Tpl:'home', History:'history', Settings:'mine'};
+  var tab = map[name];
+  if(!tab) return;
+  var items = document.querySelectorAll('.nav-item');
+  items.forEach(function(it){ it.classList.toggle('active', it.dataset.tab === tab); });
+}
+
+window.goStep = function goStep(name){
    145|  if(name==='tpl') showScreen('Tpl');
    146|}
    147|
