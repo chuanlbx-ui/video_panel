@@ -24,15 +24,18 @@ body{
 .login-tab.active{color:#ffd54f;border-bottom-color:#ffd54f;}
 .login-hint{font-size:12px;color:rgba(255,255,255,0.2);margin-top:12px;}
 
-/* ===== 步骤指示器 ===== */
-.steps-bar{display:none;justify-content:center;align-items:center;gap:0;padding:18px 40px 22px;}
+/* ===== 步骤指示器（带标签） ===== */
+.steps-bar{display:none;justify-content:center;align-items:center;gap:0;padding:10px 20px 14px;position:relative;}
 .steps-bar.show{display:flex;}
-.step-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.08);transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;z-index:2;flex-shrink:0;}
-.step-dot.active{background:#ffd54f;border-color:#ffd54f;box-shadow:0 0 16px rgba(255,213,79,.4);width:14px;height:14px;}
-.step-dot.done{background:#ffd54f;border-color:#ffd54f;opacity:.6;}
-.step-dot::after{content:'';position:absolute;top:50%;left:100%;width:52px;height:2px;background:rgba(255,255,255,0.06);transform:translateY(-50%);pointer-events:none;}
-.step-dot:last-child::after{display:none;}
-.step-dot.done::after{background:#ffd54f;opacity:.4;}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2;}
+.step-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.08);transition:all .4s cubic-bezier(.34,1.56,.64,1);flex-shrink:0;}
+.step-item.active .step-dot{background:#ffd54f;border-color:#ffd54f;box-shadow:0 0 12px rgba(255,213,79,.4);width:12px;height:12px;}
+.step-item.done .step-dot{background:#ffd54f;border-color:#ffd54f;opacity:.6;}
+.step-label{font-size:11px;color:rgba(255,255,255,0.2);transition:color .3s;white-space:nowrap;font-weight:500;}
+.step-item.active .step-label{color:#ffd54f;}
+.step-item.done .step-label{color:rgba(255,255,255,0.4);}
+.step-connector{width:40px;height:2px;background:rgba(255,255,255,0.06);flex-shrink:0;margin-bottom:20px;transition:background .4s;}
+.step-item.done + .step-connector{background:#ffd54f;opacity:.4;}
 
 /* ===== 页面 ===== */
 .screen{display:none;padding:0 16px 80px;animation:fadeSlideIn .4s cubic-bezier(.23,1,.32,1);}
@@ -269,7 +272,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.6;}
 #screenLogin.active{display:flex;}
 
 /* 步骤指示器放在顶部栏下方 */
-.top-bar + .steps-bar{margin-top:0;padding:8px 40px 10px;}
+.top-bar + .steps-bar{margin-top:0;padding:8px 20px 10px;}
 .top-bar + .steps-bar.show{display:flex;}
 #toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:999;padding:12px 24px;border-radius:12px;background:rgba(10,42,94,.95);backdrop-filter:blur(12px);border:1px solid rgba(255,213,79,.2);color:#ffd54f;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .3s,transform .3s;max-width:90%;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -278,7 +281,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.6;}
 /* ===== 安全区适配 ===== */
 @supports(padding-bottom:env(safe-area-inset-bottom)){
   .screen{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
-  .steps-bar{padding-bottom:calc(22px + env(safe-area-inset-bottom));}
+  .steps-bar{padding-bottom:calc(14px + env(safe-area-inset-bottom));}
 }
 /* 键盘弹起时输入框不被遮挡 */
 @media screen and (max-height:500px){

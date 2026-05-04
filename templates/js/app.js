@@ -149,10 +149,10 @@ window.showScreen = function showScreen(name){
   var si = stepMap[name];
   if(si !== undefined){
     bar.classList.add('show');
-    var dots = bar.querySelectorAll('.step-dot');
-    for(var i=0; i<dots.length; i++){
-      dots[i].classList.toggle('active', i===si);
-      dots[i].classList.toggle('done', i<si);
+    var items = bar.querySelectorAll('.step-item');
+    for(var i=0; i<items.length; i++){
+      items[i].classList.toggle('active', i===si);
+      items[i].classList.toggle('done', i<si);
     }
   } else {
     bar.classList.remove('show');
