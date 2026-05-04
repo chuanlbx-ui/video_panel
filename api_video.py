@@ -2686,6 +2686,7 @@ def init_routes(app):
         phone = data.get("phone", "").strip()
         quality = data.get("quality", "standard").strip()
         scenes_text = data.get("scenes_text", None)  # 用户自定义每场景文案
+        variant = data.get("variant", None)  # 行业变体（配色+关键词）
 
         if not template_id:
             return jsonify({"error": "请提供template_id"}), 400
@@ -2752,6 +2753,22 @@ def init_routes(app):
             "user_brand_watermark": user_brand_watermark,
             "user_bg_scenes": user_bg_scenes,
         }
+
+        # 应用行业变体（配色+关键词覆盖）
+        if variant and isinstance(variant, dict):
+            colors = variant.get("colors", {})
+            if colors:
+                params["colors"] = {
+                    "primary": colors.get("primary", "#ffd54f"),
+                    "bg_start": colors.get("bg_start", "#0a2a5e"),
+                    "bg_end": colors.get("bg_end", "#060e1e"),
+                }
+            keywords = variant.get("keywords", [])
+            if keywords:
+                params["keywords"] = keywords
+            voiceover_hint = variant.get("voiceover_hint", "")
+            if voiceover_hint and not vo_text:
+                params["voiceover"]["text"] = voiceover_hint
 
         merged = merge_config_with_user(template["config"], params, is_preview=False)
         job_id = str(uuid.uuid4())[:8]

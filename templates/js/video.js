@@ -13,7 +13,8 @@
           template_id: template.id,
           brand: brand,
           desc: document.getElementById('f_desc').value,
-          phone: document.getElementById('f_phone').value
+          phone: document.getElementById('f_phone').value,
+          variant: window.selectedIndustryVariant || null
         })
       }).then(function(r){ return r.json(); })
       .then(function(d){
@@ -326,7 +327,8 @@
           brand: brand,
           desc: document.getElementById('f_desc').value,
           phone: document.getElementById('f_phone').value,
-          scenes_text: null  // 预览用AI生成文案
+          scenes_text: null,  // 预览用AI生成文案
+          variant: window.selectedIndustryVariant || null
         })
       }).then(function(r){ return r.json(); })
       .then(function(d){
